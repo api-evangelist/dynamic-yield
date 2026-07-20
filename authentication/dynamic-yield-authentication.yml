@@ -1,0 +1,23 @@
+generated: '2026-07-18'
+method: searched
+source: https://dy.dev/docs (Getting Started / API Keys) + https://dy.dev/reference
+summary:
+  types: [apiKey]
+  api_key_in: [header]
+  oauth2_flows: []
+schemes:
+- name: DY-API-Key
+  type: apiKey
+  in: header
+  parameter: DY-API-Key
+  description: >-
+    Server-side Experience APIs authenticate with a Dynamic Yield API key passed
+    in the DY-API-Key request header. API keys are section-scoped and generated
+    in the Dynamic Yield admin console (Sections > API Keys). Distinct key types
+    exist for server-side (Experience API) and other integration surfaces.
+  docs: https://dy.dev/docs
+notes: >-
+  Client-side / script-based implementations are keyed by the section's public
+  data-dy-token snippet rather than the server-side DY-API-Key. No OpenAPI spec
+  was captured for this provider, so scheme details are sourced from the published
+  developer documentation rather than derived from a spec.
