@@ -1,0 +1,23 @@
+generated: '2026-07-18'
+method: searched
+source: https://dy.dev/ + https://dy.dev/docs
+standards:
+- id: mach-alliance
+  conforms: true
+  evidence: >-
+    dy.dev states the platform is MACH Alliance certified — microservices-based,
+    API-first, cloud-native SaaS, and headless.
+- id: rest
+  conforms: true
+  evidence: JSON-over-HTTP REST Experience/Product/Search APIs documented at dy.dev/reference.
+- id: oauth2
+  conforms: false
+  evidence: APIs authenticate with a DY-API-Key header, not OAuth 2.0.
+- id: rfc9457-problem-details
+  conforms: false
+  evidence: No application/problem+json error envelope documented in the captured reference.
+notes: >-
+  MACH is an architectural certification, not a security-compliance program; no
+  published SOC 2 / ISO 27001 / PCI / HIPAA certification page was found on the
+  public developer surface, so no `Compliance` canonical pointer is wired. Any
+  such certifications would flow through Mastercard's corporate trust program.

@@ -1,0 +1,23 @@
+generated: '2026-07-18'
+method: searched
+source: https://dy.dev/changelog + https://dy.dev/docs
+versioning:
+  scheme: uri-path
+  changelog: https://dy.dev/changelog
+  cadence: quarterly technical updates
+deprecation:
+  policy_url: null      # no dedicated deprecation policy page found in public docs
+  sunset_header: null
+sla:
+  url: null
+  uptime_target: null
+status_page: null       # no public status page found (status.dynamicyield.com not resolvable at probe time)
+architecture:
+  mach_alliance_certified: true   # microservices, API-first, cloud-native, headless
+deprecated_operations: []
+notes: >-
+  Dynamic Yield communicates change via a dated quarterly changelog on the
+  developer portal. No public status page, SLA page, or formal deprecation policy
+  was found on the public developer surface at capture time; those fields are left
+  null rather than asserted. No StatusPage or Deprecation canonical pointer is
+  wired because neither was verified.

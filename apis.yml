@@ -1,27 +1,124 @@
 aid: dynamic-yield
+accessModel:
+  pricing: unknown
+  onboarding: self-serve
+  trial: false
+  try_now: false
+  public: false
+  label: Self-serve signup
+  confidence: medium
+  source:
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/dynamic-yield.png
 name: Dynamic Yield
-description: 'Dynamic Yield is a company surfaced as a portfolio company of bessemer-venture-partners
-  and added to the API Evangelist network as a stub for enrichment. Sector: cloud. This profile is a lead
-  awaiting the enrichment pipeline.'
+description: 'Dynamic Yield (a Mastercard company) is an experience optimization and
+  personalization platform — branded "Experience OS" — used by retail, eCommerce, media,
+  travel, and financial-services brands to individualize content, product recommendations,
+  offers, search, and messaging across web, mobile app, email, and kiosk channels.
+  The platform is MACH Alliance certified (microservices-based, API-first, cloud-native,
+  headless) and exposes server-side Experience APIs (choose/collect for personalization
+  and event tracking), a Product Feed / catalog API, a User Event API, Recommendation
+  APIs, a Search API (query, pagination, filtering, sorting, autosuggest), and the
+  Shopping Muse AI shopping-assistant API, alongside client-side script snippets and
+  native mobile SDKs for iOS (Swift), Android (Kotlin), and React Native. Developer
+  documentation, API reference, and a quarterly technical changelog are published at
+  dy.dev. This profile was surfaced as a Bessemer Venture Partners portfolio company
+  and enriched by the API Evangelist pipeline.'
 url: https://raw.githubusercontent.com/api-evangelist/dynamic-yield/refs/heads/main/apis.yml
 x-type: company
 x-source: vc-portfolio
 x-backed-by:
 - bessemer-venture-partners
+x-owned-by: mastercard
 x-tier: stub
 x-tier-reason: portfolio-lead
 specificationVersion: '0.20'
 created: '2026-07-17'
-modified: '2026-07-17'
+modified: '2026-07-18'
 tags:
 - Company
 - Cloud
-apis: []
+- Personalization
+- Experience Optimization
+- Recommendations
+- A/B Testing
+- Search
+- eCommerce
+- Retail
+- Machine Learning
+- MACH
+- Mastercard
+apis:
+- name: Dynamic Yield Experience OS API
+  description: 'Server-side Experience APIs and related product APIs for personalization,
+    recommendations, event collection, product catalog sync, search, and the Shopping
+    Muse AI assistant. Authenticated with a DY-API-Key API key.'
+  humanURL: https://dy.dev/reference
+  baseURL: https://dy-api.com
+  tags:
+  - Personalization
+  - Recommendations
+  - Search
+  - Events
+  properties:
+  - type: Documentation
+    url: https://dy.dev/docs
+  - type: APIReference
+    url: https://dy.dev/reference
+  - type: GettingStarted
+    url: https://dy.dev/docs/getting-started
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
 common:
+- type: DomainSecurity
+  url: security/dynamic-yield-domain-security.yml
 - type: Website
   url: https://www.dynamicyield.com/
+- type: DeveloperPortal
+  url: https://dy.dev/
+- type: Documentation
+  url: https://dy.dev/docs
+- type: APIReference
+  url: https://dy.dev/reference
+- type: GettingStarted
+  url: https://dy.dev/docs/getting-started
+- type: ChangeLog
+  url: https://dy.dev/changelog
+- type: Support
+  url: https://support.dynamicyield.com/hc/en-us
+- type: Blog
+  url: https://www.dynamicyield.com/blog/
+- type: GitHubOrganization
+  url: https://github.com/DynamicYield
+- type: Login
+  url: https://marketing.dynamicyield.com/
+- type: TermsOfService
+  url: https://www.dynamicyield.com/terms-of-use/
+- type: PrivacyPolicy
+  url: https://www.dynamicyield.com/privacy-policy/
+- type: Authentication
+  url: authentication/dynamic-yield-authentication.yml
+- type: Packages
+  url: packages/dynamic-yield-packages.yml
+- type: SDKs
+  url: packages/dynamic-yield-packages.yml
+- type: Conventions
+  url: conventions/dynamic-yield-conventions.yml
+- type: Lifecycle
+  url: lifecycle/dynamic-yield-lifecycle.yml
+- type: ChangeLog
+  url: changelog/dynamic-yield-changelog.yml
+- type: Conformance
+  url: conformance/dynamic-yield-conformance.yml
+- type: LLMsTxt
+  url: llms/dynamic-yield-llms.txt
+x-enrichment:
+  date: '2026-07-19'
+  status: backfilled
+  pass: local-v1
+  note: backfilled from .gitignore signal + verified work evidence

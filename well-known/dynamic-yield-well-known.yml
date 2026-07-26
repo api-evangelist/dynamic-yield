@@ -1,0 +1,31 @@
+generated: '2026-07-18'
+method: searched
+source: live probes of dynamicyield.com, dy.dev, and dy-api.com
+notes: >-
+  No machine-readable /.well-known discovery document was served on any Dynamic
+  Yield host at probe time. www.dynamicyield.com fronts requests with a bot
+  challenge (HTTP 202 interstitial), dy.dev is a ReadMe.io-hosted docs SPA, and
+  dy-api.com is a Kong API gateway that returns "no Route matched" for unknown
+  paths. Absence recorded as honest negative data; no WellKnown/SecurityTxt
+  pointer is wired because no document was found.
+hosts:
+- host: https://www.dynamicyield.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 202          # bot-challenge interstitial, not a real security.txt
+  - path: /.well-known/openid-configuration
+    status: 202
+- host: https://dy.dev
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+- host: https://dy-api.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404

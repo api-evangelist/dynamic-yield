@@ -1,0 +1,42 @@
+generated: '2026-07-18'
+method: searched
+source: https://dy.dev/docs + https://dy.dev/reference
+summary: >-
+  Cross-cutting request/response semantics for the Dynamic Yield Experience OS
+  APIs, captured from the published developer documentation. No OpenAPI spec was
+  available to derive from, so only documented, verifiable conventions are recorded
+  here — fields the docs do not publish are left null rather than guessed.
+authentication:
+  style: api-key-header
+  header: DY-API-Key
+  ref: authentication/dynamic-yield-authentication.yml
+base_host:
+  production: https://dy-api.com
+  gateway: Kong (observed at the API edge)
+  regional: null  # regional data-residency endpoints not verified from public docs
+content_type: application/json
+api_surface:
+- name: Experience API (server-side)
+  purpose: Serve personalized choices (choose) and collect user events/pageviews
+- name: Product Feed API
+  purpose: Sync product catalog data into Dynamic Yield
+- name: User Event API
+  purpose: Track user interactions and behavioral events
+- name: Recommendation APIs
+  purpose: Client-side and server-side product recommendations
+- name: Search API
+  purpose: Query, pagination, filtering, sorting, and autosuggest
+- name: Shopping Muse API
+  purpose: AI shopping-assistant / conversational product discovery
+idempotency: null       # no documented idempotency-key contract found
+pagination:
+  scope: Search API supports pagination (parameters not enumerated in captured docs)
+versioning:
+  scheme: uri-path       # e.g. /v2/serverSide/v1/ style server-side paths
+  changelog: https://dy.dev/changelog
+error_envelope: null    # error schema not published in captured reference
+rate_limit_signaling: null
+cross_links:
+  authentication: authentication/dynamic-yield-authentication.yml
+  lifecycle: lifecycle/dynamic-yield-lifecycle.yml
+  changelog: changelog/dynamic-yield-changelog.yml

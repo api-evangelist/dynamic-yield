@@ -1,0 +1,18 @@
+generated: '2026-07-18'
+method: searched
+source: https://dy.dev/changelog
+scheme: quarterly-technical-update
+current_version: '2026 Q2'
+notes: >-
+  Dynamic Yield publishes a dated "Tech Updates" changelog on the developer
+  portal, organized as Quarterly Technical Updates. Entries below are the most
+  recent published at capture time; see the live changelog for full detail.
+entries:
+- version: '2026 Q2'
+  date: '2026-04-06'
+  author: Ramon Snir
+  title: '2026 Q2: Quarterly Technical Update'
+- version: '2026 Q1'
+  date: '2026-01-20'
+  author: Ramon Snir
+  title: '2026 Q1: Quarterly Technical Update'

@@ -1,0 +1,56 @@
+generated: '2026-07-18'
+method: searched
+source: https://github.com/DynamicYield + Maven Central (g:com.dynamicyield) + https://dy.dev/docs
+notes: >-
+  First-party mobile SDKs are published as source in the DynamicYield GitHub
+  organization (iOS/Swift, Android/Kotlin, React Native). Official Android
+  template libraries are published to Maven Central under the com.dynamicyield
+  groupId. No first-party server-side SDK was found on npm/PyPI; server-side use
+  is via direct REST calls to the Experience APIs.
+packages:
+- language: swift
+  registry: github
+  name: Dynamic-Yield-Mobile-SDK-Swift
+  url: https://github.com/DynamicYield/Dynamic-Yield-Mobile-SDK-Swift
+  official: true
+  platform: iOS
+- language: kotlin
+  registry: github
+  name: Dynamic-Yield-Mobile-SDK-Kotlin
+  url: https://github.com/DynamicYield/Dynamic-Yield-Mobile-SDK-Kotlin
+  official: true
+  platform: Android
+- language: javascript
+  registry: github
+  name: Dynamic-Yield-Mobile-SDK-React-Native
+  url: https://github.com/DynamicYield/Dynamic-Yield-Mobile-SDK-React-Native
+  official: true
+  platform: React Native
+- language: java
+  registry: maven
+  name: com.dynamicyield:templates
+  url: https://search.maven.org/artifact/com.dynamicyield/templates
+  install: 'implementation "com.dynamicyield:templates"'
+  official: true
+  platform: Android
+- language: java
+  registry: maven
+  name: com.dynamicyield.android.templates:templates
+  url: https://search.maven.org/artifact/com.dynamicyield.android.templates/templates
+  official: true
+  platform: Android
+- language: java
+  registry: maven
+  name: com.dynamicyield.fitemplates:fitemplates
+  url: https://search.maven.org/artifact/com.dynamicyield.fitemplates/fitemplates
+  official: true
+  platform: Android
+examples:
+- name: api-tutorial-petshop
+  url: https://github.com/DynamicYield/api-tutorial-petshop
+  official: true
+  note: Official Experience API tutorial (JavaScript)
+- name: shopify-hydrogen-demo
+  url: https://github.com/DynamicYield/shopify-hydrogen-demo
+  official: true
+  note: Official Shopify Hydrogen integration demo
