@@ -45,6 +45,19 @@ tags:
 - Recommendations
 - A/B Testing
 - Search
+- E-Commerce
+- Retail
+- Machine-Learning
+- MACH
+- Mastercard
+tags_raw:
+- Company
+- Cloud
+- Personalization
+- Experience Optimization
+- Recommendations
+- A/B Testing
+- Search
 - eCommerce
 - Retail
 - Machine Learning
@@ -58,6 +71,11 @@ apis:
   humanURL: https://dy.dev/reference
   baseURL: https://dy-api.com
   tags:
+  - Personalization
+  - Recommendations
+  - Search
+  - Event
+  tags_raw:
   - Personalization
   - Recommendations
   - Search
