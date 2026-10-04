@@ -49,6 +49,9 @@ x-tier-reason: portfolio-lead
 specificationVersion: '0.23'
 created: '2026-07-17'
 modified: '2026-07-18'
+x-docs-platform: readme
+x-docs-platform-confidence: medium
+x-docs-platform-checked: 2026-10-03
 tags:
 - Company
 - Cloud
@@ -59,7 +62,7 @@ tags:
 - Search
 - E-Commerce
 - Retail
-- Machine-Learning
+- Machine Learning
 - MACH
 - Mastercard
 tags_raw:
@@ -75,6 +78,7 @@ tags_raw:
 - Machine Learning
 - MACH
 - Mastercard
+- Machine-Learning
 apis:
 - name: Dynamic Yield Experience OS API
   description: 'Server-side Experience APIs and related product APIs for personalization,
