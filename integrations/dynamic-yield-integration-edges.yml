@@ -1,0 +1,16 @@
+generated: '2026-10-12'
+method: none
+source:
+- https://zapier.com/apps/dynamic-yield/integrations
+- https://n8n.io/integrations/dynamic-yield/
+- https://composio.dev/toolkits/dynamic-yield
+- https://monid.ai/tools/dynamic-yield
+checked:
+- https://composio.dev/toolkits/dynamic-yield
+- https://monid.ai/tools/dynamic-yield
+- https://n8n.io/integrations/dynamic-yield/
+- https://zapier.com/apps/dynamic-yield/integrations
+summary: null
+marketplace_apps: []
+edges: []
+templates: []
