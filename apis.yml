@@ -1,4 +1,5 @@
 aid: dynamic-yield
+
 deliveryModel:
   model: saas
   open_source: false
@@ -10,6 +11,7 @@ deliveryModel:
   - pricing
   generated: '2026-08-28'
   method: derived
+
 accessModel:
   pricing: unknown
   onboarding: unknown
@@ -23,35 +25,47 @@ accessModel:
   - security
   generated: '2026-09-03'
   method: derived
+
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/dynamic-yield.png
+
 name: Dynamic Yield
-description: 'Dynamic Yield (a Mastercard company) is an experience optimization and
-  personalization platform — branded "Experience OS" — used by retail, eCommerce, media,
-  travel, and financial-services brands to individualize content, product recommendations,
-  offers, search, and messaging across web, mobile app, email, and kiosk channels.
-  The platform is MACH Alliance certified (microservices-based, API-first, cloud-native,
-  headless) and exposes server-side Experience APIs (choose/collect for personalization
-  and event tracking), a Product Feed / catalog API, a User Event API, Recommendation
-  APIs, a Search API (query, pagination, filtering, sorting, autosuggest), and the
-  Shopping Muse AI shopping-assistant API, alongside client-side script snippets and
-  native mobile SDKs for iOS (Swift), Android (Kotlin), and React Native. Developer
-  documentation, API reference, and a quarterly technical changelog are published at
-  dy.dev. This profile was surfaced as a Bessemer Venture Partners portfolio company
-  and enriched by the API Evangelist pipeline.'
+
+description: Dynamic Yield (a Mastercard company) is an experience optimization and personalization platform — branded "Experience OS" — used
+  by retail, eCommerce, media, travel, and financial-services brands to individualize content, product recommendations, offers, search, and messaging
+  across web, mobile app, email, and kiosk channels. The platform is MACH Alliance certified (microservices-based, API-first, cloud-native, headless)
+  and exposes server-side Experience APIs (choose/collect for personalization and event tracking), a Product Feed / catalog API, a User Event
+  API, Recommendation APIs, a Search API (query, pagination, filtering, sorting, autosuggest), and the Shopping Muse AI shopping-assistant API,
+  alongside client-side script snippets and native mobile SDKs for iOS (Swift), Android (Kotlin), and React Native. Developer documentation, API
+  reference, and a quarterly technical changelog are published at dy.dev. This profile was surfaced as a Bessemer Venture Partners portfolio company
+  and enriched by the API Evangelist pipeline.
+
 url: https://raw.githubusercontent.com/api-evangelist/dynamic-yield/refs/heads/main/apis.yml
+
 x-type: company
+
 x-source: vc-portfolio
+
 x-backed-by:
 - bessemer-venture-partners
+
 x-owned-by: mastercard
+
 x-tier: stub
+
 x-tier-reason: portfolio-lead
+
 specificationVersion: '0.23'
+
 created: '2026-07-17'
+
 modified: '2026-07-18'
+
 x-docs-platform: readme
+
 x-docs-platform-confidence: medium
+
 x-docs-platform-checked: 2026-10-03
+
 tags:
 - Company
 - Cloud
@@ -65,6 +79,7 @@ tags:
 - Machine Learning
 - MACH
 - Mastercard
+
 tags_raw:
 - Company
 - Cloud
@@ -79,36 +94,32 @@ tags_raw:
 - MACH
 - Mastercard
 - Machine-Learning
-apis:
-- name: Dynamic Yield Experience OS API
-  description: 'Server-side Experience APIs and related product APIs for personalization,
-    recommendations, event collection, product catalog sync, search, and the Shopping
-    Muse AI assistant. Authenticated with a DY-API-Key API key.'
-  humanURL: https://dy.dev/reference
-  baseURL: https://dy-api.com
-  tags:
-  - Personalization
-  - Recommendations
-  - Search
-  - Event
-  tags_raw:
-  - Personalization
-  - Recommendations
-  - Search
-  - Events
-  properties:
-  - type: Documentation
-    url: https://dy.dev/docs
-  - type: APIReference
-    url: https://dy.dev/reference
-  - type: GettingStarted
-    url: https://dy.dev/docs/getting-started
+
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
+
 common:
+- type: AgenticAccess
+  url: agentic-access/dynamic-yield-agentic-access.yml
+- type: Spectral
+  url: rules/dynamic-yield-rules.yml
+- type: JSONLD
+  url: json-ld/dynamic-yield-context.jsonld
+- type: Vocabulary
+  url: vocabulary/dynamic-yield-vocabulary.yml
+- type: DataModel
+  url: data-model/dynamic-yield-data-model.yml
+- type: ErrorCatalog
+  url: errors/dynamic-yield-problem-types.yml
+- type: MCPServer
+  url: mcp/dynamic-yield-mcp.yml
+- type: Hosts
+  url: hosts/dynamic-yield-hosts.yml
+- type: Vendors
+  url: vendors/dynamic-yield-vendors.yml
 - type: DomainSecurity
   url: security/dynamic-yield-domain-security.yml
 - type: Website
@@ -149,10 +160,62 @@ common:
   url: changelog/dynamic-yield-changelog.yml
 - type: Conformance
   url: conformance/dynamic-yield-conformance.yml
-- type: LLMsTxt
-  url: llms/dynamic-yield-llms.txt
+
+apis:
+- name: Dynamic Yield Experience OS API
+  description: Server-side Experience APIs and related product APIs for personalization, recommendations, event collection, product catalog sync,
+    search, and the Shopping Muse AI assistant. Authenticated with a DY-API-Key API key.
+  humanURL: https://dy.dev/reference
+  baseURL: https://dy-api.com
+  tags:
+  - Personalization
+  - Recommendations
+  - Search
+  - Event
+  tags_raw:
+  - Personalization
+  - Recommendations
+  - Search
+  - Events
+  properties:
+  - type: Documentation
+    url: https://dy.dev/docs
+  - type: APIReference
+    url: https://dy.dev/reference
+  - type: GettingStarted
+    url: https://dy.dev/docs/getting-started
+  aid: dynamic-yield:dynamic-yield-experience-os-api
+- aid: dynamic-yield:dynamic-yield-experience-api
+  name: Dynamic Yield Experience APIs API
+  description: Serve user experience and track user interactions.
+  humanURL: https://dy.dev/reference
+  baseURL: https://dy-api.com
+  tags:
+  - Experience APIs
+  properties:
+  - type: OpenAPI
+    url: openapi/dynamic-yield-experience-api-openapi.yml
+- aid: dynamic-yield:dynamic-yield-experience-apis-for-api-sections
+  name: Dynamic Yield API only API
+  description: API-only mode endpoints, for users who want to use the Experience APIs without using the full Experience OS features. In API-only
+    mode, you are responsible for generating user and session IDs, and for reporting pageviews and events, while still benefiting from Dynamic
+    Yield's personalization capabilities.
+  humanURL: https://dy.dev/reference
+  baseURL: https://dy-api.com
+  tags:
+  - API only
+  properties:
+  - type: OpenAPI
+    url: openapi/dynamic-yield-experience-apis-for-api-sections-openapi.yml
+
 x-enrichment:
   date: '2026-07-19'
   status: backfilled
   pass: local-v1
   note: backfilled from .gitignore signal + verified work evidence
+
+x-readme-harvest:
+  date: '2026-10-14'
+  ops: 23
+  tool: harvest-readme-openapi.py
+  portal: https://dy.dev

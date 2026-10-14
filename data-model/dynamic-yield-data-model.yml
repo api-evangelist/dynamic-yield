@@ -1,0 +1,800 @@
+generated: '2026-10-14'
+method: derived
+generator: derive-data-model.py
+source:
+- openapi/dynamic-yield-experience-api-openapi.yml
+- openapi/dynamic-yield-experience-apis-for-api-sections-openapi.yml
+notation: has_one = property $ref; has_many = array of $ref; belongs_to = <entity>_id field
+summary:
+  entities: 122
+  entities_in_spec: 122
+  relationships: 109
+entities:
+- name: AddToCart
+  fields: 2
+  description: Reports that the user added a product to the cart.<br>**REQUIRED FOR E-COMMERCE SECTIONS**
+- name: AddToWishlist
+  fields: 2
+  description: Reports that a user added a product to their wishlist.
+- name: Application
+  fields: 2
+  description: Reports that a user started the application process for a product.<br>**REQUIRED FOR FINANCIAL INSTITUTIONS
+    SECTIONS**
+- name: Args
+  fields: 0
+  description: Real-time filters for recommendation results, based on data obtained within the session. Learn more
+    about working with [real-time filters](https://dy.dev/docs/return-real-time-filter-data).
+- name: ArgsItem
+  fields: 1
+  description: Real-time filter for a single selector. The object key should corresponds to a selector name defined
+    under `selector.names`.
+- name: BranchEcom
+  fields: 1
+  description: The branch where the user experience is taking place.
+- name: BranchFeedPayloadQsr
+  fields: 1
+  description: Availability status and price for each product in a specific branch.
+- name: BranchQsr
+  fields: 3
+  description: Use to recommend only items in stock at the branch the user is browsing.
+- name: BranchQsrEngagement
+  fields: 2
+  description: Use to recommend only items in stock at the branch the user is browsing.
+- name: BranchQsrPurchase
+  fields: 3
+  description: Use to recommend only items in stock at the branch the user is browsing. Required for Purchase event.
+- name: BrowsePayloadEcom
+  fields: 5
+- name: ChangeAttribute
+  fields: 2
+  description: Reports that a user changed an attribute of the displayed product (such as color or size).<br>**Note:**
+    The attribute type and value must match information in your product feed. The currently displaye
+- name: Choice
+  fields: 3
+- name: ChoosePayloadEcom
+  fields: 5
+- name: ChoosePayloadFi
+  fields: 0
+- name: ChoosePayloadQsr
+  fields: 5
+- name: ChooseUserEcom
+  fields: 3
+  description: User ID. A Dynamic Yield-generated identifier is used, and managed via cookies. For a new user, send
+    this object empty.
+- name: ChooseUserQsrSharedDeviceFalse
+  fields: 0
+- name: ChooseUserQsrSharedDeviceTrue
+  fields: 3
+  description: User ID. A Dynamic Yield-generated identifier is used, and managed via cookies. For a new user, send
+    this object empty.
+- name: CommerceContext
+  fields: 1
+  description: Commerce context, required for cart actions.
+- name: ContextChooseEcom
+  fields: 6
+  description: The request's context.
+- name: ContextChooseQsr
+  fields: 6
+  description: The request's context.
+- name: ContextEngagementEcom
+  fields: 2
+  description: The request's context.
+- name: ContextEngagementQsr
+  fields: 3
+  description: The request's context.
+- name: ContextEventQsr
+  fields: 3
+  description: The request's context.
+- name: ContextPageviewEcom
+  fields: 3
+  description: The request's context.
+- name: ContextSearchEcom
+  fields: 5
+  description: The request's context.
+- name: ContextSuggestEcom
+  fields: 1
+  description: The request's context for suggest requests.
+- name: CustomEvent
+  fields: 2
+  description: Use custom events to report any event that isn't already defined for use in Experience OS, but is
+    significant to your business.<br>**Note:** custom events support only symbols that are encoded with UT
+- name: DeviceChooseEcom
+  fields: 5
+  description: Data for the served device.
+- name: DeviceChooseQsr
+  fields: 6
+  description: Data for the served device.
+- name: DeviceEngagement
+  fields: 1
+  description: Data for the served device.
+- name: DeviceEngagementQsr
+  fields: 1
+  description: Data for the served device.
+- name: DeviceEventQsr
+  fields: 4
+  description: Data for the served device.
+- name: DevicePageviewEcom
+  fields: 4
+  description: Data for the served device.
+- name: EngagementEcomClickImp
+  fields: 3
+  description: A user engagement with a DY campaign.
+- name: EngagementEcomPnClick
+  fields: 2
+  description: A user engagement with a DY campaign.
+- name: EngagementEcomSlotClick
+  fields: 3
+  description: A user engagement with a DY campaign.
+- name: EngagementPayloadEcom
+  fields: 4
+- name: EngagementPayloadFi
+  fields: 0
+- name: EngagementPayloadQsr
+  fields: 4
+- name: EngagementUserEcom
+  fields: 3
+  description: User ID. A Dynamic Yield-generated identifier is used, and managed via cookies.
+- name: Error
+  fields: 2
+  description: Response object for an invalid request.
+- name: EventPayloadEcom
+  fields: 4
+- name: EventPayloadFi
+  fields: 4
+- name: EventPayloadQsr
+  fields: 4
+- name: EventProperties
+  fields: 0
+  description: Data for the reported event.
+- name: ExternalEventsPayload
+  fields: 3
+- name: ExternalIdentify
+  fields: 2
+  description: Reports that the user has been identified.
+- name: FilterItems
+  fields: 2
+  description: Reports that the user filtered the product list by a specific field value.
+- name: IdentifyUser
+  fields: 2
+  description: Use to identify visitors at any point during their journey on your site or app, such as during the
+    checkout process.
+- name: InformAffinity
+  fields: 2
+  description: Report an array of product attributes to use in affinity personalization.
+- name: KeywordSearch
+  fields: 2
+  description: Reports that a user ran a freestyle keyword search.
+- name: Login
+  fields: 2
+  description: Reports that a user has logged in.
+- name: MessageOptIn
+  fields: 2
+  description: Reports that a user opted in to receive Reconnect push notifications.
+- name: MessageOptOut
+  fields: 2
+  description: Reports that a user opted out of receiving Reconnect push notifications.
+- name: NewsletterSubscription
+  fields: 2
+  description: Reports that a user subscribed to a newsletter. Identification event.
+- name: OfflinePurchase
+  fields: 2
+  description: Reports that the user completed a purchase.
+- name: OptionsBrowse
+  fields: 3
+  description: Request configuration parameters.
+- name: OptionsChooseEcom
+  fields: 6
+  description: Request configuration parameters.
+- name: OptionsChooseQsr
+  fields: 6
+  description: Request configuration parameters.
+- name: OptionsPageview
+  fields: 1
+  description: Request configuration parameters.
+- name: OptionsSearchEcom
+  fields: 4
+  description: Request configuration parameters.
+- name: OutagePayloadQsr
+  fields: 1
+- name: Page
+  fields: 5
+  description: Data for the page currently being browsed.
+- name: PageAttributes
+  fields: 0
+  description: 'Pass key-value pairs you want to use for targeting in this campaign. **The value must exactly match
+    the value in the campaign targeting condition, and is case sensitive.** This data is not stored and '
+- name: PageSuggest
+  fields: 1
+  description: Data for the page context in suggest requests.
+- name: PageviewPayloadEcom
+  fields: 4
+- name: PageviewPayloadFi
+  fields: 0
+- name: Preview
+  fields: 1
+  description: Campaigns to generate previews for. [Learn more about enabling preview mode](https://dy.dev/docs/preview-api-web#enabling-preview-mode).
+- name: ProductDataEcom
+  fields: 2
+  description: You can use *either* the `fieldFilter` param to ask for specific attributes from the feed, *or* the
+    `skusOnly` param to to fetch only the SKUs.
+- name: ProductFeedBody
+  fields: 1
+  description: Single request body.
+- name: ProductFeedData
+  fields: 11
+  description: Product data.
+- name: ProductFeedPayload
+  fields: 1
+- name: ProductFeedUpdate
+  fields: 2
+- name: PromoCodeEntered
+  fields: 2
+  description: Reports that the user entered a valid promotion code.<br>**This event is currently available for
+    script implementation only.**
+- name: Purchase
+  fields: 2
+  description: Reports that the user completed a purchase.<br>**REQUIRED FOR E-COMMERCE SECTIONS**
+- name: PurchaseQsr
+  fields: 2
+  description: Reports that the user completed a purchase.
+- name: QueryAutosuggest
+  fields: 2
+  description: The user query for which to generate suggestions.
+- name: QueryBrowse
+  fields: 4
+  description: The user query for which to conduct the browse request.
+- name: QueryFilterNumber
+  fields: 3
+- name: QueryFilterString
+  fields: 2
+- name: QueryPagination
+  fields: 2
+  description: Pagination parameters for the query result.
+- name: QueryResults
+  fields: 3
+- name: QuerySemanticSearch
+  fields: 5
+  description: The user query for which to conduct the search.
+- name: QueryShoppingMuse
+  fields: 2
+  description: The user prompt and conversation ID for triggering a contextual Shopping Muse response.
+- name: QuerySortBy
+  fields: 2
+  description: Whether to sort the query results. Leave this field empty to sort results by relevance.
+- name: QuerySuggestionResults
+  fields: 3
+- name: QueryVisualSearch
+  fields: 3
+  description: The user query for which to conduct the search.
+- name: RealtimeRuleQuery
+  fields: 1
+  description: The filtering query.
+- name: RecsProductDataEcom
+  fields: 2
+  description: You can use *either* the `fieldFilter` param to ask for specific attributes from the feed, *or* the
+    `skusOnly` param to to fetch only the SKUs.
+- name: RecsProductDataQsr
+  fields: 2
+  description: You can use *either* the `fieldFilter` param to ask for specific attributes from the feed, *or* the
+    `skusOnly` param to to fetch only the SKUs.
+- name: RemoveFromCart
+  fields: 2
+  description: Reports that the user removed an item from the cart.
+- name: SearchPayloadEcom
+  fields: 6
+- name: SelectorChoose
+  fields: 4
+  description: Campaigns to choose variations for.
+- name: SelectorSearch
+  fields: 1
+  description: Campaigns to choose variations for.
+- name: SelectorShoppingMuse
+  fields: 1
+  description: Campaigns to choose variations for.
+- name: Session
+  fields: 1
+  description: Session ID. A Dynamic Yield-generated identifier is used.
+- name: SessionChoose
+  fields: 1
+  description: Session ID. A Dynamic Yield-generated identifier is used. For new sessions, send this object empty.
+- name: SessionEngagement
+  fields: 1
+  description: Session ID. A Dynamic Yield-generated identifier is used.
+- name: ShoppingMusePayloadEcom
+  fields: 7
+- name: ShoppingMuseResult
+  fields: 3
+- name: Signup
+  fields: 2
+  description: Reports that the user completed the signup process and is a registered user.
+- name: SortItems
+  fields: 2
+  description: Reports that the user changed the sorting of a product list.<br>**This event is currently available
+    for script implementation only.**
+- name: Submission
+  fields: 2
+  description: Reports that the user submitted an application.<br>**REQUIRED FOR FINANCIAL INSTITUTIONS SECTIONS**
+- name: SuggestPayloadEcom
+  fields: 4
+- name: SyncCart
+  fields: 2
+  description: '**THIS EVENT IS MANDATORY FOR:**<br><ul><li>The [*Exclude items currently in cart* filter](https://support.dynamicyield.com/hc/en-us/articles/360019720178#h_01FZW8C8C9JSHT05QW6764K0XV),
+    and must be fi'
+- name: TrackingData
+  fields: 6
+  description: Enables Dynamic Yield to track actions attributable to the push notification. Must be extracted from
+    messaging provider. [Learn more](https://support.dynamicyield.com/hc/en-us/articles/13472246286749-
+- name: TransactionStatusSpecificItem
+  fields: 3
+- name: UpdateReconnectOptInPayloadEmailSms
+  fields: 1
+- name: UpdateReconnectOptInPayloadWebApp
+  fields: 2
+- name: UserDataArrayNumber
+  fields: 0
+  description: Add CRM data here. Insert the integer values corresponding to your predefined dropdown array. [Learn
+    more about mapping numeric values to dropdown arrays](https://support.dynamicyield.com/hc/en-us/art
+- name: UserDataArrayString
+  fields: 0
+  description: Add CRM data here.
+- name: UserDataPayload
+  fields: 1
+- name: UserDataRequestArray
+  fields: 5
+- name: UserDataRequestDelete
+  fields: 4
+- name: UserDataRequestUpsert
+  fields: 5
+- name: UserDataUpsert
+  fields: 0
+  description: Add CRM data here. Date values within the CRM Data should be date & time in ISO 8601 format, with
+    or without milliseconds (YYYY-MM-DDThh:mm:ssTZD or YYYY-MM-DDThh:mm:ss.sTZD ), expressed either in UTC
+- name: UserDataUser
+  fields: 2
+  description: User's identifying details.
+- name: UserQsrSharedDeviceFalse
+  fields: 0
+- name: UserQsrSharedDeviceTrue
+  fields: 1
+  description: User ID. A Dynamic Yield-generated identifier is used, and managed via cookies.
+- name: VideoWatch
+  fields: 2
+  description: Reports that a user watched a video on a media site or application.<br>This event can report that
+    the user watched a video in part or in full. You can distinguish between auto-play videos and those th
+relationships:
+- from: BrowsePayloadEcom
+  to: ChooseUserEcom
+  type: has_one
+  via: user
+- from: BrowsePayloadEcom
+  to: SessionChoose
+  type: has_one
+  via: session
+- from: BrowsePayloadEcom
+  to: QueryBrowse
+  type: has_one
+  via: query
+- from: BrowsePayloadEcom
+  to: ContextSearchEcom
+  type: has_one
+  via: context
+- from: BrowsePayloadEcom
+  to: OptionsBrowse
+  type: has_one
+  via: options
+- from: ContextSearchEcom
+  to: Page
+  type: has_one
+  via: page
+- from: ContextSearchEcom
+  to: DeviceChooseEcom
+  type: has_one
+  via: device
+- from: ContextSearchEcom
+  to: PageAttributes
+  type: has_one
+  via: pageAttributes
+- from: ContextSearchEcom
+  to: BranchEcom
+  type: has_one
+  via: branch
+- from: OptionsBrowse
+  to: ProductDataEcom
+  type: has_one
+  via: productData
+- from: QueryBrowse
+  to: QueryPagination
+  type: has_one
+  via: pagination
+- from: QueryBrowse
+  to: QuerySortBy
+  type: has_one
+  via: sortBy
+- from: ChoosePayloadEcom
+  to: ChooseUserEcom
+  type: has_one
+  via: user
+- from: ChoosePayloadEcom
+  to: SessionChoose
+  type: has_one
+  via: session
+- from: ChoosePayloadEcom
+  to: ContextChooseEcom
+  type: has_one
+  via: context
+- from: ChoosePayloadEcom
+  to: SelectorChoose
+  type: has_one
+  via: selector
+- from: ChoosePayloadEcom
+  to: OptionsChooseEcom
+  type: has_one
+  via: options
+- from: ChoosePayloadQsr
+  to: SessionChoose
+  type: has_one
+  via: session
+- from: ChoosePayloadQsr
+  to: ContextChooseQsr
+  type: has_one
+  via: context
+- from: ChoosePayloadQsr
+  to: OptionsChooseQsr
+  type: has_one
+  via: options
+- from: ContextChooseEcom
+  to: Page
+  type: has_one
+  via: page
+- from: ContextChooseEcom
+  to: DeviceChooseEcom
+  type: has_one
+  via: device
+- from: ContextChooseEcom
+  to: PageAttributes
+  type: has_one
+  via: pageAttributes
+- from: ContextChooseEcom
+  to: BranchEcom
+  type: has_one
+  via: branch
+- from: ContextChooseQsr
+  to: Page
+  type: has_one
+  via: page
+- from: ContextChooseQsr
+  to: DeviceChooseQsr
+  type: has_one
+  via: device
+- from: ContextChooseQsr
+  to: BranchQsr
+  type: has_one
+  via: branch
+- from: ContextChooseQsr
+  to: PageAttributes
+  type: has_one
+  via: pageAttributes
+- from: SelectorChoose
+  to: Preview
+  type: has_one
+  via: preview
+- from: SelectorChoose
+  to: Args
+  type: has_one
+  via: args
+- from: OptionsChooseEcom
+  to: RecsProductDataEcom
+  type: has_one
+  via: recsProductData
+- from: OptionsChooseQsr
+  to: RecsProductDataQsr
+  type: has_one
+  via: recsProductData
+- from: SearchPayloadEcom
+  to: ChooseUserEcom
+  type: has_one
+  via: user
+- from: SearchPayloadEcom
+  to: SessionChoose
+  type: has_one
+  via: session
+- from: SearchPayloadEcom
+  to: QuerySemanticSearch
+  type: has_one
+  via: query
+- from: SearchPayloadEcom
+  to: QueryVisualSearch
+  type: has_one
+  via: query
+- from: SearchPayloadEcom
+  to: ContextSearchEcom
+  type: has_one
+  via: context
+- from: SearchPayloadEcom
+  to: SelectorSearch
+  type: has_one
+  via: selector
+- from: SearchPayloadEcom
+  to: OptionsSearchEcom
+  type: has_one
+  via: options
+- from: OptionsSearchEcom
+  to: ProductDataEcom
+  type: has_one
+  via: productData
+- from: QuerySemanticSearch
+  to: QueryPagination
+  type: has_one
+  via: pagination
+- from: QuerySemanticSearch
+  to: QuerySortBy
+  type: has_one
+  via: sortBy
+- from: QueryVisualSearch
+  to: QuerySortBy
+  type: has_one
+  via: sortBy
+- from: ShoppingMusePayloadEcom
+  to: ChooseUserEcom
+  type: has_one
+  via: user
+- from: ShoppingMusePayloadEcom
+  to: SessionChoose
+  type: has_one
+  via: session
+- from: ShoppingMusePayloadEcom
+  to: QueryShoppingMuse
+  type: has_one
+  via: query
+- from: ShoppingMusePayloadEcom
+  to: ContextSearchEcom
+  type: has_one
+  via: context
+- from: ShoppingMusePayloadEcom
+  to: SelectorShoppingMuse
+  type: has_one
+  via: selector
+- from: ShoppingMusePayloadEcom
+  to: CommerceContext
+  type: has_one
+  via: commerce
+- from: ShoppingMusePayloadEcom
+  to: OptionsSearchEcom
+  type: has_one
+  via: options
+- from: SuggestPayloadEcom
+  to: ChooseUserEcom
+  type: has_one
+  via: user
+- from: SuggestPayloadEcom
+  to: SessionChoose
+  type: has_one
+  via: session
+- from: SuggestPayloadEcom
+  to: QueryAutosuggest
+  type: has_one
+  via: query
+- from: SuggestPayloadEcom
+  to: ContextSuggestEcom
+  type: has_one
+  via: context
+- from: ContextSuggestEcom
+  to: PageSuggest
+  type: has_one
+  via: page
+- from: EngagementPayloadEcom
+  to: EngagementUserEcom
+  type: has_one
+  via: user
+- from: EngagementPayloadEcom
+  to: SessionEngagement
+  type: has_one
+  via: session
+- from: EngagementPayloadEcom
+  to: ContextEngagementEcom
+  type: has_one
+  via: context
+- from: EngagementPayloadQsr
+  to: Session
+  type: has_one
+  via: session
+- from: EngagementPayloadQsr
+  to: ContextEngagementQsr
+  type: has_one
+  via: context
+- from: ContextEngagementEcom
+  to: DeviceEngagement
+  type: has_one
+  via: device
+- from: ContextEngagementQsr
+  to: DeviceEngagementQsr
+  type: has_one
+  via: device
+- from: ContextEngagementQsr
+  to: BranchQsrEngagement
+  type: has_one
+  via: branch
+- from: EngagementEcomPnClick
+  to: TrackingData
+  type: has_one
+  via: trackingData
+- from: PageviewPayloadEcom
+  to: ChooseUserEcom
+  type: has_one
+  via: user
+- from: PageviewPayloadEcom
+  to: Session
+  type: has_one
+  via: session
+- from: PageviewPayloadEcom
+  to: ContextPageviewEcom
+  type: has_one
+  via: context
+- from: PageviewPayloadEcom
+  to: OptionsPageview
+  type: has_one
+  via: options
+- from: ContextPageviewEcom
+  to: Page
+  type: has_one
+  via: page
+- from: ContextPageviewEcom
+  to: DevicePageviewEcom
+  type: has_one
+  via: device
+- from: EventPayloadEcom
+  to: EngagementUserEcom
+  type: has_one
+  via: user
+- from: EventPayloadEcom
+  to: SessionEngagement
+  type: has_one
+  via: session
+- from: EventPayloadEcom
+  to: ContextEngagementEcom
+  type: has_one
+  via: context
+- from: EventPayloadFi
+  to: EngagementUserEcom
+  type: has_one
+  via: user
+- from: EventPayloadFi
+  to: SessionEngagement
+  type: has_one
+  via: session
+- from: EventPayloadFi
+  to: ContextEngagementEcom
+  type: has_one
+  via: context
+- from: EventPayloadQsr
+  to: Session
+  type: has_one
+  via: session
+- from: EventPayloadQsr
+  to: ContextEventQsr
+  type: has_one
+  via: context
+- from: ContextEventQsr
+  to: DeviceEventQsr
+  type: has_one
+  via: device
+- from: ContextEventQsr
+  to: BranchQsrPurchase
+  type: has_one
+  via: branch
+- from: AddToCart
+  to: EventProperties
+  type: has_one
+  via: properties
+- from: Application
+  to: EventProperties
+  type: has_one
+  via: properties
+- from: Purchase
+  to: EventProperties
+  type: has_one
+  via: properties
+- from: PurchaseQsr
+  to: EventProperties
+  type: has_one
+  via: properties
+- from: Submission
+  to: EventProperties
+  type: has_one
+  via: properties
+- from: RemoveFromCart
+  to: EventProperties
+  type: has_one
+  via: properties
+- from: SyncCart
+  to: EventProperties
+  type: has_one
+  via: properties
+- from: IdentifyUser
+  to: EventProperties
+  type: has_one
+  via: properties
+- from: Login
+  to: EventProperties
+  type: has_one
+  via: properties
+- from: Signup
+  to: EventProperties
+  type: has_one
+  via: properties
+- from: NewsletterSubscription
+  to: EventProperties
+  type: has_one
+  via: properties
+- from: MessageOptIn
+  to: EventProperties
+  type: has_one
+  via: properties
+- from: MessageOptOut
+  to: EventProperties
+  type: has_one
+  via: properties
+- from: KeywordSearch
+  to: EventProperties
+  type: has_one
+  via: properties
+- from: AddToWishlist
+  to: EventProperties
+  type: has_one
+  via: properties
+- from: FilterItems
+  to: EventProperties
+  type: has_one
+  via: properties
+- from: ChangeAttribute
+  to: EventProperties
+  type: has_one
+  via: properties
+- from: VideoWatch
+  to: EventProperties
+  type: has_one
+  via: properties
+- from: SortItems
+  to: EventProperties
+  type: has_one
+  via: properties
+- from: PromoCodeEntered
+  to: EventProperties
+  type: has_one
+  via: properties
+- from: InformAffinity
+  to: EventProperties
+  type: has_one
+  via: properties
+- from: ProductFeedBody
+  to: ProductFeedData
+  type: has_one
+  via: data
+- from: ExternalEventsPayload
+  to: UserDataUser
+  type: has_one
+  via: user
+- from: ExternalEventsPayload
+  to: DeviceEngagement
+  type: has_one
+  via: device
+- from: OfflinePurchase
+  to: EventProperties
+  type: has_one
+  via: properties
+- from: ExternalIdentify
+  to: EventProperties
+  type: has_one
+  via: properties
+- from: UserDataRequestArray
+  to: UserDataArrayString
+  type: has_one
+  via: data
+- from: UserDataRequestArray
+  to: UserDataArrayNumber
+  type: has_one
+  via: data
+- from: UserDataRequestUpsert
+  to: UserDataUpsert
+  type: has_one
+  via: data

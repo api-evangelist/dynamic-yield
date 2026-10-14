@@ -1,0 +1,540 @@
+{
+  "@context": {
+    "@vocab": "https://dynamicyield.com/schema#",
+    "schema": "https://schema.org/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "dcterms": "http://purl.org/dc/terms/",
+    "dynamic": "https://dynamicyield.com/schema#",
+    "BrowsePayloadEcom": "dynamic:BrowsePayloadEcom",
+    "user": {
+      "@id": "dynamic:user",
+      "@type": "@id"
+    },
+    "session": {
+      "@id": "dynamic:session",
+      "@type": "@id"
+    },
+    "query": {
+      "@id": "dynamic:query",
+      "@type": "@id"
+    },
+    "context": {
+      "@id": "dynamic:context",
+      "@type": "@id"
+    },
+    "options": {
+      "@id": "dynamic:options",
+      "@type": "@id"
+    },
+    "QueryResults": "dynamic:QueryResults",
+    "choices": {
+      "@id": "dynamic:choices",
+      "@container": "@list"
+    },
+    "cookies": {
+      "@id": "dynamic:cookies",
+      "@container": "@list"
+    },
+    "warnings": {
+      "@id": "dynamic:warnings",
+      "@container": "@list"
+    },
+    "Error": "dynamic:Error",
+    "message": {
+      "@id": "dynamic:message",
+      "@type": "@id"
+    },
+    "type": {
+      "@id": "dynamic:type",
+      "@type": "@id"
+    },
+    "ChooseUserEcom": "dynamic:ChooseUserEcom",
+    "dyid": {
+      "@id": "dynamic:dyid",
+      "@type": "@id"
+    },
+    "dyid_server": {
+      "@id": "dynamic:dyid_server",
+      "@type": "@id"
+    },
+    "active_consent_accepted": {
+      "@id": "dynamic:active_consent_accepted",
+      "@type": "@id"
+    },
+    "SessionChoose": "dynamic:SessionChoose",
+    "dy": {
+      "@id": "dynamic:dy",
+      "@type": "xsd:string"
+    },
+    "ContextSearchEcom": "dynamic:ContextSearchEcom",
+    "page": {
+      "@id": "dynamic:page",
+      "@type": "@id"
+    },
+    "device": {
+      "@id": "dynamic:device",
+      "@type": "@id"
+    },
+    "channel": {
+      "@id": "dynamic:channel",
+      "@type": "@id"
+    },
+    "pageAttributes": {
+      "@id": "dynamic:pageAttributes",
+      "@type": "@id"
+    },
+    "branch": {
+      "@id": "dynamic:branch",
+      "@type": "@id"
+    },
+    "Page": "dynamic:Page",
+    "data": {
+      "@id": "dynamic:data",
+      "@type": "@id"
+    },
+    "location": {
+      "@id": "dynamic:location",
+      "@type": "@id"
+    },
+    "referrer": {
+      "@id": "dynamic:referrer",
+      "@type": "@id"
+    },
+    "locale": {
+      "@id": "dynamic:locale",
+      "@type": "@id"
+    },
+    "PageType": "dynamic:PageType",
+    "DeviceChooseEcom": "dynamic:DeviceChooseEcom",
+    "userAgent": {
+      "@id": "dynamic:userAgent",
+      "@type": "@id"
+    },
+    "browser": {
+      "@id": "dynamic:browser",
+      "@type": "@id"
+    },
+    "ip": {
+      "@id": "dynamic:ip",
+      "@type": "@id"
+    },
+    "dateTime": {
+      "@id": "dynamic:dateTime",
+      "@type": "@id"
+    },
+    "DeviceTypeEcom": "dynamic:DeviceTypeEcom",
+    "Browser": "dynamic:Browser",
+    "ChannelEcom": "dynamic:ChannelEcom",
+    "BranchEcom": "dynamic:BranchEcom",
+    "id": {
+      "@id": "dynamic:id",
+      "@type": "@id"
+    },
+    "OptionsBrowse": "dynamic:OptionsBrowse",
+    "returnAnalyticsMetadata": {
+      "@id": "dynamic:returnAnalyticsMetadata",
+      "@type": "@id"
+    },
+    "isImplicitClientData": {
+      "@id": "dynamic:isImplicitClientData",
+      "@type": "@id"
+    },
+    "productData": {
+      "@id": "dynamic:productData",
+      "@type": "@id"
+    },
+    "ProductDataEcom": "dynamic:ProductDataEcom",
+    "fieldFilter": {
+      "@id": "dynamic:fieldFilter",
+      "@type": "@id"
+    },
+    "skusOnly": {
+      "@id": "dynamic:skusOnly",
+      "@type": "@id"
+    },
+    "QueryBrowse": "dynamic:QueryBrowse",
+    "displayName": {
+      "@id": "dynamic:displayName",
+      "@type": "xsd:string"
+    },
+    "filters": {
+      "@id": "dynamic:filters",
+      "@type": "@id"
+    },
+    "pagination": {
+      "@id": "dynamic:pagination",
+      "@type": "@id"
+    },
+    "sortBy": {
+      "@id": "dynamic:sortBy",
+      "@type": "@id"
+    },
+    "QueryFilterNumber": "dynamic:QueryFilterNumber",
+    "field": {
+      "@id": "dynamic:field",
+      "@type": "xsd:string"
+    },
+    "min": {
+      "@id": "dynamic:min",
+      "@type": "xsd:decimal"
+    },
+    "max": {
+      "@id": "dynamic:max",
+      "@type": "xsd:decimal"
+    },
+    "QueryFilterString": "dynamic:QueryFilterString",
+    "values": {
+      "@id": "dynamic:values",
+      "@container": "@list"
+    },
+    "QueryPagination": "dynamic:QueryPagination",
+    "numItems": {
+      "@id": "dynamic:numItems",
+      "@type": "xsd:decimal"
+    },
+    "offset": {
+      "@id": "dynamic:offset",
+      "@type": "xsd:decimal"
+    },
+    "QuerySortBy": "dynamic:QuerySortBy",
+    "order": {
+      "@id": "dynamic:order",
+      "@type": "xsd:string"
+    },
+    "ChoosePayloadEcom": "dynamic:ChoosePayloadEcom",
+    "selector": {
+      "@id": "dynamic:selector",
+      "@type": "@id"
+    },
+    "ChoosePayloadQsr": "dynamic:ChoosePayloadQsr",
+    "Choice": "dynamic:Choice",
+    "ChooseUserQsrSharedDeviceTrue": "dynamic:ChooseUserQsrSharedDeviceTrue",
+    "sharedDevice": {
+      "@id": "dynamic:sharedDevice",
+      "@type": "@id"
+    },
+    "cuid": {
+      "@id": "dynamic:cuid",
+      "@type": "xsd:string"
+    },
+    "cuidType": {
+      "@id": "dynamic:cuidType",
+      "@type": "xsd:string"
+    },
+    "ContextChooseEcom": "dynamic:ContextChooseEcom",
+    "listedItems": {
+      "@id": "dynamic:listedItems",
+      "@type": "@id"
+    },
+    "ContextChooseQsr": "dynamic:ContextChooseQsr",
+    "cart": {
+      "@id": "dynamic:cart",
+      "@type": "@id"
+    },
+    "DeviceChooseQsr": "dynamic:DeviceChooseQsr",
+    "DeviceTypeQsr": "dynamic:DeviceTypeQsr",
+    "ChannelQsr": "dynamic:ChannelQsr",
+    "BranchQsr": "dynamic:BranchQsr",
+    "dayPart": {
+      "@id": "dynamic:dayPart",
+      "@type": "@id"
+    },
+    "orderFulfillment": {
+      "@id": "dynamic:orderFulfillment",
+      "@type": "@id"
+    },
+    "DayPart": "dynamic:DayPart",
+    "OrderFulfillment": "dynamic:OrderFulfillment",
+    "SelectorChoose": "dynamic:SelectorChoose",
+    "names": {
+      "@id": "dynamic:names",
+      "@type": "@id"
+    },
+    "groups": {
+      "@id": "dynamic:groups",
+      "@type": "@id"
+    },
+    "preview": {
+      "@id": "dynamic:preview",
+      "@type": "@id"
+    },
+    "args": {
+      "@id": "dynamic:args",
+      "@type": "@id"
+    },
+    "Preview": "dynamic:Preview",
+    "ids": {
+      "@id": "dynamic:ids",
+      "@type": "@id"
+    },
+    "ArgsItem": "dynamic:ArgsItem",
+    "realtimeRules": {
+      "@id": "dynamic:realtimeRules",
+      "@type": "@id"
+    },
+    "RealtimeRuleType": "dynamic:RealtimeRuleType",
+    "RealtimeRuleQuery": "dynamic:RealtimeRuleQuery",
+    "conditions": {
+      "@id": "dynamic:conditions",
+      "@type": "@id"
+    },
+    "QueryAction": "dynamic:QueryAction",
+    "OptionsChooseEcom": "dynamic:OptionsChooseEcom",
+    "isImplicitPageview": {
+      "@id": "dynamic:isImplicitPageview",
+      "@type": "@id"
+    },
+    "isImplicitImpressionMode": {
+      "@id": "dynamic:isImplicitImpressionMode",
+      "@type": "@id"
+    },
+    "recsProductData": {
+      "@id": "dynamic:recsProductData",
+      "@type": "@id"
+    },
+    "deduplicateRecommendations": {
+      "@id": "dynamic:deduplicateRecommendations",
+      "@type": "@id"
+    },
+    "OptionsChooseQsr": "dynamic:OptionsChooseQsr",
+    "RecsProductDataEcom": "dynamic:RecsProductDataEcom",
+    "RecsProductDataQsr": "dynamic:RecsProductDataQsr",
+    "SearchPayloadEcom": "dynamic:SearchPayloadEcom",
+    "SelectorSearch": "dynamic:SelectorSearch",
+    "name": {
+      "@id": "dynamic:name",
+      "@type": "xsd:string"
+    },
+    "OptionsSearchEcom": "dynamic:OptionsSearchEcom",
+    "isImplicitKeywordSearchEvent": {
+      "@id": "dynamic:isImplicitKeywordSearchEvent",
+      "@type": "@id"
+    },
+    "QuerySemanticSearch": "dynamic:QuerySemanticSearch",
+    "text": {
+      "@id": "dynamic:text",
+      "@type": "@id"
+    },
+    "enableSpellCheck": {
+      "@id": "dynamic:enableSpellCheck",
+      "@type": "@id"
+    },
+    "QueryVisualSearch": "dynamic:QueryVisualSearch",
+    "imageBase64": {
+      "@id": "dynamic:imageBase64",
+      "@type": "@id"
+    },
+    "ShoppingMusePayloadEcom": "dynamic:ShoppingMusePayloadEcom",
+    "commerce": {
+      "@id": "dynamic:commerce",
+      "@type": "@id"
+    },
+    "ShoppingMuseResult": "dynamic:ShoppingMuseResult",
+    "SelectorShoppingMuse": "dynamic:SelectorShoppingMuse",
+    "CommerceContext": "dynamic:CommerceContext",
+    "cart_id": {
+      "@id": "dynamic:cart_id",
+      "@type": "xsd:string"
+    },
+    "QueryShoppingMuse": "dynamic:QueryShoppingMuse",
+    "chatId": {
+      "@id": "dynamic:chatId",
+      "@type": "xsd:string"
+    },
+    "SuggestPayloadEcom": "dynamic:SuggestPayloadEcom",
+    "QuerySuggestionResults": "dynamic:QuerySuggestionResults",
+    "variations": {
+      "@id": "dynamic:variations",
+      "@container": "@list"
+    },
+    "ContextSuggestEcom": "dynamic:ContextSuggestEcom",
+    "PageSuggest": "dynamic:PageSuggest",
+    "QueryAutosuggest": "dynamic:QueryAutosuggest",
+    "suggestions": {
+      "@id": "dynamic:suggestions",
+      "@type": "@id"
+    },
+    "EngagementPayloadEcom": "dynamic:EngagementPayloadEcom",
+    "engagements": {
+      "@id": "dynamic:engagements",
+      "@type": "@id"
+    },
+    "EngagementPayloadQsr": "dynamic:EngagementPayloadQsr",
+    "EngagementUserEcom": "dynamic:EngagementUserEcom",
+    "UserQsrSharedDeviceTrue": "dynamic:UserQsrSharedDeviceTrue",
+    "Session": "dynamic:Session",
+    "SessionEngagement": "dynamic:SessionEngagement",
+    "ContextEngagementEcom": "dynamic:ContextEngagementEcom",
+    "ContextEngagementQsr": "dynamic:ContextEngagementQsr",
+    "DeviceEngagement": "dynamic:DeviceEngagement",
+    "DeviceEngagementQsr": "dynamic:DeviceEngagementQsr",
+    "BranchQsrEngagement": "dynamic:BranchQsrEngagement",
+    "EngagementEcomClickImp": "dynamic:EngagementEcomClickImp",
+    "decisionId": {
+      "@id": "dynamic:decisionId",
+      "@type": "@id"
+    },
+    "EngagementEcomSlotClick": "dynamic:EngagementEcomSlotClick",
+    "slotId": {
+      "@id": "dynamic:slotId",
+      "@type": "@id"
+    },
+    "EngagementEcomPnClick": "dynamic:EngagementEcomPnClick",
+    "trackingData": {
+      "@id": "dynamic:trackingData",
+      "@type": "@id"
+    },
+    "EngagementTypeEcomClickImp": "dynamic:EngagementTypeEcomClickImp",
+    "EngagementTypeEcomSlotClick": "dynamic:EngagementTypeEcomSlotClick",
+    "EngagementTypeEcomPnClick": "dynamic:EngagementTypeEcomPnClick",
+    "TrackingData": "dynamic:TrackingData",
+    "rri": {
+      "@id": "dynamic:rri",
+      "@type": "xsd:string"
+    },
+    "sectionID": {
+      "@id": "dynamic:sectionID",
+      "@type": "xsd:string"
+    },
+    "reqTs": {
+      "@id": "dynamic:reqTs",
+      "@type": "xsd:string"
+    },
+    "userID": {
+      "@id": "dynamic:userID",
+      "@type": "xsd:string"
+    },
+    "version": {
+      "@id": "dynamic:version",
+      "@type": "xsd:string"
+    },
+    "events": {
+      "@id": "dynamic:events",
+      "@container": "@list"
+    },
+    "PageviewPayloadEcom": "dynamic:PageviewPayloadEcom",
+    "ContextPageviewEcom": "dynamic:ContextPageviewEcom",
+    "DevicePageviewEcom": "dynamic:DevicePageviewEcom",
+    "OptionsPageview": "dynamic:OptionsPageview",
+    "EventPayloadEcom": "dynamic:EventPayloadEcom",
+    "EventPayloadFi": "dynamic:EventPayloadFi",
+    "EventPayloadQsr": "dynamic:EventPayloadQsr",
+    "Cuid": "dynamic:Cuid",
+    "ContextEventQsr": "dynamic:ContextEventQsr",
+    "DeviceEventQsr": "dynamic:DeviceEventQsr",
+    "BranchQsrPurchase": "dynamic:BranchQsrPurchase",
+    "AddToCart": "dynamic:AddToCart",
+    "properties": {
+      "@id": "dynamic:properties"
+    },
+    "Application": "dynamic:Application",
+    "Purchase": "dynamic:Purchase",
+    "PurchaseQsr": "dynamic:PurchaseQsr",
+    "Submission": "dynamic:Submission",
+    "RemoveFromCart": "dynamic:RemoveFromCart",
+    "SyncCart": "dynamic:SyncCart",
+    "IdentifyUser": "dynamic:IdentifyUser",
+    "Login": "dynamic:Login",
+    "Signup": "dynamic:Signup",
+    "NewsletterSubscription": "dynamic:NewsletterSubscription",
+    "MessageOptIn": "dynamic:MessageOptIn",
+    "MessageOptOut": "dynamic:MessageOptOut",
+    "KeywordSearch": "dynamic:KeywordSearch",
+    "AddToWishlist": "dynamic:AddToWishlist",
+    "FilterItems": "dynamic:FilterItems",
+    "ChangeAttribute": "dynamic:ChangeAttribute",
+    "VideoWatch": "dynamic:VideoWatch",
+    "SortItems": "dynamic:SortItems",
+    "PromoCodeEntered": "dynamic:PromoCodeEntered",
+    "CustomEvent": "dynamic:CustomEvent",
+    "InformAffinity": "dynamic:InformAffinity",
+    "Progress": "dynamic:Progress",
+    "OutagePayloadQsr": "dynamic:OutagePayloadQsr",
+    "outages": {
+      "@id": "dynamic:outages",
+      "@type": "@id"
+    },
+    "TransactionStatusSpecificItem": "dynamic:TransactionStatusSpecificItem",
+    "item": {
+      "@id": "dynamic:item",
+      "@type": "xsd:string"
+    },
+    "status": {
+      "@id": "dynamic:status",
+      "@type": "xsd:string"
+    },
+    "time": {
+      "@id": "dynamic:time",
+      "@type": "xsd:string"
+    },
+    "BranchFeedPayloadQsr": "dynamic:BranchFeedPayloadQsr",
+    "products": {
+      "@id": "dynamic:products",
+      "@container": "@list"
+    },
+    "ProductFeedPayload": "dynamic:ProductFeedPayload",
+    "requests": {
+      "@id": "dynamic:requests",
+      "@type": "@id"
+    },
+    "ProductFeedUpdate": "dynamic:ProductFeedUpdate",
+    "success": {
+      "@id": "dynamic:success",
+      "@type": "xsd:boolean"
+    },
+    "ProductFeedAction": "dynamic:ProductFeedAction",
+    "ProductFeedBody": "dynamic:ProductFeedBody",
+    "ProductFeedData": "dynamic:ProductFeedData",
+    "sku": {
+      "@id": "dynamic:sku",
+      "@type": "@id"
+    },
+    "group_id": {
+      "@id": "dynamic:group_id",
+      "@type": "xsd:string"
+    },
+    "url": {
+      "@id": "dynamic:url",
+      "@type": "xsd:string"
+    },
+    "price": {
+      "@id": "dynamic:price",
+      "@type": "@id"
+    },
+    "in_stock": {
+      "@id": "dynamic:in_stock",
+      "@type": "xsd:boolean"
+    },
+    "image_url": {
+      "@id": "dynamic:image_url",
+      "@type": "xsd:string"
+    },
+    "categories": {
+      "@id": "dynamic:categories",
+      "@type": "xsd:string"
+    },
+    "description": {
+      "@id": "dynamic:description",
+      "@type": "xsd:string"
+    },
+    "publish_time": {
+      "@id": "dynamic:publish_time",
+      "@type": "xsd:string"
+    },
+    "keywords": {
+      "@id": "dynamic:keywords",
+      "@type": "xsd:string"
+    },
+    "ExternalEventsPayload": "dynamic:ExternalEventsPayload",
+    "OfflinePurchase": "dynamic:OfflinePurchase",
+    "ExternalIdentify": "dynamic:ExternalIdentify"
+  },
+  "@type": "schema:Dataset",
+  "schema:name": "Dynamic Yield API JSON-LD context",
+  "schema:description": "A JSON-LD @context for the objects Dynamic Yield's own API contract declares: one class per component schema, one property per declared field, typed from the contract. Derived by script (derive-json-ld.py, 2026-10-14) from openapi/dynamic-yield-experience-api-openapi.yml, openapi/dynamic-yield-experience-apis-for-api-sections-openapi.yml.",
+  "dcterms:created": "2026-10-14",
+  "dcterms:source": [
+    "openapi/dynamic-yield-experience-api-openapi.yml",
+    "openapi/dynamic-yield-experience-apis-for-api-sections-openapi.yml"
+  ]
+}

@@ -1,0 +1,436 @@
+generated: '2026-10-14'
+method: derived
+generator: derive-vocabulary.py
+source:
+- openapi/dynamic-yield-experience-api-openapi.yml
+- openapi/dynamic-yield-experience-apis-for-api-sections-openapi.yml
+vocabulary:
+  name: Dynamic Yield Domain Vocabulary
+  description: 'Terms declared by Dynamic Yield''s own API contract: its resource groups, objects and enumerations, with the contract''s definitions.
+    Derived, not authored.'
+  version: '2026-10-14'
+  terms:
+  - term: Experience APIs
+    definition: Serve user experience and track user interactions.
+    tags:
+    - Resource Group
+    source: openapi/dynamic-yield-experience-api-openapi.yml
+  - term: Product Data
+    definition: Update and monitor product data.
+    tags:
+    - Resource Group
+    source: openapi/dynamic-yield-experience-api-openapi.yml
+  - term: Profile Anywhere
+    definition: Retrieve user affinity data.
+    tags:
+    - Resource Group
+    source: openapi/dynamic-yield-experience-api-openapi.yml
+  - term: User Data API
+    definition: Update user data.
+    tags:
+    - Resource Group
+    source: openapi/dynamic-yield-experience-api-openapi.yml
+  - term: API only
+    definition: API-only mode endpoints, for users who want to use the Experience APIs without using the full Experience OS features. In API-only
+      mode, you are responsible for generating user and session IDs, and for reporting pageviews and events, while still benefiting from Dynamic
+      Yield's personalization capabilities.
+    tags:
+    - Resource Group
+    source: openapi/dynamic-yield-experience-apis-for-api-sections-openapi.yml
+  - term: Implement Category Pages on Your Website
+    definition: 'Object declared by the contract with fields: user, session, query, context, options.'
+    tags:
+    - Object
+    source: openapi/dynamic-yield-experience-api-openapi.yml#/components/schemas/BrowsePayloadEcom
+  - term: Query Results
+    definition: 'Object declared by the contract with fields: choices, cookies, warnings.'
+    tags:
+    - Object
+    source: openapi/dynamic-yield-experience-api-openapi.yml#/components/schemas/QueryResults
+  - term: Error
+    definition: Response object for an invalid request.
+    tags:
+    - Object
+    source: openapi/dynamic-yield-experience-api-openapi.yml#/components/schemas/Error
+  - term: ErrorMessage
+    definition: Error description.
+    tags:
+    - Object
+    source: openapi/dynamic-yield-experience-api-openapi.yml#/components/schemas/ErrorMessage
+  - term: ErrorType
+    definition: The type of error encountered.
+    tags:
+    - Object
+    source: openapi/dynamic-yield-experience-api-openapi.yml#/components/schemas/ErrorType
+  - term: User
+    definition: User ID. A Dynamic Yield-generated identifier is used, and managed via cookies. For a new user, send this object empty.
+    tags:
+    - Object
+    source: openapi/dynamic-yield-experience-api-openapi.yml#/components/schemas/ChooseUserEcom
+  - term: Dyid
+    definition: The _dyid cookie value. The user ID assigned to visitors by Dynamic Yield. For a new user, send this param empty. Learn more about
+      the [user ID](https://dy.dev/docs/experience-api-basics#user-id).
+    tags:
+    - Object
+    source: openapi/dynamic-yield-experience-api-openapi.yml#/components/schemas/Dyid
+  - term: ActiveConsentAccepted
+    definition: Add this attribute only if [active cookie consent](https://dy.dev/docs/active-cookie-consent) is enabled. Set to `true` if user
+      gave consent for cookies.
+    tags:
+    - Object
+    source: openapi/dynamic-yield-experience-api-openapi.yml#/components/schemas/ActiveConsentAccepted
+  - term: Session
+    definition: Session ID. A Dynamic Yield-generated identifier is used. For new sessions, send this object empty.
+    tags:
+    - Object
+    source: openapi/dynamic-yield-experience-api-openapi.yml#/components/schemas/SessionChoose
+  - term: Context
+    definition: The request's context.
+    tags:
+    - Object
+    source: openapi/dynamic-yield-experience-api-openapi.yml#/components/schemas/ContextSearchEcom
+  - term: Page
+    definition: Data for the page currently being browsed.
+    tags:
+    - Object
+    source: openapi/dynamic-yield-experience-api-openapi.yml#/components/schemas/Page
+  - term: PageType
+    definition: Page type. Must be upper case. Valid values are:`HOMEPAGE`, `CATEGORY`, `PRODUCT`, `CART`, and `OTHER`.
+    tags:
+    - Enumeration
+    source: openapi/dynamic-yield-experience-api-openapi.yml#/components/schemas/PageType
+  - term: PageData
+    definition: 'Additional data for non-homepage pages: The SKU for a `PRODUCT` page, the category for a `CATEGORY` page, SKUs for the `CART`
+      page, and the page ID in `OTHER`. Learn more about [page context data](https://dy.dev/docs/page-context#localization-in-page-context).'
+    tags:
+    - Object
+    source: openapi/dynamic-yield-experience-api-openapi.yml#/components/schemas/PageData
+  - term: Location
+    definition: The current location. URL (for web), location (for SPA), or screen name (for mobile apps). Enables targeting the current page/screen.
+    tags:
+    - Object
+    source: openapi/dynamic-yield-experience-api-openapi.yml#/components/schemas/Location
+  - term: Referrer
+    definition: The previous location. URL (for web), location (for SPA), or screen name (for mobile apps). Enables targeting the previous page
+      or screen. For web implementations, can be used for traffic source targeting, including search, social, and referral traffic classification.
+      Pass the full referrer URL (include HTTP:// or HTTPS://) not only the referring domain.
+    tags:
+    - Object
+    source: openapi/dynamic-yield-experience-api-openapi.yml#/components/schemas/Referrer
+  - term: Locale
+    definition: Page locale code, such as `en_US`. Learn more about [using country codes for locale](https://dy.dev/docs/page-context#localization-in-page-context).
+    tags:
+    - Object
+    source: openapi/dynamic-yield-experience-api-openapi.yml#/components/schemas/Locale
+  - term: DeviceChooseEcom
+    definition: Data for the served device.
+    tags:
+    - Object
+    source: openapi/dynamic-yield-experience-api-openapi.yml#/components/schemas/DeviceChooseEcom
+  - term: UserAgent
+    definition: 'For web clients, the browser user-agent string. If not passed, the API gateway checks for the header in the HTTPS request. This
+      applies only to client-side API calls when isImplicitClientData: true is set in the Options object.'
+    tags:
+    - Object
+    source: openapi/dynamic-yield-experience-api-openapi.yml#/components/schemas/UserAgent
+  - term: DeviceTypeEcom
+    definition: Use when the user agent isn't available. Valid values are:`DESKTOP`, `SMARTPHONE`, `TABLET`, `KIOSK`
+    tags:
+    - Enumeration
+    source: openapi/dynamic-yield-experience-api-openapi.yml#/components/schemas/DeviceTypeEcom
+  - term: Browser
+    definition: Use when the user agent isn't available. Valid values are:`Chrome`, `Firefox`, `Opera`, `Safari`, `Other`
+    tags:
+    - Enumeration
+    source: openapi/dynamic-yield-experience-api-openapi.yml#/components/schemas/Browser
+  - term: Ip
+    definition: 'The client IP address, for geolocation-based targeting and audience building. If not passed, the caller IP is used. This applies
+      only to client-side API calls when isImplicitClientData: true is set in the Options object.'
+    tags:
+    - Object
+    source: openapi/dynamic-yield-experience-api-openapi.yml#/components/schemas/Ip
+  - term: DateTime
+    definition: 'Date & time in ISO 8601 format: YYYY-MM-DDThh:mm:ss.sss±hh:mm (with local time zone).'
+    tags:
+    - Object
+    source: openapi/dynamic-yield-experience-api-openapi.yml#/components/schemas/DateTime
+  - term: ChannelEcom
+    definition: Report and monitor each channel’s Experience API implementation. The channel corresponds to the Experience OS app used (`WEB`
+      or `APP`), and the values are available for filtering in the API logs.
+    tags:
+    - Enumeration
+    source: openapi/dynamic-yield-experience-api-openapi.yml#/components/schemas/ChannelEcom
+  - term: BranchEcom
+    definition: The branch where the user experience is taking place.
+    tags:
+    - Object
+    source: openapi/dynamic-yield-experience-api-openapi.yml#/components/schemas/BranchEcom
+  - term: BranchIdEcom
+    definition: The branch's unique identifier.
+    tags:
+    - Object
+    source: openapi/dynamic-yield-experience-api-openapi.yml#/components/schemas/BranchIdEcom
+  - term: PageAttributes
+    definition: Pass key-value pairs you want to use for targeting in this campaign. **The value must exactly match the value in the campaign
+      targeting condition, and is case sensitive.** This data is not stored and cannot be used for creating audiences. Values can be strings or
+      numbers.
+    tags:
+    - Object
+    source: openapi/dynamic-yield-experience-api-openapi.yml#/components/schemas/PageAttributes
+  - term: Options
+    definition: Request configuration parameters.
+    tags:
+    - Object
+    source: openapi/dynamic-yield-experience-api-openapi.yml#/components/schemas/OptionsBrowse
+  - term: ReturnAnalyticsMetadata
+    definition: Set to `true` to return additional metadata (display names & IDs for all entities) for reporting to analytics tools.
+    tags:
+    - Object
+    source: openapi/dynamic-yield-experience-api-openapi.yml#/components/schemas/ReturnAnalyticsMetadata
+  - term: IsImplicitClientData
+    definition: For APIs called from the client-side only. When set to `true`, this acts as a fallback if the IP address or user agent isn't sent
+      explicitly. Takes the values from the request header.
+    tags:
+    - Object
+    source: openapi/dynamic-yield-experience-api-openapi.yml#/components/schemas/IsImplicitClientData
+  - term: ProductDataEcom
+    definition: You can use *either* the `fieldFilter` param to ask for specific attributes from the feed, *or* the `skusOnly` param to to fetch
+      only the SKUs.
+    tags:
+    - Object
+    source: openapi/dynamic-yield-experience-api-openapi.yml#/components/schemas/ProductDataEcom
+  - term: FieldFilter
+    definition: Specify the fields you need in the recommendation campaign response by using the `fieldFilter` parameter. Simply send an array
+      of strings of the relevant fields, and only those fields and values are sent back.
+    tags:
+    - Object
+    source: openapi/dynamic-yield-experience-api-openapi.yml#/components/schemas/FieldFilter
+  - term: SkusOnly
+    definition: To reduce the size of the response, you can limit it so that it only includes the SKUs.
+    tags:
+    - Object
+    source: openapi/dynamic-yield-experience-api-openapi.yml#/components/schemas/SkusOnly
+  - term: Query
+    definition: The user query for which to conduct the browse request.
+    tags:
+    - Object
+    source: openapi/dynamic-yield-experience-api-openapi.yml#/components/schemas/QueryBrowse
+  - term: QueryFilters
+    definition: Parameters to filter the search results. When multiple filters are applied, only records matching all specified criteria (`AND`
+      logic) are returned.
+    tags:
+    - Object
+    source: openapi/dynamic-yield-experience-api-openapi.yml#/components/schemas/QueryFilters
+  - term: Numeric Filter
+    definition: 'Object declared by the contract with fields: field, min, max.'
+    tags:
+    - Object
+    source: openapi/dynamic-yield-experience-api-openapi.yml#/components/schemas/QueryFilterNumber
+  - term: String Filter
+    definition: 'Object declared by the contract with fields: field, values.'
+    tags:
+    - Object
+    source: openapi/dynamic-yield-experience-api-openapi.yml#/components/schemas/QueryFilterString
+  - term: QueryPagination
+    definition: Pagination parameters for the query result.
+    tags:
+    - Object
+    source: openapi/dynamic-yield-experience-api-openapi.yml#/components/schemas/QueryPagination
+  - term: QuerySortBy
+    definition: Whether to sort the query results. Leave this field empty to sort results by relevance.
+    tags:
+    - Object
+    source: openapi/dynamic-yield-experience-api-openapi.yml#/components/schemas/QuerySortBy
+  - term: Choose Request - E-Commerce
+    definition: 'Object declared by the contract with fields: user, session, context, selector, options.'
+    tags:
+    - Object
+    source: openapi/dynamic-yield-experience-api-openapi.yml#/components/schemas/ChoosePayloadEcom
+  - term: Choose Request - Restaurants
+    definition: 'Object declared by the contract with fields: user, session, context, selector, options.'
+    tags:
+    - Object
+    source: openapi/dynamic-yield-experience-api-openapi.yml#/components/schemas/ChoosePayloadQsr
+  - term: Choice
+    definition: 'Object declared by the contract with fields: choices, cookies, warnings.'
+    tags:
+    - Object
+    source: openapi/dynamic-yield-experience-api-openapi.yml#/components/schemas/Choice
+  - term: 'User (sharedDevice: true)'
+    definition: User ID. A Dynamic Yield-generated identifier is used, and managed via cookies. For a new user, send this object empty.
+    tags:
+    - Object
+    source: openapi/dynamic-yield-experience-api-openapi.yml#/components/schemas/ChooseUserQsrSharedDeviceTrue
+  - term: SharedDeviceTrue
+    definition: Set to `true` for transactions done on a shared device in a branch (always `true` for kiosk and ODMB).
+    tags:
+    - Object
+    source: openapi/dynamic-yield-experience-api-openapi.yml#/components/schemas/SharedDeviceTrue
+  - term: SharedDeviceFalse
+    definition: Set to `false` for transactions made on personal devices.
+    tags:
+    - Object
+    source: openapi/dynamic-yield-experience-api-openapi.yml#/components/schemas/SharedDeviceFalse
+  - term: Context
+    definition: The request's context.
+    tags:
+    - Object
+    source: openapi/dynamic-yield-experience-api-openapi.yml#/components/schemas/ContextChooseEcom
+  - term: Context
+    definition: The request's context.
+    tags:
+    - Object
+    source: openapi/dynamic-yield-experience-api-openapi.yml#/components/schemas/ContextChooseQsr
+  - term: DeviceChooseQsr
+    definition: Data for the served device.
+    tags:
+    - Object
+    source: openapi/dynamic-yield-experience-api-openapi.yml#/components/schemas/DeviceChooseQsr
+  - term: DeviceTypeQsr
+    definition: Use when the user agent isn't available. Valid values are:`DESKTOP`, `SMARTPHONE`, `TABLET`, `KIOSK`, `ODMB`
+    tags:
+    - Enumeration
+    source: openapi/dynamic-yield-experience-api-openapi.yml#/components/schemas/DeviceTypeQsr
+  - term: DeviceIdQsr
+    definition: The identifier of the device in the branch.
+    tags:
+    - Object
+    source: openapi/dynamic-yield-experience-api-openapi.yml#/components/schemas/DeviceIdQsr
+  - term: ChannelQsr
+    definition: 'Report and monitor each channel''s experience API implementation. Channels correspond to the Experience OS app used. Available
+      channels: `WEB`, `APP`, `KIOSK`, `DRIVE-THRU`'
+    tags:
+    - Enumeration
+    source: openapi/dynamic-yield-experience-api-openapi.yml#/components/schemas/ChannelQsr
+  - term: BranchQsr
+    definition: Use to recommend only items in stock at the branch the user is browsing.
+    tags:
+    - Object
+    source: openapi/dynamic-yield-experience-api-openapi.yml#/components/schemas/BranchQsr
+  - term: BranchIdQsr
+    definition: The ID of the branch the recommendation is for.
+    tags:
+    - Object
+    source: openapi/dynamic-yield-experience-api-openapi.yml#/components/schemas/BranchIdQsr
+  - term: DayPart
+    definition: Define the period of the day the request ralates to. Possible values are those used in the Product Catalog.
+    tags:
+    - Enumeration
+    source: openapi/dynamic-yield-experience-api-openapi.yml#/components/schemas/DayPart
+  - term: OrderFulfillment
+    definition: The fulfillment type of the order the request relates to.
+    tags:
+    - Enumeration
+    source: openapi/dynamic-yield-experience-api-openapi.yml#/components/schemas/OrderFulfillment
+  - term: ListedItems
+    definition: List of SKUs to sort on PLP. Use only for Sorting Optimizer campaigns.
+    tags:
+    - Object
+    source: openapi/dynamic-yield-experience-api-openapi.yml#/components/schemas/ListedItems
+  - term: Selector
+    definition: Campaigns to choose variations for.
+    tags:
+    - Object
+    source: openapi/dynamic-yield-experience-api-openapi.yml#/components/schemas/SelectorChoose
+  - term: Groups
+    definition: Call a group of selectors instead of listing each selector individually. Learn more about working with [selector groups](https://dy.dev/docs/selector-groups).
+    tags:
+    - Object
+    source: openapi/dynamic-yield-experience-api-openapi.yml#/components/schemas/Groups
+  - term: Names
+    definition: The list of selectors that are eligible for this page. A selector represents a technical name for a campaign. Learn more about
+      [using selectors in your campaigns](https://dy.dev/docs/choose#recommended-use).
+    tags:
+    - Object
+    source: openapi/dynamic-yield-experience-api-openapi.yml#/components/schemas/Names
+  - term: Preview
+    definition: Campaigns to generate previews for. [Learn more about enabling preview mode](https://dy.dev/docs/preview-api-web#enabling-preview-mode).
+    tags:
+    - Object
+    source: openapi/dynamic-yield-experience-api-openapi.yml#/components/schemas/Preview
+  - term: Ids
+    definition: Array of preview tokens, as provided in the `dyApiPreview` URL parameter. [Learn more about enabling preview mode](https://dy.dev/docs/preview-api-web#enabling-preview-mode).
+    tags:
+    - Object
+    source: openapi/dynamic-yield-experience-api-openapi.yml#/components/schemas/Ids
+  - term: Args
+    definition: Real-time filters for recommendation results, based on data obtained within the session. Learn more about working with [real-time
+      filters](https://dy.dev/docs/return-real-time-filter-data).
+    tags:
+    - Object
+    source: openapi/dynamic-yield-experience-api-openapi.yml#/components/schemas/Args
+  - term: ArgsItem
+    definition: Real-time filter for a single selector. The object key should corresponds to a selector name defined under `selector.names`.
+    tags:
+    - Object
+    source: openapi/dynamic-yield-experience-api-openapi.yml#/components/schemas/ArgsItem
+  - term: RealtimeRules
+    definition: A list of realtime filtering rules.
+    tags:
+    - Object
+    source: openapi/dynamic-yield-experience-api-openapi.yml#/components/schemas/RealtimeRules
+  - term: RealtimeRuleType
+    definition: 'Valid values are: `include`, `exclude`.'
+    tags:
+    - Enumeration
+    source: openapi/dynamic-yield-experience-api-openapi.yml#/components/schemas/RealtimeRuleType
+  - term: RealtimeRuleSlots
+    definition: All or specific slot positions. The first slot is in position 0.
+    tags:
+    - Object
+    source: openapi/dynamic-yield-experience-api-openapi.yml#/components/schemas/RealtimeRuleSlots
+  - term: RealtimeRuleQuery
+    definition: The filtering query.
+    tags:
+    - Object
+    source: openapi/dynamic-yield-experience-api-openapi.yml#/components/schemas/RealtimeRuleQuery
+  - term: QueryConditions
+    definition: The realtime rule's query conditions.
+    tags:
+    - Object
+    source: openapi/dynamic-yield-experience-api-openapi.yml#/components/schemas/QueryConditions
+  - term: QueryField
+    definition: Field within the returned results to apply the query for.
+    tags:
+    - Object
+    source: openapi/dynamic-yield-experience-api-openapi.yml#/components/schemas/QueryField
+  - term: QueryArguments
+    definition: A list of arguments for a query condition.
+    tags:
+    - Object
+    source: openapi/dynamic-yield-experience-api-openapi.yml#/components/schemas/QueryArguments
+  - term: QueryAction
+    definition: Condition types for filtering recommendations. Valid values are:`IS` - string or boolean`IS_NOT` - string`CONTAINS` - A filtering
+      rule may contain up to 10 queries of this type`EQ`, `GT`, `GTE`, `LT`, `LTE` - number only
+    tags:
+    - Enumeration
+    source: openapi/dynamic-yield-experience-api-openapi.yml#/components/schemas/QueryAction
+  - term: QueryValue
+    definition: Parameter for filter value by condition. Regular expressions are not supported for real-time filters (can and should be added
+      as additional conditions to the filter).
+    tags:
+    - Object
+    source: openapi/dynamic-yield-experience-api-openapi.yml#/components/schemas/QueryValue
+  - term: Options
+    definition: Request configuration parameters.
+    tags:
+    - Object
+    source: openapi/dynamic-yield-experience-api-openapi.yml#/components/schemas/OptionsChooseEcom
+  - term: Options
+    definition: Request configuration parameters.
+    tags:
+    - Object
+    source: openapi/dynamic-yield-experience-api-openapi.yml#/components/schemas/OptionsChooseQsr
+  - term: IsImplicitPageview
+    definition: Determine whether to report a new pageview with the given context. Default is `false`. Set to `true` to report a new pageview
+      with the given context. Keep as `false` if the Dynamic Yield script is implemented on the page. It reports the new pageview from the browser.
+    tags:
+    - Object
+    source: openapi/dynamic-yield-experience-api-openapi.yml#/components/schemas/IsImplicitPageview
+  - term: IsImplicitImpressionMode
+    definition: Report an impression of the chosen variation. This is set to `true` by default, which means that the user's impression of the
+      variation is reported immediately when the variation is chosen. Pass this as `false` to report the impression explicitly in an [Engagement](https://dy.dev/docs/engagement#types-of-engagement)
+      call.
+    tags:
+    - Object
+    source: openapi/dynamic-yield-experience-api-openapi.yml#/components/schemas/IsImplicitImpressionMode

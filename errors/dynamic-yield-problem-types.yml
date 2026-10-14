@@ -1,0 +1,41 @@
+generated: '2026-10-14'
+method: derived
+generator: derive-problem-types.py
+source:
+- openapi/dynamic-yield-experience-api-openapi.yml
+- openapi/dynamic-yield-experience-apis-for-api-sections-openapi.yml
+format: custom
+envelope:
+  media_type: application/json
+  schema: Error
+coverage:
+  operations: 23
+  statuses_declared: 4
+problems:
+- status: 400
+  title: Bad Request
+  description: Invalid request.
+  operations: 10
+  media_types:
+  - application/json
+  schema: Error
+- status: 401
+  title: Unauthorized
+  description: Unauthorized request.
+  operations: 8
+  media_types:
+  - application/json
+  schema: null
+- status: 404
+  title: Not Found
+  description: Branch not found.
+  operations: 1
+  media_types: []
+  schema: null
+- status: 422
+  title: Unprocessable Content
+  description: Unprocessable request.
+  operations: 9
+  media_types:
+  - application/json
+  schema: Error
