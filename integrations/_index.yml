@@ -62,3 +62,15 @@
     detected: '2026-10-14'
   status: not-a-workflow
   arazzo: null
+- slug: dynamic-yield-shopify-own
+  label: Shopify (own)
+  partner: shopify
+  partner_name: Shopify (own)
+  type: marketplace
+  marketplace: own
+  channel: partner-built
+  evidence: https://apps.shopify.com/dynamic-yield-v2
+  source: edge
+  relationship: platform-app
+  status: not-a-workflow
+  arazzo: null
