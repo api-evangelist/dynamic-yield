@@ -1,0 +1,3669 @@
+openapi: 3.2.0
+info:
+  version: '2.2'
+  title: Dynamic Yield Experience Experience APIs API
+  description: API definitions for all Dynamic Yield public endpoints.
+  contact:
+    name: API Support
+    email: apisupport@mastercard.com
+    url: https://developer.mastercard.com/support
+servers:
+- url: https://dy-api.com/v2
+  description: US data center
+- url: https://direct.dy-api.com/v2
+  description: US data center, direct endpoint
+- url: https://dy-api.eu/v2
+  description: EU data center
+- url: https://direct.dy-api.eu/v2
+  description: EU data center, direct endpoint
+security:
+- ApiKeyAuth: []
+tags:
+- name: Experience APIs
+  description: Serve user experience and track user interactions.
+paths:
+  /collect/user/engagement:
+    summary: Track Engagement
+    post:
+      summary: Track Engagement
+      description: 'Report user engagement (clicks) with a variation or a recommended item.
+
+        If you are not sure which server URL you should use, see here.'
+      operationId: trackEngagement
+      tags:
+      - Experience APIs
+      requestBody:
+        $ref: '#/components/requestBodies/EngagementBody'
+      responses:
+        '200':
+          $ref: '#/components/responses/Success'
+        '204':
+          description: Engagements reported successfully.
+        '400':
+          $ref: '#/components/responses/Invalid'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '422':
+          $ref: '#/components/responses/InvalidUnprocessable'
+  /collect/user/event:
+    summary: Track Events
+    post:
+      summary: Track Events
+      description: 'Report a predefined or custom event.
+
+        If you are not sure which server URL you should use, see here.'
+      operationId: trackEvents
+      tags:
+      - Experience APIs
+      requestBody:
+        $ref: '#/components/requestBodies/EventBody'
+      responses:
+        '200':
+          $ref: '#/components/responses/Success'
+        '204':
+          description: Events reported successfully.
+        '400':
+          $ref: '#/components/responses/Invalid'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '422':
+          $ref: '#/components/responses/InvalidUnprocessable'
+  /collect/user/pageview:
+    summary: Track Pageviews
+    post:
+      summary: Track Pageviews
+      description: 'Report a pageview without choosing variations for any campaigns.
+
+        This endpoint has the same effect as calling `choose` with an empty `selector` argument.
+
+        If you are not sure which server URL you should use, see here.'
+      operationId: trackPageviews
+      tags:
+      - Experience APIs
+      requestBody:
+        $ref: '#/components/requestBodies/PageviewBody'
+      responses:
+        '200':
+          $ref: '#/components/responses/Success'
+        '204':
+          description: Pageviews reported successfully.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '422':
+          $ref: '#/components/responses/InvalidUnprocessable'
+  /serve/user/agent:
+    summary: Shopping Muse
+    post:
+      summary: Shopping Muse
+      description: Get response variations for Shopping Muse campaigns.
+      operationId: shoppingMuse
+      tags:
+      - Experience APIs
+      requestBody:
+        $ref: '#/components/requestBodies/ShoppingMuseBody'
+      responses:
+        '200':
+          $ref: '#/components/responses/SuccessShoppingMuse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '422':
+          $ref: '#/components/responses/InvalidUnprocessable'
+  /serve/user/browse:
+    summary: Browse
+    post:
+      summary: Browse
+      description: Get variations for category pages.
+      operationId: browse
+      tags:
+      - Experience APIs
+      requestBody:
+        $ref: '#/components/requestBodies/BrowseBody'
+      responses:
+        '200':
+          $ref: '#/components/responses/SuccessSearch'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '422':
+          $ref: '#/components/responses/InvalidUnprocessable'
+  /serve/user/choose:
+    summary: Choose Variations
+    post:
+      summary: Choose Variations
+      description: 'Get the chosen variations for one or more campaigns.
+
+        If you are not sure which server URL you should use, see here.'
+      operationId: chooseVariations
+      tags:
+      - Experience APIs
+      requestBody:
+        $ref: '#/components/requestBodies/ChooseBody'
+      responses:
+        '200':
+          $ref: '#/components/responses/SuccessChoose'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '422':
+          $ref: '#/components/responses/InvalidUnprocessable'
+  /serve/user/search:
+    summary: Search
+    post:
+      summary: Search
+      description: Get search variations for Semantic Search and Visual Search campaigns.
+      operationId: search
+      tags:
+      - Experience APIs
+      requestBody:
+        $ref: '#/components/requestBodies/SearchBody'
+      responses:
+        '200':
+          $ref: '#/components/responses/SuccessSearch'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '422':
+          $ref: '#/components/responses/InvalidUnprocessable'
+  /serve/user/suggest:
+    summary: Suggest
+    post:
+      summary: Suggest
+      description: Get autosuggest variations.
+      operationId: suggest
+      tags:
+      - Experience APIs
+      requestBody:
+        $ref: '#/components/requestBodies/SuggestBody'
+      responses:
+        '200':
+          $ref: '#/components/responses/SuccessSuggest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '422':
+          $ref: '#/components/responses/InvalidUnprocessable'
+components:
+  schemas:
+    ChooseUserQsr:
+      oneOf:
+      - $ref: '#/components/schemas/ChooseUserQsrSharedDeviceTrue'
+      - $ref: '#/components/schemas/ChooseUserQsrSharedDeviceFalse'
+    ReturnAnalyticsMetadata:
+      description: Set to `true` to return additional metadata (display names & IDs for all entities) for reporting to analytics tools.
+      type: boolean
+      default: false
+    QueryFilterNumber:
+      title: Numeric Filter
+      type: object
+      properties:
+        field:
+          description: Column name, as reported in the product feed.
+          type: string
+          example: price
+        min:
+          description: Minimum numeric or date value for a product feed attribute, such as `price`.
+          type: number
+          example: 10
+        max:
+          description: Maximum numeric or date value for a product feed attribute, such as `price`.
+          type: number
+          example: 100
+      required:
+      - field
+    DeviceIdQsr:
+      description: The identifier of the device in the branch.
+      type: string
+    Quantity:
+      description: Number of items.
+      type: number
+      example: 1
+    InformAffinity:
+      title: Inform Affinity
+      description: Report an array of product attributes to use in affinity personalization.
+      type: object
+      properties:
+        name:
+          $ref: '#/components/schemas/EventName'
+        properties:
+          allOf:
+          - $ref: '#/components/schemas/EventProperties'
+          - properties:
+              dyType:
+                description: Must be `inform-affinity-v1`.
+                type: string
+                pattern: inform-affinity-v1
+              source:
+                description: The source of the user data
+                type: string
+              data:
+                description: 'An array of attributes and values.<br><strong>Important:</strong> Reported attributes and values must be an exact match to the product feed<br>Each item in the array includes an attribute and up to 10 values:<br><br>- attribute: "name of attribute"<br>- values: ["value1", "value2"...]'
+                type: array
+                items:
+                  type: object
+                  properties:
+                    attribute:
+                      description: name of attribute
+                    values:
+                      type: array
+                      maxItems: 10
+                      items:
+                        type: string
+            required:
+            - dyType
+            - data
+      example:
+        name: Inform Affinity
+        properties:
+          dyType: inform-affinity-v1
+          source: registration-form
+          data:
+          - attribute: categories
+            values:
+            - shoes
+            - tops
+            - accessories
+          - attribute: brand
+            values:
+            - adidas
+    DeviceTypeQsr:
+      description: Use when the user agent isn't available. Valid values are:<br>`DESKTOP`, `SMARTPHONE`, `TABLET`, `KIOSK`, `ODMB`
+      type: string
+      enum:
+      - DESKTOP
+      - SMARTPHONE
+      - TABLET
+      - KIOSK
+      - ODMB
+    EventPayloadFi:
+      title: Event Request - Financial Institutions
+      type: object
+      properties:
+        user:
+          $ref: '#/components/schemas/EngagementUserEcom'
+        session:
+          $ref: '#/components/schemas/SessionEngagement'
+        context:
+          $ref: '#/components/schemas/ContextEngagementEcom'
+        events:
+          $ref: '#/components/schemas/EventsFi'
+      required:
+      - user
+      - session
+      - events
+    QuerySortBy:
+      description: Whether to sort the query results. Leave this field empty to sort results by relevance.
+      type: object
+      properties:
+        field:
+          description: Must be a column name from your product feed. Case sensitive. Results will by sorted by column type:<ul><li>**Strings:** alphabetically.</li><li>**Numbers:** by size.</li><li>**Dates:** by recency.</li></ul>To sort by product popularity, use `popularity` instead of a column name.
+          type: string
+          example: popularity
+        order:
+          description: The sort order (ascending or descending).
+          type: string
+          example: asc
+          enum:
+          - asc
+          - desc
+      required:
+      - field
+      - order
+    NewsletterSubscription:
+      title: Newsletter Subscription
+      description: Reports that a user subscribed to a newsletter. Identification event.
+      properties:
+        name:
+          $ref: '#/components/schemas/EventName'
+        properties:
+          allOf:
+          - $ref: '#/components/schemas/EventProperties'
+          - properties:
+              dyType:
+                description: Must be `newsletter-subscription-v1`.
+                type: string
+                pattern: newsletter-subscription-v1
+                default: newsletter-subscription-v1
+              cuid:
+                $ref: '#/components/schemas/Cuid'
+              cuidType:
+                $ref: '#/components/schemas/CuidType'
+              secondaryIdentifiers:
+                allOf:
+                - $ref: '#/components/schemas/SecondaryIdentifiers'
+                - description: Additional methods for cross-identification. IDs can be any type, but if you use hashed email address (`he`) or hashed phone number (‘hashedPhoneNumber`), it must be SHA-256 hashed. [Learn more about secondary identifiers](https://dy.dev/docs/newsletter-subscription#parameters).
+            required:
+            - dyType
+      example:
+        name: Newsletter Subscription
+        properties:
+          dyType: newsletter-subscription-v1
+          cuid: demo@email.com
+          cuidType: EcommerceID
+          secondaryIdentifiers:
+          - type: hashedPhoneNumber
+            value: 49c7b1f6d24121078d8f37997b433586fe9a28e2dc4fbd0803eac237ac82255e
+          - type: ecommerceID
+            value: '12345'
+          - type: vipClub
+            value: '678910'
+    QueryResults:
+      title: Query Results
+      type: object
+      properties:
+        choices:
+          description: The chosen variation for each campaign.
+          type: array
+          items:
+            oneOf:
+            - title: 'type: "SEMANTIC_SEARCH_DECISION"'
+              type: object
+              properties:
+                id:
+                  type: string
+                name:
+                  type: string
+                  default: Semantic Search
+                  pattern: Semantic Search
+                type:
+                  type: string
+                  default: SEMANTIC_SEARCH_DECISION
+                  pattern: SEMANTIC_SEARCH_DECISION
+                variations:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      id:
+                        description: The ID of the returned variation item.
+                        type: number
+                        example: 27883308
+                      payload:
+                        type: object
+                        properties:
+                          type:
+                            description: The payload type returned for this variation.
+                            type: string
+                            default: SEARCH
+                            pattern: SEARCH
+                            example: SEARCH
+                          data:
+                            type: object
+                            properties:
+                              totalNumResults:
+                                description: The total number of items that match the query.
+                                type: number
+                                example: 125
+                              facets:
+                                description: Facet groups returned for filtering the result set.
+                                type: array
+                                items:
+                                  oneOf:
+                                  - title: 'valuesType: "string"'
+                                    type: object
+                                    properties:
+                                      column:
+                                        type: string
+                                      valuesType:
+                                        type: string
+                                        enum:
+                                        - string
+                                      displayName:
+                                        type: string
+                                      values:
+                                        type: array
+                                        items:
+                                          type: object
+                                          properties:
+                                            name:
+                                              type: string
+                                            count:
+                                              type: number
+                                  - title: 'valuesType: "number"'
+                                    type: object
+                                    properties:
+                                      column:
+                                        type: string
+                                      valuesType:
+                                        type: string
+                                        enum:
+                                        - number
+                                      displayName:
+                                        type: string
+                                      min:
+                                        type: number
+                                      max:
+                                        type: number
+                              slots:
+                                description: The list of product slots returned in the search response.
+                                type: array
+                                items:
+                                  type: object
+                                  properties:
+                                    slotId:
+                                      type: string
+                                    sku:
+                                      type: string
+                              searchQuery:
+                                description: The search query as sent in the request
+                                type: string
+                                example: running shoes
+                              normalizedQuery:
+                                description: The search query as sent in the request after trimming whitespaces and removing special characters - [%/\\|;:<>]
+                                type: string
+                                example: running shoes
+                              spellCheckedQuery:
+                                description: The search query after normalization and typos correction. Only returned for requests with enableSpellCheck = true
+                                type: string
+                                example: running shoes
+                      analyticsMetadata:
+                        type: object
+                        properties:
+                          campaignId:
+                            description: The ID of the campaign that produced the variation.
+                            type: number
+                            example: 771007
+                          campaignName:
+                            description: The name of the campaign that produced the variation.
+                            type: string
+                            example: Semantic Search
+                          experienceId:
+                            description: The ID of the experience containing the variation.
+                            type: number
+                            example: 27883307
+                          experienceName:
+                            description: The name of the experience.
+                            type: string
+                            example: PLP Experience
+                          variationId:
+                            description: The ID of the selected variation.
+                            type: number
+                            example: 27883308
+                          variationName:
+                            description: The selected variation's name.
+                            type: string
+                            example: Variation 1
+                decisionId:
+                  type: string
+            - title: 'type: "VISUAL_SEARCH_DECISION"'
+              type: object
+              properties:
+                id:
+                  type: string
+                name:
+                  type: string
+                  default: Visual Search
+                  pattern: Visual Search
+                type:
+                  type: string
+                  default: VISUAL_SEARCH_DECISION
+                  pattern: VISUAL_SEARCH_DECISION
+                variations:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/QueryResults/properties/choices/items/oneOf/0/properties/variations/items'
+                decisionId:
+                  type: string
+        cookies:
+          description: Cookies returned from the server.
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+              value:
+                type: string
+              maxAge:
+                type: string
+        warnings:
+          description: Errors returned by the server.
+          type: array
+          items:
+            type: object
+            properties:
+              code:
+                type: string
+              message:
+                type: string
+    EngagementPayloadEcom:
+      title: Engagement Request - E-Commerce
+      type: object
+      properties:
+        user:
+          $ref: '#/components/schemas/EngagementUserEcom'
+        session:
+          $ref: '#/components/schemas/SessionEngagement'
+        context:
+          $ref: '#/components/schemas/ContextEngagementEcom'
+        engagements:
+          $ref: '#/components/schemas/EngagementsEcom'
+      required:
+      - user
+      - session
+      - engagements
+    Submission:
+      title: Submission
+      description: Reports that the user submitted an application.<br>**REQUIRED FOR FINANCIAL INSTITUTIONS SECTIONS**
+      type: object
+      properties:
+        name:
+          $ref: '#/components/schemas/EventName'
+        properties:
+          allOf:
+          - $ref: '#/components/schemas/EventProperties'
+          - properties:
+              dyType:
+                description: Must be `purchase-v1`.
+                type: string
+                pattern: purchase-v1
+                default: purchase-v1
+              value:
+                allOf:
+                - $ref: '#/components/schemas/ValueTotal'
+                - description: The total monetary value of the event. This refers only to the item or items removed that triggered the event, not the entire cart.<br>Numbers are rounded to the nearest 0.01. Numbers smaller than 0.005 are rounded down to 0.
+              currency:
+                $ref: '#/components/schemas/Currency'
+              uniqueTransactionId:
+                $ref: '#/components/schemas/UniqueTransactionId'
+              cart:
+                allOf:
+                - description: The cart's absolute current state. Products are ordered from the first added to the cart to the most recent.
+                - $ref: '#/components/schemas/CartEcom'
+            required:
+            - dyType
+            - value
+            - cart
+      example:
+        name: Submission
+        properties:
+          uniqueTransactionId: 123456
+          dyType: purchase-v1
+          value: 90.55
+          currency: any supported currency code
+          cart:
+          - productId: item-34454
+            quantity: 1
+            itemPrice: 65.87
+          - productId: sku-4324-bg
+            quantity: 2
+            itemPrice: 12.34
+    DateTime:
+      description: 'Date & time in ISO 8601 format: YYYY-MM-DDThh:mm:ss.sss±hh:mm (with local time zone).'
+      type: string
+      example: '2024-01-01T22:30:00.000-05:00'
+    QuerySemanticSearch:
+      title: Semantic Search Query
+      description: The user query for which to conduct the search.
+      type: object
+      properties:
+        text:
+          $ref: '#/components/schemas/QueryText'
+        filters:
+          $ref: '#/components/schemas/QueryFilters'
+        pagination:
+          $ref: '#/components/schemas/QueryPagination'
+        sortBy:
+          $ref: '#/components/schemas/QuerySortBy'
+        enableSpellCheck:
+          $ref: '#/components/schemas/enableSpellCheck'
+      required:
+      - text
+      - pagination
+    PageviewPayloadEcom:
+      title: Pageview Request - E-Commerce
+      type: object
+      properties:
+        user:
+          $ref: '#/components/schemas/ChooseUserEcom'
+        session:
+          $ref: '#/components/schemas/Session'
+        context:
+          $ref: '#/components/schemas/ContextPageviewEcom'
+        options:
+          $ref: '#/components/schemas/OptionsPageview'
+      required:
+      - user
+      - session
+      - context
+    QueryPagination:
+      description: Pagination parameters for the query result.
+      type: object
+      properties:
+        numItems:
+          description: The number of items to be returned in the query result. The maximum is 500 items.
+          type: number
+          example: 24
+        offset:
+          description: The starting offset.
+          type: number
+          example: 0
+      required:
+      - numItems
+      - offset
+    Groups:
+      description: Call a group of selectors instead of listing each selector individually. Learn more about working with [selector groups](https://dy.dev/docs/selector-groups).
+      type: array
+      items:
+        type: string
+    PageviewPayloadFi:
+      allOf:
+      - title: Pageview Request - Finanacial Institutions
+      - $ref: '#/components/schemas/PageviewPayloadEcom'
+    enableSpellCheck:
+      description: Set to `true`, to enable typo corrections for the textual search query.
+      type: boolean
+      default: false
+    DeviceChooseEcom:
+      description: Data for the served device.
+      type: object
+      properties:
+        userAgent:
+          $ref: '#/components/schemas/UserAgent'
+        type:
+          $ref: '#/components/schemas/DeviceTypeEcom'
+        browser:
+          $ref: '#/components/schemas/Browser'
+        ip:
+          $ref: '#/components/schemas/Ip'
+        dateTime:
+          $ref: '#/components/schemas/DateTime'
+    Names:
+      description: The list of selectors that are eligible for this page. A selector represents a technical name for a campaign. Learn more about [using selectors in your campaigns](https://dy.dev/docs/choose#recommended-use).
+      type: array
+      items:
+        type: string
+      example:
+      - Banner Main
+      - German Banner
+      - PDP Recs Tray
+    FilterType:
+      description: Name of the filter (color, size, brand, fit, author, keyword, category...)<br>Must correspond to a product property in your product feed.
+      type: string
+      example: color
+    Cuid:
+      description: User identifier value. Max 250 characters.
+      type: string
+      enum:
+      - demo@email.com
+      - '123456789'
+    Currency:
+      description: The currency used for the value. *Optional, but required for multi-currency sites.*<br>[List of supported currencies](https://support.dynamicyield.com/hc/en-us/articles/360022558254#h_01F248KMJV1VWADRC2H7WYFWCZ)
+      type: string
+      example: USD
+    Signup:
+      title: Signup
+      type: object
+      description: Reports that the user completed the signup process and is a registered user.
+      properties:
+        name:
+          $ref: '#/components/schemas/EventName'
+        properties:
+          allOf:
+          - $ref: '#/components/schemas/EventProperties'
+          - properties:
+              dyType:
+                description: Must be `signup-v1`.
+                type: string
+              cuid:
+                $ref: '#/components/schemas/Cuid'
+              cuidType:
+                $ref: '#/components/schemas/CuidType'
+              secondaryIdentifiers:
+                allOf:
+                - $ref: '#/components/schemas/SecondaryIdentifiers'
+                - description: Additional methods for cross-identification. IDs can be any type, but if you use hashed email address (`he`) or hashed phone number (‘hashedPhoneNumber`), it must be SHA-256 hashed. [Learn more about secondary identifiers](https://dy.dev/docs/signup#parameters).
+            required:
+            - dyType
+      example:
+        name: Signup
+        properties:
+          dyType: signup-v1
+          cuid: demo@email.com
+          cuidType: EcommerceID
+          secondaryIdentifiers:
+          - type: hashedPhoneNumber
+            value: 49c7b1f6d24121078d8f37997b433586fe9a28e2dc4fbd0803eac237ac82255e
+          - type: ecommerceID
+            value: '12345'
+          - type: vipClub
+            value: '678910'
+    SkusOnly:
+      description: To reduce the size of the response, you can limit it so that it only includes the SKUs.
+      type: boolean
+    ChooseUserEcom:
+      title: User
+      description: User ID. A Dynamic Yield-generated identifier is used, and managed via cookies. For a new user, send this object empty.
+      type: object
+      properties:
+        dyid:
+          $ref: '#/components/schemas/Dyid'
+        dyid_server:
+          $ref: '#/components/schemas/Dyid'
+        active_consent_accepted:
+          $ref: '#/components/schemas/ActiveConsentAccepted'
+    RealtimeRules:
+      description: A list of realtime filtering rules.
+      type: array
+      items:
+        type: object
+        properties:
+          type:
+            $ref: '#/components/schemas/RealtimeRuleType'
+          slots:
+            $ref: '#/components/schemas/RealtimeRuleSlots'
+          query:
+            $ref: '#/components/schemas/RealtimeRuleQuery'
+    Page:
+      description: Data for the page currently being browsed.
+      type: object
+      properties:
+        type:
+          $ref: '#/components/schemas/PageType'
+        data:
+          $ref: '#/components/schemas/PageData'
+        location:
+          $ref: '#/components/schemas/Location'
+        referrer:
+          $ref: '#/components/schemas/Referrer'
+        locale:
+          $ref: '#/components/schemas/Locale'
+      required:
+      - type
+      - location
+    MessageOptOut:
+      title: Push Opt-Out
+      description: Reports that a user opted out of receiving Reconnect push notifications.
+      properties:
+        name:
+          $ref: '#/components/schemas/EventName'
+        properties:
+          allOf:
+          - $ref: '#/components/schemas/EventProperties'
+          - properties:
+              dyType:
+                description: Must be `message-optout-v1`.
+                type: string
+                pattern: message-optout-v1
+                default: message-optout-v1
+              pushId:
+                $ref: '#/components/schemas/PushId'
+            required:
+            - dyType
+            - pushID
+      example:
+        name: Push Opt-Out
+        properties:
+          dyType: message-optout-v1
+          pushId: f7a8c987-7ab5-400f-b989-5357af507343
+    ContextEventQsr:
+      title: Context
+      description: The request's context.
+      type: object
+      properties:
+        device:
+          $ref: '#/components/schemas/DeviceEventQsr'
+        branch:
+          $ref: '#/components/schemas/BranchQsrPurchase'
+        channel:
+          $ref: '#/components/schemas/ChannelQsr'
+      required:
+      - device
+    CartProductIdEcom:
+      description: SKU exactly as it appears in the product feed.
+      type: string
+    SharedDeviceTrue:
+      description: Set to `true` for transactions done on a shared device in a branch (always `true` for kiosk and ODMB).
+      type: boolean
+      default: true
+    EngagementEcomPnClick:
+      title: 'Engagement (type: PN_CLICK)'
+      description: A user engagement with a DY campaign.
+      type: object
+      properties:
+        type:
+          $ref: '#/components/schemas/EngagementTypeEcomPnClick'
+        trackingData:
+          $ref: '#/components/schemas/TrackingData'
+      required:
+      - type
+      - trackingData
+    DeviceEngagementQsr:
+      description: Data for the served device.
+      type: object
+      properties:
+        ip:
+          description: 'The client IP address, for geolocation-based targeting and audience building. If not passed, the caller IP is used. This applies only to client-side API calls when isImplicitClientData: true is set in the Options object.'
+          type: string
+          example: 54.100.200.255
+      required:
+      - ip
+    QueryConditions:
+      description: The realtime rule's query conditions.
+      type: array
+      items:
+        type: object
+        properties:
+          field:
+            $ref: '#/components/schemas/QueryField'
+          arguments:
+            $ref: '#/components/schemas/QueryArguments'
+        required:
+        - field
+        - arguments
+    Dy:
+      description: Pass the value of the `_dyjsession` cookie if it exists. Otherwise, a new session identifier will be created by Dynamic Yield and returned in the response.
+      type: string
+    EngagementPayloadQsr:
+      title: Engagement Request - Restaurants
+      type: object
+      properties:
+        user:
+          $ref: '#/components/schemas/UserQsr'
+        session:
+          $ref: '#/components/schemas/Session'
+        context:
+          $ref: '#/components/schemas/ContextEngagementQsr'
+        engagements:
+          $ref: '#/components/schemas/EngagementsQsr'
+      required:
+      - user
+      - session
+      - context
+      - engagements
+    KeywordSearch:
+      title: Keyword Search
+      description: Reports that a user ran a freestyle keyword search.
+      type: object
+      properties:
+        name:
+          $ref: '#/components/schemas/EventName'
+        properties:
+          allOf:
+          - $ref: '#/components/schemas/EventProperties'
+          - properties:
+              dyType:
+                description: Must be `keyword-search-v1`.
+                type: string
+                pattern: keyword-search-v1
+                default: keyword-search-v1
+              keywords:
+                $ref: '#/components/schemas/Keywords'
+            required:
+            - dyType
+            - keywords
+      example:
+        name: Keyword search
+        properties:
+          dyType: keyword-search-v1
+          keywords: contact info
+    ContextEngagementEcom:
+      title: Context
+      description: The request's context.
+      type: object
+      properties:
+        device:
+          $ref: '#/components/schemas/DeviceEngagement'
+        channel:
+          $ref: '#/components/schemas/ChannelEcom'
+    UniqueTransactionId:
+      description: When this value is passed it ensures that only one purchase is recorded for the transaction ID, even if duplicate events are reported.<br>Maximum of 64 characters.<br>*Optional, but recommended*
+      type: string
+      example: '38373991919193830033'
+    EventPayloadEcom:
+      title: Event Request - E-Commerce
+      type: object
+      properties:
+        user:
+          $ref: '#/components/schemas/EngagementUserEcom'
+        session:
+          $ref: '#/components/schemas/SessionEngagement'
+        context:
+          $ref: '#/components/schemas/ContextEngagementEcom'
+        events:
+          $ref: '#/components/schemas/EventsEcom'
+      required:
+      - user
+      - session
+      - events
+    EngagementTypeEcomClickImp:
+      description: Pass the value `CLICK` or `IMP` (impressions) for API custom code campaigns.
+      type: string
+      enum:
+      - CLICK
+      - IMP
+    IsImplicitImpressionModeQsr:
+      description: Report an impression of the chosen variation. For Restaurants, this is set to `false` by default, which means that impressions should be reported explicitly in an [Engagement](https://dy.dev/docs/engagement#types-of-engagement) call. Pass this as `true` in case the user's impression of the variation should be reported immediately when the variation is chosen.
+      type: boolean
+      default: false
+    BranchEcom:
+      description: The branch where the user experience is taking place.
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/BranchIdEcom'
+      required:
+      - id
+    Location:
+      description: The current location. URL (for web), location (for SPA), or screen name (for mobile apps). Enables targeting the current page/screen.
+      type: string
+      example: https://shop.biz/nice-shirt-p76311.html
+    RecsProductDataEcom:
+      description: You can use *either* the `fieldFilter` param to ask for specific attributes from the feed, *or* the `skusOnly` param to to fetch only the SKUs.
+      type: object
+      properties:
+        fieldFilter:
+          $ref: '#/components/schemas/FieldFilter'
+        skusOnly:
+          $ref: '#/components/schemas/SkusOnly'
+    ShoppingMusePayloadEcom:
+      title: Shopping Muse Request - E-Commerce
+      type: object
+      properties:
+        user:
+          $ref: '#/components/schemas/ChooseUserEcom'
+        session:
+          $ref: '#/components/schemas/SessionChoose'
+        query:
+          $ref: '#/components/schemas/QueryShoppingMuse'
+        context:
+          $ref: '#/components/schemas/ContextSearchEcom'
+        selector:
+          $ref: '#/components/schemas/SelectorShoppingMuse'
+        commerce:
+          $ref: '#/components/schemas/CommerceContext'
+        options:
+          $ref: '#/components/schemas/OptionsSearchEcom'
+      required:
+      - user
+      - session
+      - query
+      - context
+      - selector
+      - commerce
+    ContextPageviewEcom:
+      title: Context
+      description: The request's context.
+      type: object
+      properties:
+        page:
+          $ref: '#/components/schemas/Page'
+        device:
+          $ref: '#/components/schemas/DevicePageviewEcom'
+        channel:
+          $ref: '#/components/schemas/ChannelEcom'
+      required:
+      - page
+      - device
+    SecondaryIdentifiers:
+      type: array
+      items:
+        type: object
+        properties:
+          type:
+            type: string
+            example: hashedPhoneNumber
+          value:
+            type: string
+            example: 49c7b1f6d24121078d8f37997b433586fe9a28e2dc4fbd0803eac237ac82255e
+    FilterItems:
+      title: Filter Items
+      description: Reports that the user filtered the product list by a specific field value.
+      type: object
+      properties:
+        name:
+          $ref: '#/components/schemas/EventName'
+        properties:
+          allOf:
+          - $ref: '#/components/schemas/EventProperties'
+          - properties:
+              dyType:
+                description: Must be `filter-items-v1`.
+                type: string
+                pattern: filter-items-v1
+                default: filter-items-v1
+              filterType:
+                $ref: '#/components/schemas/FilterType'
+              filterNumericValue:
+                $ref: '#/components/schemas/FilterNumericValue'
+              filterStringValue:
+                $ref: '#/components/schemas/FilterStringValue'
+            required:
+            - dyType
+            - filterType
+      example:
+        name: Filter Items
+        properties:
+          dyType: filter-items-v1
+          filterType: color
+          filterNumericValue: 4
+    CartQsr:
+      description: Personalize campaigns based on cart state.<br>**Required when basket-based strategies and rules are being used.**
+      type: array
+      items:
+        type: object
+        properties:
+          productId:
+            $ref: '#/components/schemas/CartProductIdQsr'
+          quantity:
+            $ref: '#/components/schemas/CartQuantity'
+          itemPrice:
+            $ref: '#/components/schemas/CartItemPrice'
+          innerProducts:
+            $ref: '#/components/schemas/InnerProductsQsr'
+        required:
+        - productId
+    EngagementTypeEcomPnClick:
+      description: Pass the value `PN_CLICK` for Reconnect push notification campaigns.
+      type: string
+      enum:
+      - PN_CLICK
+    RemoveFromCart:
+      title: Remove from Cart
+      description: Reports that the user removed an item from the cart.
+      type: object
+      properties:
+        name:
+          $ref: '#/components/schemas/EventName'
+        properties:
+          allOf:
+          - $ref: '#/components/schemas/EventProperties'
+          - properties:
+              dyType:
+                description: Must be `remove-from-cart-v1`.
+                type: string
+                pattern: remove-from-cart-v1
+                default: remove-from-cart-v1
+              value:
+                $ref: '#/components/schemas/Value'
+              currency:
+                $ref: '#/components/schemas/Currency'
+              productId:
+                $ref: '#/components/schemas/CartProductIdEcom'
+              quantity:
+                allOf:
+                - $ref: '#/components/schemas/Quantity'
+                - description: The total number of items removed.
+              cart:
+                allOf:
+                - description: The cart's current state, after the removal of the item. Products are ordered from the first added to the cart to the most recent.<br>*Optional, but recommended.*
+                - $ref: '#/components/schemas/CartEcom'
+            required:
+            - dyType
+            - value
+            - productId
+            - quantity
+      example:
+        name: Remove from Cart
+        properties:
+          dyType: remove-from-cart-v1
+          value: 34.45
+          currency: any supported currency code
+          productId: gswefd-34-454
+          quantity: 1
+          cart:
+          - productId: sku-4324-bg
+            quantity: 2
+            itemPrice: 12.34
+          - productId: item-34454
+            quantity: 1
+            itemPrice: 34.45
+    QueryValue:
+      description: Parameter for filter value by condition. Regular expressions are not supported for real-time filters (can and should be added as additional conditions to the filter).
+      example: basketball
+    QueryAutosuggest:
+      title: Autosuggest Query
+      description: The user query for which to generate suggestions.
+      type: object
+      properties:
+        text:
+          $ref: '#/components/schemas/QueryText'
+        suggestions:
+          $ref: '#/components/schemas/QuerySuggestions'
+      required:
+      - text
+      - suggestions
+      example:
+        text: dre
+        suggestions:
+        - type: querySuggestions
+          maxResults: 8
+    QueryImageBase64:
+      description: A base64 representation of the input image.
+      type: string
+    Args:
+      description: Real-time filters for recommendation results, based on data obtained within the session. Learn more about working with [real-time filters](https://dy.dev/docs/return-real-time-filter-data).
+      type: object
+      additionalProperties:
+        $ref: '#/components/schemas/ArgsItem'
+    DeviceEventQsr:
+      description: Data for the served device.
+      type: object
+      properties:
+        type:
+          $ref: '#/components/schemas/DeviceTypeQsr'
+        ip:
+          $ref: '#/components/schemas/Ip'
+        id:
+          $ref: '#/components/schemas/DeviceIdQsr'
+        dateTime:
+          $ref: '#/components/schemas/DateTime'
+      required:
+      - type
+    Size:
+      description: Product size.
+      type: string
+      example: L
+    QueryFilters:
+      description: Parameters to filter the search results. When multiple filters are applied, only records matching all specified criteria (`AND` logic) are returned.
+      type: array
+      items:
+        oneOf:
+        - $ref: '#/components/schemas/QueryFilterNumber'
+        - $ref: '#/components/schemas/QueryFilterString'
+    ChooseUserQsrSharedDeviceTrue:
+      title: 'User (sharedDevice: true)'
+      description: User ID. A Dynamic Yield-generated identifier is used, and managed via cookies. For a new user, send this object empty.
+      type: object
+      properties:
+        sharedDevice:
+          $ref: '#/components/schemas/SharedDeviceTrue'
+        cuid:
+          description: User identifier value. Required for identified user flows.
+          type: string
+          example: customer_12345
+        cuidType:
+          description: 'Use this identifier type to identify users across devices (for example, `customer_id`, `account_id`, or `he` for SHA-256 hashed email).<br>**Note: Do not include any personal information in this ID.**<br>Required for identified user flows.'
+          type: string
+          example: customer_id
+      required:
+      - sharedDevice
+    ErrorType:
+      description: The type of error encountered.
+      type: string
+      example: badRequest
+    IsImplicitPageview:
+      description: Determine whether to report a new pageview with the given context. Default is `false`. Set to `true` to report a new pageview with the given context. Keep as `false` if the Dynamic Yield script is implemented on the page. It reports the new pageview from the browser.
+      type: boolean
+      default: false
+    DeviceEngagement:
+      description: Data for the served device.
+      type: object
+      properties:
+        ip:
+          $ref: '#/components/schemas/Ip'
+    ActiveConsentAccepted:
+      description: Add this attribute only if [active cookie consent](https://dy.dev/docs/active-cookie-consent) is enabled. Set to `true` if user gave consent for cookies.
+      type: boolean
+      default: false
+    ChooseUserQsrSharedDeviceFalse:
+      allOf:
+      - title: 'User (sharedDevice: false)'
+      - $ref: '#/components/schemas/ChooseUserEcom'
+      - properties:
+          sharedDevice:
+            $ref: '#/components/schemas/SharedDeviceFalse'
+      required:
+      - sharedDevice
+    ListedItems:
+      description: List of SKUs to sort on PLP. Use only for Sorting Optimizer campaigns.
+      type: array
+      items:
+        type: string
+      example:
+      - SKU1
+      - SKU2
+    InnerProductsQsr:
+      description: Indicate any inner products within the main product (for example, the individual products that make up a meal, or any extras/toppings). All inner products are listed at the same hierarchical level, even if they are a component of a component (say, extra cheese on a sandwich that is part of a meal).
+      type: array
+      items:
+        type: object
+        properties:
+          productId:
+            $ref: '#/components/schemas/CartProductIdQsr'
+          quantity:
+            $ref: '#/components/schemas/CartQuantity'
+          itemPrice:
+            $ref: '#/components/schemas/CartItemPrice'
+        required:
+        - productId
+    Referrer:
+      description: The previous location. URL (for web), location (for SPA), or screen name (for mobile apps). Enables targeting the previous page or screen. For web implementations, can be used for traffic source targeting, including search, social, and referral traffic classification. Pass the full referrer URL (include HTTP:// or HTTPS://) not only the referring domain.
+      type: string
+      example: https://google.cz
+    QueryText:
+      description: The user's input text that specifies what should be searched.
+      type: string
+    EngagementsEcom:
+      description: Report the [type of engagement](https://dy.dev/docs/engagement#types-of-engagement) with a reference to the content or recommendation that the user engaged with.
+      type: array
+      items:
+        oneOf:
+        - $ref: '#/components/schemas/EngagementEcomClickImp'
+        - $ref: '#/components/schemas/EngagementEcomSlotClick'
+        - $ref: '#/components/schemas/EngagementEcomPnClick'
+    EventsFi:
+      description: One or more events to report.
+      type: array
+      items:
+        oneOf:
+        - $ref: '#/components/schemas/Application'
+        - $ref: '#/components/schemas/Submission'
+        - $ref: '#/components/schemas/RemoveFromCart'
+        - $ref: '#/components/schemas/SyncCart'
+        - $ref: '#/components/schemas/IdentifyUser'
+        - $ref: '#/components/schemas/Login'
+        - $ref: '#/components/schemas/Signup'
+        - $ref: '#/components/schemas/NewsletterSubscription'
+        - $ref: '#/components/schemas/MessageOptIn'
+        - $ref: '#/components/schemas/MessageOptOut'
+        - $ref: '#/components/schemas/KeywordSearch'
+        - $ref: '#/components/schemas/AddToWishlist'
+        - $ref: '#/components/schemas/FilterItems'
+        - $ref: '#/components/schemas/ChangeAttribute'
+        - $ref: '#/components/schemas/VideoWatch'
+        - $ref: '#/components/schemas/SortItems'
+        - $ref: '#/components/schemas/PromoCodeEntered'
+        - $ref: '#/components/schemas/CustomEvent'
+        - $ref: '#/components/schemas/InformAffinity'
+    ContextChooseQsr:
+      title: Context
+      description: The request's context.
+      type: object
+      properties:
+        page:
+          $ref: '#/components/schemas/Page'
+        device:
+          $ref: '#/components/schemas/DeviceChooseQsr'
+        branch:
+          $ref: '#/components/schemas/BranchQsr'
+        channel:
+          $ref: '#/components/schemas/ChannelQsr'
+        cart:
+          $ref: '#/components/schemas/CartQsr'
+        pageAttributes:
+          $ref: '#/components/schemas/PageAttributes'
+      required:
+      - branch
+      - channel
+    Error:
+      description: Response object for an invalid request.
+      type: object
+      properties:
+        message:
+          $ref: '#/components/schemas/ErrorMessage'
+        type:
+          $ref: '#/components/schemas/ErrorType'
+    UserQsr:
+      oneOf:
+      - $ref: '#/components/schemas/UserQsrSharedDeviceTrue'
+      - $ref: '#/components/schemas/UserQsrSharedDeviceFalse'
+    QueryBrowse:
+      title: Query
+      description: The user query for which to conduct the browse request.
+      type: object
+      properties:
+        displayName:
+          type: string
+        filters:
+          $ref: '#/components/schemas/QueryFilters'
+        pagination:
+          $ref: '#/components/schemas/QueryPagination'
+        sortBy:
+          $ref: '#/components/schemas/QuerySortBy'
+      required:
+      - pagination
+    ValueTotal:
+      description: The total monetary value of the event in the actual payment currency. This is the total value of the cart purchased, not just a triggering item.<br>Numbers are rounded to the nearest 0.01. Numbers smaller than 0.005 are rounded down to 0.
+      type: number
+      example: 98.8
+    QueryVisualSearch:
+      title: Visual Search Query
+      description: The user query for which to conduct the search.
+      type: object
+      properties:
+        imageBase64:
+          $ref: '#/components/schemas/QueryImageBase64'
+        filters:
+          $ref: '#/components/schemas/QueryFilters'
+        sortBy:
+          $ref: '#/components/schemas/QuerySortBy'
+      required:
+      - imageBase64
+    DevicePageviewEcom:
+      description: Data for the served device.
+      type: object
+      properties:
+        userAgent:
+          $ref: '#/components/schemas/UserAgent'
+        type:
+          $ref: '#/components/schemas/DeviceTypeEcom'
+        browser:
+          $ref: '#/components/schemas/Browser'
+        ip:
+          $ref: '#/components/schemas/Ip'
+    IsImplicitClientData:
+      description: For APIs called from the client-side only. When set to `true`, this acts as a fallback if the IP address or user agent isn't sent explicitly. Takes the values from the request header.
+      type: boolean
+      default: false
+    SharedDeviceFalse:
+      description: Set to `false` for transactions made on personal devices.
+      type: boolean
+      default: false
+    isImplicitKeywordSearchEvent:
+      description: When set to `true`, a Keyword Search event is reported for the searched textual query.
+      type: boolean
+      default: false
+    AttributeValue:
+      description: The new value (for example, new color is Gray).
+      type: string
+      example: Navy Blue
+    SuggestPayloadEcom:
+      title: Suggest Request - E-Commerce
+      type: object
+      properties:
+        user:
+          $ref: '#/components/schemas/ChooseUserEcom'
+        session:
+          $ref: '#/components/schemas/SessionChoose'
+        query:
+          $ref: '#/components/schemas/QueryAutosuggest'
+        context:
+          $ref: '#/components/schemas/ContextSuggestEcom'
+      required:
+      - user
+      - session
+      - query
+      - context
+      example:
+        user:
+          active_consent_accepted: false
+          dyid: '11'
+          dyid_server: '111'
+        session:
+          dy: '111'
+        query:
+          text: dre
+          suggestions:
+          - type: querySuggestions
+            maxResults: 8
+        context:
+          page:
+            locale: en_US
+    RecsProductDataQsr:
+      description: You can use *either* the `fieldFilter` param to ask for specific attributes from the feed, *or* the `skusOnly` param to to fetch only the SKUs.
+      type: object
+      properties:
+        fieldFilter:
+          $ref: '#/components/schemas/FieldFilter'
+        skusOnly:
+          $ref: '#/components/schemas/SkusOnly'
+    ContextSuggestEcom:
+      title: Context
+      description: The request's context for suggest requests.
+      type: object
+      properties:
+        page:
+          $ref: '#/components/schemas/PageSuggest'
+    Choice:
+      title: Choice
+      type: object
+      properties:
+        choices:
+          description: The chosen variation for each campaign.
+          type: array
+          items:
+            oneOf:
+            - title: 'type: DECISION'
+              type: object
+              properties:
+                id:
+                  type: string
+                name:
+                  type: string
+                type:
+                  type: string
+                  default: DECISION
+                  pattern: DECISION
+                variations:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      id:
+                        type: number
+                      name:
+                        type: string
+                      payload:
+                        type: object
+                        properties:
+                          type:
+                            type: string
+                            default: CUSTOM_JSON
+                            pattern: CUSTOM_JSON
+                          data:
+                            type: object
+                      rolloutFlag:
+                        type: boolean
+                        description: Only in Rollout campaigns
+                      analyticsMetadata:
+                        type: object
+                        properties:
+                          campaignId:
+                            type: number
+                          campaignName:
+                            type: string
+                          experienceId:
+                            type: number
+                          experienceName:
+                            type: string
+                          variationId:
+                            type: number
+                          variationName:
+                            type: string
+                groups:
+                  type: array
+                  items:
+                    type: string
+                decisionId:
+                  type: string
+                allocationGroup:
+                  type: string
+            - title: 'type: RECS_DECISION'
+              type: object
+              properties:
+                id:
+                  type: string
+                name:
+                  type: string
+                type:
+                  type: string
+                  default: RECS_DECISION
+                  pattern: RECS_DECISION
+                variations:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      id:
+                        type: number
+                      name:
+                        type: string
+                      payload:
+                        type: object
+                        properties:
+                          type:
+                            type: string
+                            default: RECS
+                            pattern: RECS
+                          data:
+                            type: object
+                            properties:
+                              custom:
+                                type: object
+                              slots:
+                                type: array
+                                items:
+                                  type: object
+                                  properties:
+                                    sku:
+                                      type: string
+                                    slotId:
+                                      type: string
+                                    productData:
+                                      type: object
+                      analyticsMetadata:
+                        type: object
+                        properties:
+                          campaignId:
+                            type: number
+                          campaignName:
+                            type: string
+                          experienceId:
+                            type: number
+                          experienceName:
+                            type: string
+                          variationId:
+                            type: number
+                          variationName:
+                            type: string
+                groups:
+                  type: array
+                  items:
+                    type: string
+                decisionId:
+                  type: string
+                allocationGroup:
+                  type: string
+            - title: 'type: QSR_PRODUCT_RECS_DECISION'
+              type: object
+              properties:
+                id:
+                  type: string
+                name:
+                  type: string
+                type:
+                  type: string
+                  default: QSR_PRODUCT_RECS_DECISION
+                  pattern: QSR_PRODUCT_RECS_DECISION
+                variations:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      id:
+                        type: number
+                      name:
+                        type: string
+                      payload:
+                        type: object
+                        properties:
+                          type:
+                            type: string
+                            default: QSR_PRODUCT_RECS
+                            pattern: QSR_PRODUCT_RECS
+                          data:
+                            type: object
+                      analyticsMetadata:
+                        type: object
+                        properties:
+                          campaignId:
+                            type: number
+                          campaignName:
+                            type: string
+                          experienceId:
+                            type: number
+                          experienceName:
+                            type: string
+                          variationId:
+                            type: number
+                          variationName:
+                            type: string
+                groups:
+                  type: array
+                  items:
+                    type: string
+                decisionId:
+                  type: string
+                allocationGroup:
+                  type: string
+            - title: 'type: SORTING_DECISION'
+              type: object
+              properties:
+                name:
+                  type: string
+                id:
+                  type: number
+                type:
+                  type: string
+                  default: SORTING_DECISION
+                  pattern: SORTING_DECISION
+                decisionId:
+                  type: string
+                variations:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      id:
+                        type: number
+                      payload:
+                        type: object
+                        properties:
+                          data:
+                            type: object
+                            properties:
+                              slots:
+                                type: array
+                                items:
+                                  type: object
+                                  properties:
+                                    sku:
+                                      type: string
+                                    slotId:
+                                      type: string
+        cookies:
+          description: Cookies returned from the server.
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+              value:
+                type: string
+              maxAge:
+                type: string
+        warnings:
+          description: Errors returned by the server.
+          type: array
+          items:
+            type: object
+            properties:
+              code:
+                type: string
+              message:
+                type: string
+    FilterNumericValue:
+      description: Specify a value for this property **OR** for `filterStringValue`, but not both. This affects how segmentation conditions are run.
+      type: number
+      example: 20
+    CommerceContext:
+      title: Commerce
+      description: Commerce context, required for cart actions.
+      type: object
+      properties:
+        cart_id:
+          description: Unique cart ID
+          type: string
+          example: cart-12345
+      required:
+      - cart_id
+    Locale:
+      description: Page locale code, such as `en_US`. Learn more about [using country codes for locale](https://dy.dev/docs/page-context#localization-in-page-context).
+      type: string
+      example: en_US
+    SortOrder:
+      description: '`ASC` or `DESC`.'
+      type: string
+      example: ASC
+    BranchQsrPurchase:
+      description: Use to recommend only items in stock at the branch the user is browsing. Required for Purchase event.
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/BranchIdQsr'
+        dayPart:
+          $ref: '#/components/schemas/DayPart'
+        orderFulfillment:
+          $ref: '#/components/schemas/OrderFulfillment'
+      required:
+      - id
+      - dayPart
+    DeviceChooseQsr:
+      description: Data for the served device.
+      type: object
+      properties:
+        userAgent:
+          $ref: '#/components/schemas/UserAgent'
+        type:
+          $ref: '#/components/schemas/DeviceTypeQsr'
+        browser:
+          $ref: '#/components/schemas/Browser'
+        ip:
+          $ref: '#/components/schemas/Ip'
+        dateTime:
+          $ref: '#/components/schemas/DateTime'
+        id:
+          $ref: '#/components/schemas/DeviceIdQsr'
+      required:
+      - dateTime
+      - type
+    CartItemPrice:
+      description: unit.cents format using the section default currency.
+      type: number
+      example: 23.99
+    UserQsrSharedDeviceTrue:
+      title: 'User (sharedDevice: true)'
+      description: User ID. A Dynamic Yield-generated identifier is used, and managed via cookies.
+      type: object
+      properties:
+        sharedDevice:
+          $ref: '#/components/schemas/SharedDeviceTrue'
+      required:
+      - sharedDevice
+    DeduplicateRecommendationsEcom:
+      description: Set to `true` to prevent duplicate products from appearing across recommendation results. Supported for requests with up to 10 selectors. If there are more than 10, the API skips deduplication and returns a warning in the response.
+      type: boolean
+      default: false
+    QueryArguments:
+      description: A list of arguments for a query condition.
+      type: array
+      items:
+        type: object
+        properties:
+          action:
+            $ref: '#/components/schemas/QueryAction'
+          value:
+            $ref: '#/components/schemas/QueryValue'
+        required:
+        - action
+        - value
+    RealtimeRuleQuery:
+      description: The filtering query.
+      type: object
+      properties:
+        conditions:
+          $ref: '#/components/schemas/QueryConditions'
+    ContextSearchEcom:
+      title: Context
+      description: The request's context.
+      type: object
+      properties:
+        page:
+          $ref: '#/components/schemas/Page'
+        device:
+          $ref: '#/components/schemas/DeviceChooseEcom'
+        channel:
+          $ref: '#/components/schemas/ChannelEcom'
+        pageAttributes:
+          $ref: '#/components/schemas/PageAttributes'
+        branch:
+          $ref: '#/components/schemas/BranchEcom'
+      required:
+      - page
+      - device
+    PageData:
+      description: 'Additional data for non-homepage pages: The SKU for a `PRODUCT` page, the category for a `CATEGORY` page, SKUs for the `CART` page, and the page ID in `OTHER`. Learn more about [page context data](https://dy.dev/docs/page-context#localization-in-page-context).'
+      type: array
+      items:
+        type: string
+      example:
+      - p76311-020
+    EngagementPayloadFi:
+      allOf:
+      - title: Engagement Request - Financial Institutions
+      - $ref: '#/components/schemas/EngagementPayloadEcom'
+    Session:
+      title: Session
+      description: Session ID. A Dynamic Yield-generated identifier is used.
+      type: object
+      properties:
+        dy:
+          $ref: '#/components/schemas/Dy'
+    OrderFulfillment:
+      description: The fulfillment type of the order the request relates to.
+      type: string
+      enum:
+      - DELIVERY
+      - PICKUP
+      - DINEIN
+      - CURBSIDE
+    CartProductIdQsr:
+      description: The product ID from the restaurant product catalog.
+      type: string
+    EventsEcom:
+      description: One or more events to report.
+      type: array
+      items:
+        oneOf:
+        - $ref: '#/components/schemas/AddToCart'
+        - $ref: '#/components/schemas/Purchase'
+        - $ref: '#/components/schemas/RemoveFromCart'
+        - $ref: '#/components/schemas/SyncCart'
+        - $ref: '#/components/schemas/IdentifyUser'
+        - $ref: '#/components/schemas/Login'
+        - $ref: '#/components/schemas/Signup'
+        - $ref: '#/components/schemas/NewsletterSubscription'
+        - $ref: '#/components/schemas/MessageOptIn'
+        - $ref: '#/components/schemas/MessageOptOut'
+        - $ref: '#/components/schemas/KeywordSearch'
+        - $ref: '#/components/schemas/AddToWishlist'
+        - $ref: '#/components/schemas/FilterItems'
+        - $ref: '#/components/schemas/ChangeAttribute'
+        - $ref: '#/components/schemas/VideoWatch'
+        - $ref: '#/components/schemas/SortItems'
+        - $ref: '#/components/schemas/PromoCodeEntered'
+        - $ref: '#/components/schemas/CustomEvent'
+        - $ref: '#/components/schemas/InformAffinity'
+    TrackingData:
+      description: Enables Dynamic Yield to track actions attributable to the push notification. Must be extracted from messaging provider. [Learn more](https://support.dynamicyield.com/hc/en-us/articles/13472246286749-Create-a-Reconnect-Campaign#tracklink).
+      type: object
+      properties:
+        rri:
+          description: One of the `trackingData` object's attributes returned from the push notification's payload. [Learn more](https://support.dynamicyield.com/hc/en-us/articles/14365496351901-Getting-Started-with-Reconnect#h_01HHHJW6R5AZ7MZ663DE0KKT7J).
+          type: string
+          example: '987001424'
+        sectionID:
+          description: One of the `trackingData` object's attributes returned from the push notification's payload. [Learn more](https://support.dynamicyield.com/hc/en-us/articles/14365496351901-Getting-Started-with-Reconnect#h_01HHHJW6R5AZ7MZ663DE0KKT7J).
+          type: string
+          example: '9878785'
+        reqTs:
+          description: One of the `trackingData` object's attributes returned from the push notification's payload. [Learn more](https://support.dynamicyield.com/hc/en-us/articles/14365496351901-Getting-Started-with-Reconnect#h_01HHHJW6R5AZ7MZ663DE0KKT7J).
+          type: string
+          example: '1652622484055'
+        userID:
+          description: One of the `trackingData` object's attributes returned from the push notification's payload. [Learn more](https://support.dynamicyield.com/hc/en-us/articles/14365496351901-Getting-Started-with-Reconnect#h_01HHHJW6R5AZ7MZ663DE0KKT7J).
+          type: string
+          example: '4656722918296846673'
+        version:
+          description: One of the `trackingData` object's attributes returned from the push notification's payload. [Learn more](https://support.dynamicyield.com/hc/en-us/articles/14365496351901-Getting-Started-with-Reconnect#h_01HHHJW6R5AZ7MZ663DE0KKT7J).
+          type: string
+          example: '2'
+        events:
+          description: One of the `trackingData` object's attributes returned from the push notification's payload. [Learn more](https://support.dynamicyield.com/hc/en-us/articles/14365496351901-Getting-Started-with-Reconnect#h_01HHHJW6R5AZ7MZ663DE0KKT7J).
+          type: array
+          items:
+            type: object
+            properties:
+              ver:
+                type: string
+                example: '101482916'
+              expVisitId:
+                type: string
+                example: '4032971100745578591'
+              smech:
+                type: string
+                example: ''
+              vars:
+                type: array
+                items:
+                  type: string
+                  example: '101098971'
+              exp:
+                type: string
+                example: '1296028'
+              mech:
+                type: string
+                example: '1'
+      example:
+        rri: '987001424'
+        sectionID: '9878785'
+        reqTs: '1652622484055'
+        userID: '4656722918296846673'
+        version: '2'
+        events:
+        - ver: '101482916'
+          expVisitId: '4032971100745578591'
+          smech: ''
+          vars: '[101098971]'
+          exp: '1296028'
+          mech: '1'
+    MessageOptIn:
+      title: Push Opt-In
+      description: Reports that a user opted in to receive Reconnect push notifications.
+      properties:
+        name:
+          $ref: '#/components/schemas/EventName'
+        properties:
+          allOf:
+          - $ref: '#/components/schemas/EventProperties'
+          - properties:
+              dyType:
+                description: Must be `message-optin-v1`.
+                type: string
+                pattern: message-optin-v1
+                default: message-optin-v1
+              pushId:
+                $ref: '#/components/schemas/PushId'
+            required:
+            - dyType
+            - pushID
+      example:
+        name: Push Opt-in
+        properties:
+          dyType: message-optin-v1
+          pushId: f7a8c987-7ab5-400f-b989-5357af507343
+    EventsQsr:
+      description: One or more events to report.
+      type: array
+      items:
+        oneOf:
+        - $ref: '#/components/schemas/Login'
+        - $ref: '#/components/schemas/PurchaseQsr'
+    OptionsChooseQsr:
+      title: Options
+      description: Request configuration parameters.
+      type: object
+      properties:
+        isImplicitPageview:
+          description: Determine whether to report a new pageview with the given context. Default is `false`. Set to `true` to report a new pageview with the given context. Keep as `false` if the Dynamic Yield script is implemented on the page. It reports the new pageview from the browser. For API implementations on shared devices (e.g. Kiosk or Drive-Thru), pass as `true`.
+          type: boolean
+          default: false
+          example: false
+        returnAnalyticsMetadata:
+          $ref: '#/components/schemas/ReturnAnalyticsMetadata'
+        isImplicitImpressionMode:
+          $ref: '#/components/schemas/IsImplicitImpressionModeQsr'
+        isImplicitClientData:
+          $ref: '#/components/schemas/IsImplicitClientData'
+        recsProductData:
+          $ref: '#/components/schemas/RecsProductDataQsr'
+        deduplicateRecommendations:
+          $ref: '#/components/schemas/DeduplicateRecommendationsQsr'
+    ChoosePayloadQsr:
+      title: Choose Request - Restaurants
+      type: object
+      properties:
+        user:
+          $ref: '#/components/schemas/ChooseUserQsr'
+        session:
+          $ref: '#/components/schemas/SessionChoose'
+        context:
+          $ref: '#/components/schemas/ContextChooseQsr'
+        selector:
+          description: Campaigns to choose variations for, formatted as `widgetIdentifier@campaignIdentifier`.
+          type: object
+          properties:
+            names:
+              $ref: '#/components/schemas/Names'
+            groups:
+              $ref: '#/components/schemas/Groups'
+            preview:
+              $ref: '#/components/schemas/Preview'
+          required:
+          - names
+        options:
+          $ref: '#/components/schemas/OptionsChooseQsr'
+      required:
+      - user
+      - session
+      - context
+      - selector
+    AddToCart:
+      title: Add to Cart
+      description: Reports that the user added a product to the cart.<br>**REQUIRED FOR E-COMMERCE SECTIONS**
+      type: object
+      properties:
+        name:
+          $ref: '#/components/schemas/EventName'
+        properties:
+          allOf:
+          - $ref: '#/components/schemas/EventProperties'
+          - properties:
+              dyType:
+                description: Must be `add-to-cart-v1`.
+                type: string
+                pattern: add-to-cart-v1
+                default: add-to-cart-v1
+              value:
+                $ref: '#/components/schemas/Value'
+              currency:
+                $ref: '#/components/schemas/Currency'
+              productId:
+                $ref: '#/components/schemas/CartProductIdEcom'
+              quantity:
+                allOf:
+                - $ref: '#/components/schemas/Quantity'
+                - description: The number of items with this SKU added to the cart in the scope of this event.
+              cart:
+                allOf:
+                - $ref: '#/components/schemas/CartEcom'
+                - description: The updated contents of the cart, including the items added to trigger this event. Each object is a unique item/SKU.<br>This object is required for Reconnect campaigns, as well as to enable the recommendations engine to filter out products that are already in the cart. [Learn more about this filter](https://support.dynamicyield.com/hc/en-us/articles/360019720178-Recommendation-Filters#exclude).
+            required:
+            - dyType
+            - value
+            - productId
+            - quantity
+      example:
+        name: Add To Cart
+        properties:
+          dyType: add-to-cart-v1
+          value: 118.26
+          currency: any supported currency code
+          productId: item-34454
+          quantity: 2
+          cart:
+          - productId: sku-4324-bg
+            quantity: 2
+            itemPrice: 12.34
+          - productId: item-34454
+            quantity: 2
+            itemPrice: 59.13
+    Autoplay:
+      description: Indicates whether the video played automatically (`true`) or due to user action (`false` (default)).
+      type: boolean
+      default: false
+    Ip:
+      description: 'The client IP address, for geolocation-based targeting and audience building. If not passed, the caller IP is used. This applies only to client-side API calls when isImplicitClientData: true is set in the Options object.'
+      type: string
+      example: 54.100.200.255
+    DeduplicateRecommendationsQsr:
+      description: Set to `true` to prevent duplicate products from appearing across recommendation results. Supported for requests with up to 10 selectors. If there are more than 10, the API skips deduplication and returns a warning in the response.
+      type: boolean
+      default: false
+    EventPayloadQsr:
+      title: Event Request - Restaurants
+      type: object
+      properties:
+        user:
+          $ref: '#/components/schemas/UserQsr'
+        session:
+          $ref: '#/components/schemas/Session'
+        context:
+          $ref: '#/components/schemas/ContextEventQsr'
+        events:
+          $ref: '#/components/schemas/EventsQsr'
+      required:
+      - user
+      - session
+      - events
+    AddToWishlist:
+      title: Add to Wishlist
+      description: Reports that a user added a product to their wishlist.
+      type: object
+      properties:
+        name:
+          $ref: '#/components/schemas/EventName'
+        properties:
+          allOf:
+          - $ref: '#/components/schemas/EventProperties'
+          - properties:
+              dyType:
+                description: Must be `add-to-wishlist-v1`.
+                type: string
+                pattern: add-to-wishlist-v1
+                default: add-to-wishlist-v1
+              productId:
+                $ref: '#/components/schemas/CartProductIdEcom'
+              size:
+                $ref: '#/components/schemas/Size'
+            required:
+            - dyType
+            - productId
+      example:
+        name: Add to Wishlist
+        properties:
+          dyType: add-to-wishlist-v1
+          productId: item-34454
+          size: XL
+    CustomEvent:
+      title: Custom Event
+      description: Use custom events to report any event that isn't already defined for use in Experience OS, but is significant to your business.<br>**Note:** custom events support only symbols that are encoded with UTF-8 ([Basic Multilingual Plane](https://en.wikipedia.org/wiki/Plane_%28Unicode%29#Basic_Multilingual_Plane)). Some characters with diacritics (additional symbols above or below the letter) are read as the base character. For example, **é** is processed as **e**.
+      type: object
+      properties:
+        name:
+          description: Event name for display. Does not have a `dyType` property.
+          type: string
+          example: VIP Login
+        properties:
+          description: Properties can be strings, numbers, or Boolean. Note that we don't support nested properties when creating targeting rules over custom events.
+          type: object
+          properties:
+            value:
+              description: Indicates the monetary value of the event, with or without the optional currency designation. Use for goals based on events.
+              type: number
+              example: 98.7
+            currency:
+              $ref: '#/components/schemas/Currency'
+          additionalProperties:
+            anyOf:
+            - type: string
+            - type: number
+            - type: boolean
+      required:
+      - name
+      example:
+        name: Custom Event Example 1
+        properties:
+          isVIP: true
+    PageSuggest:
+      description: Data for the page context in suggest requests.
+      type: object
+      properties:
+        locale:
+          $ref: '#/components/schemas/Locale'
+    RealtimeRuleSlots:
+      description: All or specific slot positions. The first slot is in position 0.
+      type: array
+      items:
+        type: integer
+    OptionsChooseEcom:
+      title: Options
+      description: Request configuration parameters.
+      type: object
+      properties:
+        isImplicitPageview:
+          $ref: '#/components/schemas/IsImplicitPageview'
+        returnAnalyticsMetadata:
+          $ref: '#/components/schemas/ReturnAnalyticsMetadata'
+        isImplicitImpressionMode:
+          $ref: '#/components/schemas/IsImplicitImpressionMode'
+        isImplicitClientData:
+          $ref: '#/components/schemas/IsImplicitClientData'
+        recsProductData:
+          $ref: '#/components/schemas/RecsProductDataEcom'
+        deduplicateRecommendations:
+          $ref: '#/components/schemas/DeduplicateRecommendationsEcom'
+    Categories:
+      description: '*Optional*'
+      type: array
+      items:
+        type: string
+      example:
+      - Sports
+      - Baseball
+    IdentifyUser:
+      title: Identify User
+      type: object
+      description: Use to identify visitors at any point during their journey on your site or app, such as during the checkout process.
+      properties:
+        name:
+          $ref: '#/components/schemas/EventName'
+        properties:
+          allOf:
+          - $ref: '#/components/schemas/EventProperties'
+          - properties:
+              dyType:
+                description: Must be `identify-v1`.
+                type: string
+                pattern: identify-v1
+                default: identify-v1
+              cuid:
+                $ref: '#/components/schemas/Cuid'
+              cuidType:
+                $ref: '#/components/schemas/CuidType'
+              secondaryIdentifiers:
+                allOf:
+                - $ref: '#/components/schemas/SecondaryIdentifiers'
+                - description: Additional methods for cross-identification. IDs can be any type, but if you use hashed email address (`he`) or hashed phone number (‘hashedPhoneNumber`), it must be SHA-256 hashed. [Learn more about secondary identifiers](https://dy.dev/docs/identify-user#parameters).
+            required:
+            - dyType
+      example:
+        name: Identify
+        properties:
+          dyType: identify-v1
+          cuid: demo@email.com
+          cuidType: EcommerceID
+          secondaryIdentifiers:
+          - type: hashedPhoneNumber
+            value: 49c7b1f6d24121078d8f37997b433586fe9a28e2dc4fbd0803eac237ac82255e
+          - type: ecommerceID
+            value: '12345'
+          - type: vipClub
+            value: '678910'
+    EngagementsQsr:
+      description: Report the [type of engagement](https://dy.dev/docs/engagement#types-of-engagement) with a reference to the content or recommendation that the user engaged with.
+      type: array
+      items:
+        oneOf:
+        - title: 'Engagement (type: SLOT_CLICK)'
+          type: object
+          properties:
+            type:
+              description: Pass `SLOT_CLICK`.
+              type: string
+              enum:
+              - SLOT_CLICK
+            slotId:
+              description: Use to report a click on an API recommendation. Pass the Slot ID for the clicked product as returned in the `/choose` response.
+              type: string
+          required:
+          - type
+          - slotId
+        - title: 'Engagement (type: SLOT_IMP)'
+          type: object
+          properties:
+            type:
+              description: Pass `SLOT_IMP`.
+              type: string
+              enum:
+              - SLOT_IMP
+            slotIds:
+              description: Use to report impressions of an API recommendation. Pass the Slot IDs for the products as returned in the `/choose` response.
+              type: array
+              items:
+                type: string
+        - title: 'Engagement (type: IMP)'
+          type: object
+          properties:
+            type:
+              description: Pass the value `IMP` (impressions) for API custom code campaigns.
+              type: string
+              enum:
+              - IMP
+            decisionId:
+              description: '**Required for reporting `IMP`:** The unique Decision ID as returned from the `/choose` endpoint.'
+              type: string
+            variations:
+              $ref: '#/components/schemas/Variations'
+          required:
+          - type
+          - decisionId
+    PurchaseQsr:
+      title: Purchase
+      description: Reports that the user completed a purchase.
+      type: object
+      properties:
+        name:
+          $ref: '#/components/schemas/EventName'
+        properties:
+          allOf:
+          - $ref: '#/components/schemas/EventProperties'
+          - properties:
+              dyType:
+                description: Must be `purchase-v1`.
+                type: string
+                pattern: purchase-v1
+                default: purchase-v1
+              value:
+                $ref: '#/components/schemas/Value'
+              currency:
+                $ref: '#/components/schemas/Currency'
+              uniqueTransactionId:
+                $ref: '#/components/schemas/UniqueTransactionId'
+              cart:
+                allOf:
+                - description: The cart's absolute current state. Products are ordered from the first added to the cart to the most recent.
+                - $ref: '#/components/schemas/CartQsr'
+            required:
+            - dyType
+            - value
+            - cart
+    ErrorMessage:
+      description: Error description.
+      type: string
+      example: request must contain context page location
+    AttributeType:
+      description: Color, size, fit, brand, author, keyword, category, or any other attribute you allow.
+      type: string
+      example: Color
+    SessionEngagement:
+      title: Session
+      description: Session ID. A Dynamic Yield-generated identifier is used.
+      type: object
+      properties:
+        dy:
+          description: Pass the value of the `_dyjsession` cookie if it exists.
+          type: string
+          example: ohyr6v42l9zd4bpinnvp7urjjx9lrssw
+    Variations:
+      description: Use to report explicit impressions over custom code campaigns that return multiple variations on each decision (for example, a slider). Values are variation IDs.
+      type: array
+      items:
+        type: number
+    QueryFilterString:
+      title: String Filter
+      type: object
+      properties:
+        field:
+          description: Column name, as reported in the product feed.
+          type: string
+          example: color
+        values:
+          description: Possible values for the filter column. When multiple values are specified, results matching any of the values (`OR` logic) will be returned.
+          type: array
+          items:
+            type: string
+      required:
+      - field
+    Preview:
+      description: Campaigns to generate previews for. [Learn more about enabling preview mode](https://dy.dev/docs/preview-api-web#enabling-preview-mode).
+      type: object
+      properties:
+        ids:
+          $ref: '#/components/schemas/Ids'
+      required:
+      - ids
+    SelectorChoose:
+      title: Selector
+      description: Campaigns to choose variations for.
+      type: object
+      properties:
+        names:
+          $ref: '#/components/schemas/Names'
+        groups:
+          $ref: '#/components/schemas/Groups'
+        preview:
+          $ref: '#/components/schemas/Preview'
+        args:
+          $ref: '#/components/schemas/Args'
+      required:
+      - names
+    QueryAction:
+      description: Condition types for filtering recommendations. Valid values are:<ul>`IS` - string or boolean<br>`IS_NOT` - string<br>`CONTAINS` - A filtering rule may contain up to 10 queries of this type<br>`EQ`, `GT`, `GTE`, `LT`, `LTE` - number only
+      type: string
+      enum:
+      - IS
+      - IS_NOT
+      - CONTAINS
+      - EQ
+      - GT
+      - GTE
+      - LT
+      - LTE
+    BranchIdEcom:
+      description: The branch's unique identifier.
+      type: string
+    EventName:
+      description: A human-readable name corresponding to the schema name.
+      type: string
+    Value:
+      description: The total monetary value of the event. This is the item or items added that triggered the event only, not necessarily all items in the cart.<br>Numbers are rounded to the nearest 0.01. Numbers smaller than 0.005 are rounded down to 0.
+      type: number
+      example: 19.9
+    ContextEngagementQsr:
+      title: Context
+      description: The request's context.
+      type: object
+      properties:
+        device:
+          $ref: '#/components/schemas/DeviceEngagementQsr'
+        branch:
+          $ref: '#/components/schemas/BranchQsrEngagement'
+        channel:
+          $ref: '#/components/schemas/ChannelQsr'
+      required:
+      - device
+      - branch
+      - channel
+    QueryShoppingMuse:
+      title: Shopping Muse Query
+      description: The user prompt and conversation ID for triggering a contextual Shopping Muse response.
+      type: object
+      properties:
+        text:
+          description: The user's prompt that specifies a search request, question or an answer.
+          type: string
+          example: Show me running shoes under $100
+        chatId:
+          description: A unique identifier used to maintain conversational context. Include `chatId` when sending follow-up requests related to the response that contains it.
+          type: string
+          example: chat-7c31fe56
+      required:
+      - text
+    Code:
+      description: The promo code.
+      type: string
+      example: SPECIALOFFER
+    FieldFilter:
+      description: Specify the fields you need in the recommendation campaign response by using the `fieldFilter` parameter. Simply send an array of strings of the relevant fields, and only those fields and values are sent back.
+      type: array
+      items:
+        type: string
+    VideoWatch:
+      title: Video Watch
+      description: Reports that a user watched a video on a media site or application.<br>This event can report that the user watched a video in part or in full. You can distinguish between auto-play videos and those that the user explicitly clicked to watch.
+      type: object
+      properties:
+        name:
+          $ref: '#/components/schemas/EventName'
+        properties:
+          allOf:
+          - $ref: '#/components/schemas/EventProperties'
+          - properties:
+              dyType:
+                description: Must be `video-watch-v1`.
+                type: string
+                pattern: video-watch-v1
+                default: video-watch-v1
+              itemId:
+                $ref: '#/components/schemas/ItemId'
+              categories:
+                $ref: '#/components/schemas/Categories'
+              autoplay:
+                $ref: '#/components/schemas/Autoplay'
+              progress:
+                $ref: '#/components/schemas/Progress'
+              progressPercent:
+                $ref: '#/components/schemas/ProgressPercent'
+            required:
+            - dyType
+            - itemId
+            - autoplay
+            - progress
+            - progressPercent
+      example:
+        name: Video Watch
+        properties:
+          dyType: video-watch-v1
+          itemId: '33849492012003'
+          categories:
+          - Sports
+          - Baseball
+          autoplay: true
+          progress: VIDEO_PROGRESS
+          progressPercent: 65
+    SelectorSearch:
+      title: Selector
+      description: Campaigns to choose variations for.
+      type: object
+      properties:
+        name:
+          description: The selector name for the applicable search campaign. Must be one of the following:<ul><li>`Semantic Search`</li><li>`Visual Search`</li></ul>
+          type: string
+          example: Semantic Search
+          enum:
+          - Semantic Search
+          - Visual Search
+      required:
+      - name
+    ProgressPercent:
+      description: Indicates how much of a video was watched as a percentage.<br>*Use only with the `progress` value of `VIDEO_PROGRESS`*
+      type: number
+      example: 65
+    OptionsBrowse:
+      title: Options
+      description: Request configuration parameters.
+      type: object
+      properties:
+        returnAnalyticsMetadata:
+          $ref: '#/components/schemas/ReturnAnalyticsMetadata'
+        isImplicitClientData:
+          $ref: '#/components/schemas/IsImplicitClientData'
+        productData:
+          $ref: '#/components/schemas/ProductDataEcom'
+    DecisionId:
+      description: '**Required for reporting `CLICK` or `IMP`:** The unique Decision ID as returned from the `/choose` endpoint.'
+      type: string
+    FilterStringValue:
+      description: Specify a value for this property **OR** for `filterNumericValue`, but not both. This affects how segmentation conditions are run.
+      type: string
+      example: Gray
+    Login:
+      title: Login
+      type: object
+      description: Reports that a user has logged in.
+      properties:
+        name:
+          $ref: '#/components/schemas/EventName'
+        properties:
+          allOf:
+          - $ref: '#/components/schemas/EventProperties'
+          - properties:
+              dyType:
+                description: Must be `login-v1`.
+                type: string
+                pattern: login-v1
+                default: login-v1
+              cuid:
+                $ref: '#/components/schemas/Cuid'
+              cuidType:
+                $ref: '#/components/schemas/CuidType'
+              secondaryIdentifiers:
+                allOf:
+                - $ref: '#/components/schemas/SecondaryIdentifiers'
+                - description: Additional methods for cross-identification. IDs can be any type, but if you use hashed email address (`he`) or hashed phone number (‘hashedPhoneNumber`), it must be SHA-256 hashed. [Learn more about secondary identifiers](https://dy.dev/docs/login#parameters).
+            required:
+            - dyType
+      example:
+        name: Login
+        properties:
+          dyType: login-v1
+          cuid: demo@email.com
+          cuidType: EcommerceID
+          secondaryIdentifiers:
+          - type: hashedPhoneNumber
+            value: 49c7b1f6d24121078d8f37997b433586fe9a28e2dc4fbd0803eac237ac82255e
+          - type: ecommerceID
+            value: '12345'
+          - type: vipClub
+            value: '678910'
+    PromoCodeEntered:
+      title: Promo Code Entered
+      description: Reports that the user entered a valid promotion code.<br>**This event is currently available for script implementation only.**
+      type: object
+      properties:
+        name:
+          $ref: '#/components/schemas/EventName'
+        properties:
+          allOf:
+          - $ref: '#/components/schemas/EventProperties'
+          - properties:
+              dyType:
+                description: Must be `enter-promo-code-v1`.
+                type: string
+                pattern: enter-promo-code-v1
+                default: enter-promo-code-v1
+              code:
+                $ref: '#/components/schemas/Code'
+            required:
+            - dyType
+            - code
+      example:
+        name: Promo Code Entered
+        properties:
+          dyType: enter-promo-code-v1
+          code: SPECIALOFFER
+    IsImplicitImpressionMode:
+      description: Report an impression of the chosen variation. This is set to `true` by default, which means that the user's impression of the variation is reported immediately when the variation is chosen. Pass this as `false` to report the impression explicitly in an [Engagement](https://dy.dev/docs/engagement#types-of-engagement) call.
+      type: boolean
+      default: true
+    ChangeAttribute:
+      title: Change Attribute
+      description: Reports that a user changed an attribute of the displayed product (such as color or size).<br>**Note:** The attribute type and value must match information in your product feed. The currently displayed product is inferred from the in-page context.<br>**This event is currently available for script implementation only.**
+      type: object
+      properties:
+        name:
+          $ref: '#/components/schemas/EventName'
+        properties:
+          allOf:
+          - $ref: '#/components/schemas/EventProperties'
+          - properties:
+              dyType:
+                description: Must be `change-attribute-v1`.
+                type: string
+                pattern: change-attr-v1
+                default: change-attr-v1
+              attributeType:
+                $ref: '#/components/schemas/AttributeType'
+              attributeValue:
+                $ref: '#/components/schemas/AttributeValue'
+            required:
+            - dyType
+            - attributeType
+            - attributeValue
+      example:
+        name: Change Attribute
+        properties:
+          dyType: change-attr-v1
+          attributeType: Color
+          attributeValue: Navy Blue
+    QuerySuggestionResults:
+      title: Query Suggestion Results
+      type: object
+      properties:
+        variations:
+          description: Array of variations containing query suggestions.
+          type: array
+          items:
+            type: object
+            properties:
+              payload:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      suggestions:
+                        type: object
+                        properties:
+                          querySuggestions:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                term:
+                                  type: string
+        cookies:
+          description: Cookies returned from the server.
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+              value:
+                type: string
+              maxAge:
+                type: string
+        warnings:
+          description: Errors returned by the server.
+          type: array
+          items:
+            type: object
+            properties:
+              code:
+                type: string
+              message:
+                type: string
+    BranchQsr:
+      description: Use to recommend only items in stock at the branch the user is browsing.
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/BranchIdQsr'
+        dayPart:
+          $ref: '#/components/schemas/DayPart'
+        orderFulfillment:
+          $ref: '#/components/schemas/OrderFulfillment'
+      required:
+      - dayPart
+    Application:
+      title: Application
+      description: Reports that a user started the application process for a product.<br>**REQUIRED FOR FINANCIAL INSTITUTIONS SECTIONS**
+      type: object
+      properties:
+        name:
+          $ref: '#/components/schemas/EventName'
+        properties:
+          allOf:
+          - $ref: '#/components/schemas/EventProperties'
+          - properties:
+              dyType:
+                description: Must be `add-to-cart-v1`.
+                type: string
+                pattern: add-to-cart-v1
+                default: add-to-cart-v1
+              value:
+                $ref: '#/components/schemas/Value'
+              currency:
+                $ref: '#/components/schemas/Currency'
+              productId:
+                $ref: '#/components/schemas/CartProductIdEcom'
+              quantity:
+                allOf:
+                - $ref: '#/components/schemas/Quantity'
+                - description: The total number of items that were added to the cart.
+              cart:
+                allOf:
+                - $ref: '#/components/schemas/CartEcom'
+                - description: The cart's current state, including the last item added. Products are ordered from the first added to the cart to the most recent.<br><br>**Note:** Pass the updated cart with the newly added products to ensure that the cart state is fully in sync with your system. This is important mainly for triggered email and push notifications. *Optional, but recommended.*
+            required:
+            - dyType
+            - value
+            - productId
+            - quantity
+      example:
+        name: Application Started
+        properties:
+          dyType: add-to-cart-v1
+          value: 400
+          currency: EUR
+          productId: item-34454
+          quantity: 2
+          cart:
+          - productId: sku-4324-bg
+            quantity: 2
+            itemPrice: 100
+          - productId: item-34454
+            quantity: 2
+            itemPrice: 200
+    ContextChooseEcom:
+      title: Context
+      description: The request's context.
+      type: object
+      properties:
+        page:
+          $ref: '#/components/schemas/Page'
+        device:
+          $ref: '#/components/schemas/DeviceChooseEcom'
+        channel:
+          $ref: '#/components/schemas/ChannelEcom'
+        pageAttributes:
+          $ref: '#/components/schemas/PageAttributes'
+        listedItems:
+          $ref: '#/components/schemas/ListedItems'
+        branch:
+          $ref: '#/components/schemas/BranchEcom'
+      required:
+      - page
+      - device
+    OptionsPageview:
+      title: Options
+      description: Request configuration parameters.
+      type: object
+      properties:
+        isImplicitClientData:
+          $ref: '#/components/schemas/IsImplicitClientData'
+    SessionChoose:
+      title: Session
+      description: Session ID. A Dynamic Yield-generated identifier is used. For new sessions, send this object empty.
+      type: object
+      properties:
+        dy:
+          description: Pass the value of the `_dyjsession` cookie if it exists. Otherwise, a new session identifier will be created by Dynamic Yield and returned in the response.
+          type: string
+          example: ohyr6v42l9zd4bpinnvp7urjjx9lrssw
+    RealtimeRuleType:
+      description: 'Valid values are: `include`, `exclude`.'
+      type: string
+      enum:
+      - include
+      - exclude
+    Ids:
+      description: Array of preview tokens, as provided in the `dyApiPreview` URL parameter. [Learn more about enabling preview mode](https://dy.dev/docs/preview-api-web#enabling-preview-mode).
+      type: array
+      items:
+        type: string
+    EngagementUserEcom:
+      title: User
+      description: User ID. A Dynamic Yield-generated identifier is used, and managed via cookies.
+      type: object
+      properties:
+        dyid:
+          description: The _dyid cookie value. The user ID assigned to visitors by Dynamic Yield. For new users not assigned a `dyid`, use a `choose` call to generate one. Learn more about the [user ID](https://dy.dev/docs/experience-api-basics#user-id).
+          type: string
+          example: '-4350463893986789401'
+        dyid_server:
+          description: The _dyid cookie value. The user ID assigned to visitors by Dynamic Yield. Learn more about the [user ID](https://dy.dev/docs/experience-api-basics#user-id).
+          type: string
+          example: '-4350463893986789401'
+        active_consent_accepted:
+          $ref: '#/components/schemas/ActiveConsentAccepted'
+    SlotId:
+      description: Use to report a click on an API recommendation or a search result. Pass the Slot ID for the clicked product as returned in the `/choose` response. Do not use for for API custom code campaigns.
+      type: string
+    QueryField:
+      description: Field within the returned results to apply the query for.
+      type: string
+      example: categories
+    EventProperties:
+      description: Data for the reported event.
+      type: object
+    Keywords:
+      description: The search string.
+      type: string
+      example: contact info
+    SelectorShoppingMuse:
+      title: Selector
+      description: Campaigns to choose variations for.
+      type: object
+      properties:
+        name:
+          description: Must be `Shopping Muse`.
+          type: string
+          example: Shopping Muse
+          enum:
+          - Shopping Muse
+      required:
+      - name
+    CartEcom:
+      type: array
+      items:
+        type: object
+        properties:
+          productId:
+            $ref: '#/components/schemas/CartProductIdEcom'
+          quantity:
+            $ref: '#/components/schemas/Quantity'
+          itemPrice:
+            $ref: '#/components/schemas/CartItemPrice'
+    CartQuantity:
+      description: Number of items.
+      type: number
+    UserAgent:
+      description: 'For web clients, the browser user-agent string. If not passed, the API gateway checks for the header in the HTTPS request. This applies only to client-side API calls when isImplicitClientData: true is set in the Options object.'
+      type: string
+      example: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36
+    ArgsItem:
+      description: Real-time filter for a single selector. The object key should corresponds to a selector name defined under `selector.names`.
+      type: object
+      properties:
+        realtimeRules:
+          $ref: '#/components/schemas/RealtimeRules'
+    ProductDataEcom:
+      description: You can use *either* the `fieldFilter` param to ask for specific attributes from the feed, *or* the `skusOnly` param to to fetch only the SKUs.
+      type: object
+      properties:
+        fieldFilter:
+          $ref: '#/components/schemas/FieldFilter'
+        skusOnly:
+          $ref: '#/components/schemas/SkusOnly'
+    CuidType:
+      description: 'Use this identifier type to identify users across devices (for example, `customer_id`, `account_id`, or `he` for SHA-256 hashed email).<br>**Note: Do not include any personal information in this ID.**'
+      type: string
+    SortBy:
+      description: Sorting parameter, such as price, age, popularity, rating, or any other you allow.
+      type: string
+      example: price
+    PageAttributes:
+      description: Pass key-value pairs you want to use for targeting in this campaign. **The value must exactly match the value in the campaign targeting condition, and is case sensitive.** This data is not stored and cannot be used for creating audiences. Values can be strings or numbers.
+      type: object
+      additionalProperties:
+        anyOf:
+        - type: string
+        - type: number
+    Purchase:
+      title: Purchase
+      description: Reports that the user completed a purchase.<br>**REQUIRED FOR E-COMMERCE SECTIONS**
+      type: object
+      properties:
+        name:
+          $ref: '#/components/schemas/EventName'
+        properties:
+          allOf:
+          - $ref: '#/components/schemas/EventProperties'
+          - properties:
+              dyType:
+                description: Must be `purchase-v1`.
+                type: string
+                pattern: purchase-v1
+                default: purchase-v1
+              value:
+                $ref: '#/components/schemas/ValueTotal'
+              currency:
+                $ref: '#/components/schemas/Currency'
+              uniqueTransactionId:
+                $ref: '#/components/schemas/UniqueTransactionId'
+              cart:
+                allOf:
+                - description: The cart's absolute current state. Products are ordered from the first added to the cart to the most recent.
+                - $ref: '#/components/schemas/CartEcom'
+            required:
+            - dyType
+            - value
+            - cart
+      example:
+        name: Purchase
+        properties:
+          uniqueTransactionId: 123456
+          dyType: purchase-v1
+          value: 90.55
+          currency: any supported currency code
+          cart:
+          - productId: item-34454
+            quantity: 1
+            itemPrice: 65.87
+          - productId: sku-4324-bg
+            quantity: 2
+            itemPrice: 12.34
+    PageType:
+      description: Page type. Must be upper case. Valid values are:<br>`HOMEPAGE`, `CATEGORY`, `PRODUCT`, `CART`, and `OTHER`.
+      type: string
+      enum:
+      - HOMEPAGE
+      - CATEGORY
+      - PRODUCT
+      - CART
+      - OTHER
+      example: HOMEPAGE
+    UserQsrSharedDeviceFalse:
+      allOf:
+      - title: 'User (sharedDevice: false)'
+      - $ref: '#/components/schemas/ChooseUserEcom'
+      - properties:
+          sharedDevice:
+            $ref: '#/components/schemas/SharedDeviceFalse'
+      required:
+      - sharedDevice
+    ChannelQsr:
+      description: 'Report and monitor each channel''s experience API implementation. Channels correspond to the Experience OS app used. Available channels: `WEB`, `APP`, `KIOSK`, `DRIVE-THRU`'
+      type: string
+      enum:
+      - WEB
+      - APP
+      - KIOSK
+      - DRIVE-THRU
+    PushId:
+      description: Reports that a user opted in to receive Reconnect push notifications.
+      type: string
+      example: f7a8c987-7ab5-400f-b989-5357af507343
+    BranchQsrEngagement:
+      description: Use to recommend only items in stock at the branch the user is browsing.
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/BranchIdQsr'
+        dayPart:
+          $ref: '#/components/schemas/DayPart'
+      required:
+      - id
+      - dayPart
+    OptionsSearchEcom:
+      title: Options
+      description: Request configuration parameters.
+      type: object
+      properties:
+        returnAnalyticsMetadata:
+          $ref: '#/components/schemas/ReturnAnalyticsMetadata'
+        isImplicitClientData:
+          $ref: '#/components/schemas/IsImplicitClientData'
+        productData:
+          $ref: '#/components/schemas/ProductDataEcom'
+        isImplicitKeywordSearchEvent:
+          $ref: '#/components/schemas/isImplicitKeywordSearchEvent'
+    ItemId:
+      description: ID that matches an item ID in the content feed.
+      type: string
+      example: '33849492012003'
+    SyncCart:
+      title: Sync Cart
+      description: '**THIS EVENT IS MANDATORY FOR:**<br><ul><li>The [*Exclude items currently in cart* filter](https://support.dynamicyield.com/hc/en-us/articles/360019720178#h_01FZW8C8C9JSHT05QW6764K0XV), and must be fired upon every page load.</li><li>[Reconnect](https://support.dynamicyield.com/hc/en-us/articles/14365496351901-Getting-Started-with-Reconnect) implementation.</li></ul>'
+      type: object
+      properties:
+        name:
+          $ref: '#/components/schemas/EventName'
+        properties:
+          allOf:
+          - $ref: '#/components/schemas/EventProperties'
+          - properties:
+              dyType:
+                description: Must be `sync-cart-v1`.
+                type: string
+                pattern: sync-cart-v1
+                default: sync-cart-v1
+              value:
+                allOf:
+                - $ref: '#/components/schemas/ValueTotal'
+                - description: The total monetary value of the event (the total value of the cart, not just the item that triggered the event); in the actual payment currency.
+              currency:
+                $ref: '#/components/schemas/Currency'
+              cart:
+                allOf:
+                - description: The cart's absolute current state, including the last item added. Products are ordered from the first added to the cart to the most recent.
+                - $ref: '#/components/schemas/CartEcom'
+            required:
+            - dyType
+            - value
+            - cart
+      example:
+        name: Sync Cart
+        properties:
+          dyType: sync-cart-v1
+          value: 125.5
+          currency: any supported currency code
+          cart:
+          - productId: sku-4324-bg
+            quantity: 2
+            itemPrice: 12.34
+          - productId: item-34454
+            quantity: 1
+            itemPrice: 34.45
+    Dyid:
+      description: The _dyid cookie value. The user ID assigned to visitors by Dynamic Yield. For a new user, send this param empty. Learn more about the [user ID](https://dy.dev/docs/experience-api-basics#user-id).
+      type: string
+    Browser:
+      description: Use when the user agent isn't available. Valid values are:<br>`Chrome`, `Firefox`, `Opera`, `Safari`, `Other`
+      type: string
+      enum:
+      - Chrome
+      - Firefox
+      - Opera
+      - Safari
+      - Other
+      example: Firefox
+    BranchIdQsr:
+      description: The ID of the branch the recommendation is for.
+      type: string
+    SearchPayloadEcom:
+      title: Search Request - E-Commerce
+      type: object
+      properties:
+        user:
+          $ref: '#/components/schemas/ChooseUserEcom'
+        session:
+          $ref: '#/components/schemas/SessionChoose'
+        query:
+          oneOf:
+          - $ref: '#/components/schemas/QuerySemanticSearch'
+          - $ref: '#/components/schemas/QueryVisualSearch'
+        context:
+          $ref: '#/components/schemas/ContextSearchEcom'
+        selector:
+          $ref: '#/components/schemas/SelectorSearch'
+        options:
+          $ref: '#/components/schemas/OptionsSearchEcom'
+      required:
+      - user
+      - session
+      - query
+      - context
+      - selector
+    ShoppingMuseResult:
+      title: Shopping Muse Results
+      type: object
+      properties:
+        choices:
+          description: The chosen variation for each campaign.
+          type: array
+          items:
+            title: 'type: SHOPPING_MUSE_DECISION'
+            type: object
+            properties:
+              id:
+                type: string
+              name:
+                type: string
+                default: Shopping Muse
+                pattern: Shopping Muse
+              type:
+                type: string
+                default: SHOPPING_MUSE_DECISION
+                pattern: SHOPPING_MUSE_DECISION
+              variations:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: number
+                    payload:
+                      type: object
+                      properties:
+                        type:
+                          type: string
+                          default: SHOPPING_MUSE
+                          pattern: SHOPPING_MUSE
+                        data:
+                          type: object
+                          properties:
+                            chatId:
+                              type: string
+                            status:
+                              type: string
+                            blocks:
+                              type: array
+                              items:
+                                oneOf:
+                                - type: object
+                                  properties:
+                                    type:
+                                      type: string
+                                      enum:
+                                      - text
+                                    data:
+                                      type: string
+                                    support:
+                                      type: boolean
+                                    fallback:
+                                      type:
+                                      - string
+                                      - 'null'
+                                  required:
+                                  - type
+                                  - data
+                                  - support
+                                - type: object
+                                  properties:
+                                    type:
+                                      type: string
+                                      enum:
+                                      - markdown
+                                    data:
+                                      type: object
+                                      properties:
+                                        contentType:
+                                          type: string
+                                          enum:
+                                          - table
+                                          - text
+                                        content:
+                                          type: string
+                                      required:
+                                      - contentType
+                                      - content
+                                    support:
+                                      type: boolean
+                                    fallback:
+                                      type:
+                                      - string
+                                      - 'null'
+                                  required:
+                                  - type
+                                  - data
+                                  - support
+                                - type: object
+                                  properties:
+                                    type:
+                                      type: string
+                                      enum:
+                                      - redirect
+                                    data:
+                                      type: object
+                                      properties:
+                                        contentType:
+                                          type: string
+                                          enum:
+                                          - checkout
+                                          - web_url
+                                        url:
+                                          type: string
+                                      required:
+                                      - contentType
+                                      - url
+                                    support:
+                                      type: boolean
+                                    fallback:
+                                      type:
+                                      - string
+                                      - 'null'
+                                  required:
+                                  - type
+                                  - data
+                                  - support
+                                - type: object
+                                  properties:
+                                    type:
+                                      type: string
+                                      enum:
+                                      - recommendation
+                                    data:
+                                      type: array
+                                      items:
+                                        type: object
+                                        properties:
+                                          title:
+                                            type: string
+                                          slots:
+                                            type: array
+                                            items:
+                                              type: object
+                                              properties:
+                                                sku:
+                                                  type: string
+                                                slotId:
+                                                  type: string
+                                                productData:
+                                                  type: object
+                                              required:
+                                              - sku
+                                              - slotId
+                                              - productData
+                                        required:
+                                        - title
+                                        - slots
+                                    support:
+                                      type: boolean
+                                    fallback:
+                                      type:
+                                      - string
+                                      - 'null'
+                                  required:
+                                  - type
+                                  - data
+                                  - support
+                          required:
+                          - chatId
+                          - status
+                          - blocks
+                    analyticsMetadata:
+                      type: object
+                      properties:
+                        campaignId:
+                          type: number
+                        campaignName:
+                          type: string
+                        experienceId:
+                          type: number
+                        experienceName:
+                          type: string
+                        variationId:
+                          type: number
+                        variationName:
+                          type: string
+              decisionId:
+                type: string
+        cookies:
+          description: Cookies returned from the server.
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+              value:
+                type: string
+              maxAge:
+                type: string
+        warnings:
+          description: Errors returned by the server.
+          type: array
+          items:
+            type: object
+            properties:
+              code:
+                type: string
+              message:
+                type: string
+    DayPart:
+      description: Define the period of the day the request ralates to. Possible values are those used in the Product Catalog.
+      type: string
+      enum:
+      - BREAKFAST
+      - LUNCH
+      - DINNER
+      - LATENIGHT
+    QuerySuggestions:
+      description: Parameters for autosuggest queries.
+      type: array
+      items:
+        type: object
+        properties:
+          type:
+            description: The type of suggestion to generate.
+            type: string
+            enum:
+            - querySuggestions
+            default: querySuggestions
+          maxResults:
+            description: The maximum number of results to return.
+            type: number
+        required:
+        - type
+    DeviceTypeEcom:
+      description: Use when the user agent isn't available. Valid values are:<br>`DESKTOP`, `SMARTPHONE`, `TABLET`, `KIOSK`
+      type: string
+      enum:
+      - DESKTOP
+      - SMARTPHONE
+      - TABLET
+      - KIOSK
+    EngagementTypeEcomSlotClick:
+      description: Pass the value `SLOT_CLICK` for API recommendation campaigns.
+      type: string
+      enum:
+      - SLOT_CLICK
+    ChannelEcom:
+      description: Report and monitor each channel’s Experience API implementation. The channel corresponds to the Experience OS app used (`WEB` or `APP`), and the values are available for filtering in the API logs.
+      type: string
+      enum:
+      - WEB
+      - APP
+    EngagementEcomSlotClick:
+      title: 'Engagement (type: SLOT_CLICK)'
+      description: A user engagement with a DY campaign.
+      type: object
+      properties:
+        type:
+          $ref: '#/components/schemas/EngagementTypeEcomSlotClick'
+        slotId:
+          $ref: '#/components/schemas/SlotId'
+        variations:
+          type: array
+          items:
+            type: number
+          description: The variations IDs
+      required:
+      - type
+      - slotId
+    EngagementEcomClickImp:
+      title: 'Engagement (type: IMP, CLICK)'
+      description: A user engagement with a DY campaign.
+      type: object
+      properties:
+        type:
+          $ref: '#/components/schemas/EngagementTypeEcomClickImp'
+        decisionId:
+          $ref: '#/components/schemas/DecisionId'
+        variations:
+          $ref: '#/components/schemas/Variations'
+      required:
+      - type
+      - decisionId
+    Progress:
+      description: 'Possible values:<br><ul><li>`VIDEO_STARTED` (default): The video started playing. It doesn''t indicate whether it was then watched till the end or up to any specific marker.</li><li>`PREROLL_FINISHED`: the pre-roll was watched in full.</li><li>`VIDEO_FINISHED`: The content was watched in full (whether or not a pre-roll was included)</li><li>`VIDEO_PROGRESS`: If the client can periodically report fine-grained progress in percentages within the video, use this value together with the `progressPercent` property.</li></ul>'
+      type: string
+      enum:
+      - VIDEO_STARTED
+      - PREROLL_FINISHED
+      - VIDEO_FINISHED
+      - VIDEO_PROGRESS
+      example: VIDEO_STARTED
+    ChoosePayloadEcom:
+      title: Choose Request - E-Commerce
+      type: object
+      properties:
+        user:
+          $ref: '#/components/schemas/ChooseUserEcom'
+        session:
+          $ref: '#/components/schemas/SessionChoose'
+        context:
+          $ref: '#/components/schemas/ContextChooseEcom'
+        selector:
+          $ref: '#/components/schemas/SelectorChoose'
+        options:
+          $ref: '#/components/schemas/OptionsChooseEcom'
+      required:
+      - user
+      - session
+      - context
+      - selector
+    BrowsePayloadEcom:
+      title: Implement Category Pages on Your Website
+      type: object
+      properties:
+        user:
+          $ref: '#/components/schemas/ChooseUserEcom'
+        session:
+          $ref: '#/components/schemas/SessionChoose'
+        query:
+          $ref: '#/components/schemas/QueryBrowse'
+        context:
+          $ref: '#/components/schemas/ContextSearchEcom'
+        options:
+          $ref: '#/components/schemas/OptionsBrowse'
+      required:
+      - user
+      - session
+      - query
+      - context
+    SortItems:
+      title: Sort Items
+      description: Reports that the user changed the sorting of a product list.<br>**This event is currently available for script implementation only.**
+      type: object
+      properties:
+        name:
+          $ref: '#/components/schemas/EventName'
+        properties:
+          allOf:
+          - $ref: '#/components/schemas/EventProperties'
+          - properties:
+              dyType:
+                description: Must be `sort-items-v1`.
+                type: string
+                pattern: sort-items-v1
+                default: sort-items-v1
+              sortBy:
+                $ref: '#/components/schemas/SortBy'
+              sortOrder:
+                $ref: '#/components/schemas/SortOrder'
+            required:
+            - dyType
+            - sortBy
+            - sortOrder
+      example:
+        name: Sort Items
+        properties:
+          dyType: sort-items-v1
+          sortBy: PRICE
+          sortOrder: ASC
+    ChoosePayloadFi:
+      allOf:
+      - title: Choose Request - Financial Institutions
+      - $ref: '#/components/schemas/ChoosePayloadEcom'
+  examples:
+    SuggestRequestExample01:
+      value:
+        user:
+          active_consent_accepted: false
+          dyid: '4350463893986789401'
+          dyid_server: '4350463893986789401'
+        session:
+          dy: ohyr6v42l9zd4bpinnvp7urjjx9lrssw
+        query:
+          text: dre
+          suggestions:
+          - type: querySuggestions
+            maxResults: 8
+        context:
+          page:
+            locale: en_us
+    ChoiceExampleControl01:
+      value:
+        type: object
+        properties:
+          choices:
+          - id: '652700'
+            name: demoBanner
+            type: DECISION
+            groups:
+            - demo
+            decisionId: mbQtNDMxOTQxODU1MTU3ODI0MjY2Ms4AGKErqDEyNjkyNjU4AJECkc4BsFonpTQ1OTg4wMA=
+          cookies:
+          - name: _dyid_server
+            value: '7282320792394869879'
+            maxAge: '31556926'
+          - name: _dyjsession
+            value: e3xi77qrxbsxxxmi18d8kxek6tdd12qj
+            maxAge: '1800'
+    BrowseRequestExample01:
+      value:
+        user:
+          active_consent_accepted: true
+          dyid: '122113'
+          dyid_server: '3213213'
+        session:
+          dy: '3123123'
+        query:
+          displayName: LBD
+          filters:
+          - field: category
+            values:
+            - dresses
+            - tops
+          - field: price
+            min: 100
+            max: 200
+          pagination:
+            numItems: 10
+            offset: 0
+        context:
+          page:
+            type: HOMEPAGE
+            location: https://shop.biz/nice-shirt-p76311.html
+            referrer: https://google.cz
+            locale: en_US
+        options:
+          returnAnalyticsMetadata: false
+          isImplicitClientData: false
+    SearchRequestExample01:
+      value:
+        query:
+          imageBase64: bGlnaHQgd29yay4=
+          text: dress
+          filters:
+          - field: category
+            values:
+            - dresses
+            - tops
+          - field: price
+            min: 100
+            max: 200
+          pagination:
+            numItems: 10
+            offset: 0
+          enableSpellCheck: true
+        user:
+          active_consent_accepted: true
+          dyid: '122113'
+          dyid_server: '3213213'
+        session:
+          dy: '3123123'
+        context:
+          page:
+            type: HOMEPAGE
+            location: https://shop.biz/nice-shirt-p76311.html
+            referrer: https://google.cz
+            locale: en_US
+        selector:
+          name: Visual Search
+        options:
+          returnAnalyticsMetadata: false
+          isImplicitClientData: false
+    ChoiceExample01:
+      value:
+        choices:
+        - id: 5
+          name: PDP Top Banner
+          type: DECISION
+          decisionId: aGVsbG8K
+          variations:
+          - id: 52
+            payload:
+              type: CUSTOM_JSON
+              data:
+                key1: value1
+                key2: value2
+            analyticsMetadata:
+              campaignId: 771007
+              campaignName: Global control group
+              experienceId: 1464264
+              experienceName: Served DY
+              variationId: 27883308
+              variationName: Variation 1
+        - id: 24
+          name: PDP Recs
+          type: RECS_DECISION
+          decisionId: d29ybGQK
+          variations:
+          - id: 203
+            payload:
+              type: RECS
+              data:
+                slots:
+                - slotId: aGVsbG93b3JsZAo=
+                  sku: '6323723'
+                  productData:
+                    name: Plaid shirt
+                    price: 39.99
+                    url: https://website.com/men-pants/p6323723-020
+                - slotId: d2VsY29tZWR1ZAo=
+                  sku: '5413764'
+                  productData:
+                    name: Khaki pants
+                    price: 59.99
+                    url: https://website.com/men-pants/p5413764-010
+    ChoosePayloadExample01:
+      value:
+        user:
+          dyid: '-4350463893986789401'
+          dyid_server: '-4350463893986789401'
+        session:
+          dy: ohyr6v42l9zd4bpinnvp7urjjx9lrssw
+        selector:
+          names:
+          - PDP Top Banner
+          - PDP Recs
+        context:
+          page:
+            type: PRODUCT
+            data:
+            - 7383723-010
+            location: <https://sugoi-ne.com/men-pants/p7383723-010>
+            referrer: <https://sugoi-ne.com/men-pants>
+            locale: en_US
+          device:
+            userAgent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36
+            ip: 54.100.200.255
+          pageAttributes:
+            customPageAttribute: someValue
+        options:
+          isImplicitPageview: false
+  responses:
+    InvalidUnprocessable:
+      description: Unprocessable request.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            InvalidUnprocessableExample:
+              value:
+                message: Unprocessable request.
+    SuccessShoppingMuse:
+      description: Shopping Muse response returned successfully.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ShoppingMuseResult'
+    SuccessSearch:
+      description: Query results returned successfully.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/QueryResults'
+    SuccessChoose:
+      description: Variation chosen successfully.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Choice'
+          examples:
+            ChooseResponseExample:
+              $ref: '#/components/examples/ChoiceExample01'
+            ChooseResponseExampleControl:
+              $ref: '#/components/examples/ChoiceExampleControl01'
+    Unauthorized:
+      description: Unauthorized request.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                description: Error code returned when the request is unauthorized.
+                type: string
+                example: '401'
+    Success:
+      description: Success.
+    Invalid:
+      description: Invalid request.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            InvalidExample:
+              value:
+                message: Invalid request.
+    SuccessSuggest:
+      description: Query results returned successfully.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/QuerySuggestionResults'
+  requestBodies:
+    SearchBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/SearchPayloadEcom'
+          examples:
+            SearchRequestExample:
+              $ref: '#/components/examples/SearchRequestExample01'
+    PageviewBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            anyOf:
+            - $ref: '#/components/schemas/PageviewPayloadEcom'
+            - $ref: '#/components/schemas/PageviewPayloadFi'
+    SuggestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/SuggestPayloadEcom'
+          examples:
+            SuggestRequestExample:
+              $ref: '#/components/examples/SuggestRequestExample01'
+    BrowseBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/BrowsePayloadEcom'
+          examples:
+            BrowseRequestExample:
+              $ref: '#/components/examples/BrowseRequestExample01'
+    ChooseBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            anyOf:
+            - $ref: '#/components/schemas/ChoosePayloadEcom'
+            - $ref: '#/components/schemas/ChoosePayloadFi'
+            - $ref: '#/components/schemas/ChoosePayloadQsr'
+          examples:
+            ChooseRequestExample:
+              $ref: '#/components/examples/ChoosePayloadExample01'
+    EngagementBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            anyOf:
+            - $ref: '#/components/schemas/EngagementPayloadEcom'
+            - $ref: '#/components/schemas/EngagementPayloadFi'
+            - $ref: '#/components/schemas/EngagementPayloadQsr'
+    EventBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            anyOf:
+            - $ref: '#/components/schemas/EventPayloadEcom'
+            - $ref: '#/components/schemas/EventPayloadFi'
+            - $ref: '#/components/schemas/EventPayloadQsr'
+    ShoppingMuseBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ShoppingMusePayloadEcom'
+  securitySchemes:
+    ApiKeyAuth:
+      description: Your API key
+      type: apiKey
+      in: header
+      name: dy-api-key
+      x-default: your-api-key
+x-provenance:
+  method: searched
+  source: https://dy.dev/reference
+  harvested: '2026-10-14'
+  tool: harvest-readme-openapi.py
+  note: Assembled verbatim from the OpenAPI definition ReadMe embeds in each operation page of the provider's developer portal; paths and components merged by API title, nothing authored.
+  assembled_from:
+  - https://dy.dev/reference/browse.md
+  - https://dy.dev/reference/choose-variations.md
+  - https://dy.dev/reference/externalevents.md
+  - https://dy.dev/reference/profileanywhere.md
+  - https://dy.dev/reference/reportoutages.md
+  - https://dy.dev/reference/search.md
+  - https://dy.dev/reference/shoppingmuse.md
+  - https://dy.dev/reference/suggest.md
+  - https://dy.dev/reference/track-engagement.md
+  - https://dy.dev/reference/track-pageviews.md
+  - https://dy.dev/reference/trackevents.md
+  - https://dy.dev/reference/tracktransactionstatusspecificitem.md
+  - https://dy.dev/reference/tracktransactionstatuswholetransaction.md
+  - https://dy.dev/reference/update-reconnect-opt-in.md
+  - https://dy.dev/reference/update-reconnect-opt-out.md
+  - https://dy.dev/reference/updateaddonsfeed.md
+  - https://dy.dev/reference/updatebranchfeed.md
+  - https://dy.dev/reference/updateproductfeed.md
+  - https://dy.dev/reference/userdataapi.md
+  merge:
+    pages: 19
+    deduped: 262
+    conflicts_kept_first: 0

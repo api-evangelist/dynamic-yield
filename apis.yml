@@ -163,8 +163,10 @@ common:
 
 apis:
 - name: Dynamic Yield Experience OS API
-  description: Server-side Experience APIs and related product APIs for personalization, recommendations, event collection, product catalog sync,
-    search, and the Shopping Muse AI assistant. Authenticated with a DY-API-Key API key.
+  description: >-
+    Server-side Experience APIs and related product APIs for personalization, recommendations, event collection,
+    product catalog sync, search, and the Shopping Muse AI assistant. Authenticated with a DY-API-Key
+    API key.
   humanURL: https://dy.dev/reference
   baseURL: https://dy-api.com
   tags:
@@ -185,7 +187,20 @@ apis:
   - type: GettingStarted
     url: https://dy.dev/docs/getting-started
   aid: dynamic-yield:dynamic-yield-experience-os-api
-- aid: dynamic-yield:dynamic-yield-experience-api
+- aid: dynamic-yield:dynamic-yield-api-only-api
+  name: Dynamic Yield API only API
+  description: >-
+    API-only mode endpoints, for users who want to use the Experience APIs without using the full Experience
+    OS features. In API-only mode, you are responsible for generating user and session IDs, and for reporting
+    pageviews and events, while still benefiting from Dynamic Yield's personalization capabilities.
+  humanURL: https://dy.dev/reference
+  baseURL: https://dy-api.com
+  tags:
+  - API only
+  properties:
+  - type: OpenAPI
+    url: openapi/dynamic-yield-api-only-api-openapi.yml
+- aid: dynamic-yield:dynamic-yield-experience-apis-api
   name: Dynamic Yield Experience APIs API
   description: Serve user experience and track user interactions.
   humanURL: https://dy.dev/reference
@@ -194,20 +209,37 @@ apis:
   - Experience APIs
   properties:
   - type: OpenAPI
-    url: openapi/dynamic-yield-experience-api-openapi.yml
-- aid: dynamic-yield:dynamic-yield-experience-apis-for-api-sections
-  name: Dynamic Yield API only API
-  description: API-only mode endpoints, for users who want to use the Experience APIs without using the full Experience OS features. In API-only
-    mode, you are responsible for generating user and session IDs, and for reporting pageviews and events, while still benefiting from Dynamic
-    Yield's personalization capabilities.
+    url: openapi/dynamic-yield-experience-apis-api-openapi.yml
+- aid: dynamic-yield:dynamic-yield-product-data-api
+  name: Dynamic Yield Product Data API
+  description: Update and monitor product data.
   humanURL: https://dy.dev/reference
   baseURL: https://dy-api.com
   tags:
-  - API only
+  - Product Data
   properties:
   - type: OpenAPI
-    url: openapi/dynamic-yield-experience-apis-for-api-sections-openapi.yml
-
+    url: openapi/dynamic-yield-product-data-api-openapi.yml
+- aid: dynamic-yield:dynamic-yield-profile-anywhere-api
+  name: Dynamic Yield Profile Anywhere API
+  description: Retrieve user affinity data.
+  humanURL: https://dy.dev/reference
+  baseURL: https://dy-api.com
+  tags:
+  - Profile Anywhere
+  properties:
+  - type: OpenAPI
+    url: openapi/dynamic-yield-profile-anywhere-api-openapi.yml
+- aid: dynamic-yield:dynamic-yield-user-data-api-api
+  name: Dynamic Yield User Data API
+  description: Update user data.
+  humanURL: https://dy.dev/reference
+  baseURL: https://dy-api.com
+  tags:
+  - User Data API
+  properties:
+  - type: OpenAPI
+    url: openapi/dynamic-yield-user-data-api-api-openapi.yml
 x-enrichment:
   date: '2026-07-19'
   status: backfilled

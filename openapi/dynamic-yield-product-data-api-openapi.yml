@@ -1,0 +1,623 @@
+openapi: 3.2.0
+info:
+  version: '2.2'
+  title: Dynamic Yield Experience Product Data API
+  description: API definitions for all Dynamic Yield public endpoints.
+  contact:
+    name: API Support
+    email: apisupport@mastercard.com
+    url: https://developer.mastercard.com/support
+servers:
+- url: https://dy-api.com/v2
+  description: US data center
+- url: https://direct.dy-api.com/v2
+  description: US data center, direct endpoint
+- url: https://dy-api.eu/v2
+  description: EU data center
+- url: https://direct.dy-api.eu/v2
+  description: EU data center, direct endpoint
+security:
+- ApiKeyAuth: []
+tags:
+- name: Product Data
+  description: Update and monitor product data.
+paths:
+  /feeds/add-ons:
+    summary: Update Add-Ons Feed
+    post:
+      summary: Update Add-Ons Feed
+      description: 'Update the product add-ons for a global product feed.
+
+        **NOTE:** This endpoint accepts data in both JSON and CSV formats. Adjust the value for the `Content-Type` HTTP header as necessary (`application/json` vs. `text/csv`).
+
+        **USE ONLY FOR RESTAURANT SECTIONS**'
+      operationId: updateAddOnsFeed
+      tags:
+      - Product Data
+      parameters:
+      - $ref: '#/components/parameters/DySectionId'
+      requestBody:
+        $ref: '#/components/requestBodies/AddOnsFeedBody'
+      responses:
+        '200':
+          $ref: '#/components/responses/Success'
+        '400':
+          $ref: '#/components/responses/Invalid'
+  /feeds/branch/outage/bulk:
+    summary: Report Outages
+    post:
+      summary: Report Outages
+      description: 'Report an outage of products in one or more stores.
+
+        **USE ONLY FOR RESTAURANT SECTIONS**'
+      operationId: reportOutages
+      tags:
+      - Product Data
+      requestBody:
+        $ref: '#/components/requestBodies/OutageBody'
+      responses:
+        '204':
+          $ref: '#/components/responses/Success'
+  /feeds/branch/{id}/inventory:
+    summary: Update Branch Product Feed
+    post:
+      summary: Update Branch Product Feed
+      description: 'Update the branch level feed state.
+
+        **USE ONLY FOR RESTAURANT SECTIONS**'
+      operationId: updateBranchFeed
+      tags:
+      - Product Data
+      parameters:
+      - $ref: '#/components/parameters/BranchFeedId'
+      requestBody:
+        $ref: '#/components/requestBodies/BranchFeedBody'
+      responses:
+        '204':
+          description: Branch feed uploaded successfully.
+        '400':
+          $ref: '#/components/responses/Invalid'
+        '404':
+          $ref: '#/components/responses/NotFoundBranchFeed'
+        '422':
+          $ref: '#/components/responses/InvalidBranchFeed'
+  /feeds/{feedId}/bulk:
+    summary: Update Product Feed
+    post:
+      summary: Update Product Feed
+      description: 'Usually, a product feed is updated periodically. However, if you have a large number of products in your feed, updates can take some time. To avoid this, you can use an API to update only the changes in your feed (remove or add specific items, change item properties, and so on), and make changes to the feed more quickly.
+
+        **Support site article:** Creating and Syncing a Product Feed Using APIs'
+      operationId: updateProductFeed
+      tags:
+      - Product Data
+      parameters:
+      - $ref: '#/components/parameters/ProductFeedId'
+      requestBody:
+        $ref: '#/components/requestBodies/ProductFeedBody'
+      responses:
+        '200':
+          $ref: '#/components/responses/SuccessProductFeed'
+  /feeds/{feedId}/transaction/{transactionId}:
+    summary: Track Transaction Status - Whole Transaction
+    get:
+      summary: Track Transaction Status - Whole Transaction
+      description: 'Use this API to receive the status of an API call.
+
+        **Support site article:** Creating and Syncing a Product Feed Using APIs'
+      operationId: trackTransactionStatusWholeTransaction
+      tags:
+      - Product Data
+      parameters:
+      - $ref: '#/components/parameters/ProductFeedId'
+      - $ref: '#/components/parameters/ProductFeedTransactionId'
+      responses:
+        '200':
+          $ref: '#/components/responses/ResultTransactionStatus'
+  /feeds/{feedId}/transaction/{transactionId}/item/{itemId}:
+    summary: Track Transaction Status - Specific Item
+    get:
+      summary: Track Transaction Status - Specific Item
+      description: 'Use this API to receive the status of an API call.
+
+        **Support site article:** Creating and Syncing a Product Feed Using APIs'
+      operationId: trackTransactionStatusSpecificItem
+      tags:
+      - Product Data
+      parameters:
+      - $ref: '#/components/parameters/ProductFeedId'
+      - $ref: '#/components/parameters/ProductFeedTransactionId'
+      - $ref: '#/components/parameters/ProductFeedItemId'
+      responses:
+        '200':
+          $ref: '#/components/responses/ResultTransactionStatusSpecificItem'
+components:
+  schemas:
+    AddOnsFeedPayloadQsr:
+      title: Add-Ons Feed Update Request - Restaurants
+      description: Update the product add-ons for a global product feed.
+      type: array
+      items:
+        type: object
+        properties:
+          sku:
+            $ref: '#/components/schemas/Sku'
+          add_on_sku:
+            description: The SKU of the add-on product. These SKUs must exist in the global product feed.
+            type: string
+          default_quantity:
+            $ref: '#/components/schemas/DefaultQuantity'
+          min_quantity:
+            $ref: '#/components/schemas/MinQuantity'
+          max_quantity:
+            $ref: '#/components/schemas/MaxQuantity'
+          charge_threshold:
+            $ref: '#/components/schemas/ChargeThreshold'
+        required:
+        - sku
+        - add_on_sku
+    CartItemPrice:
+      description: unit.cents format using the section default currency.
+      type: number
+      example: 23.99
+    MinQuantity:
+      description: The minimum quantity of this ingredient (add on) inside the parent product.
+      type: number
+      example: 0
+    MaxQuantity:
+      description: The maximum quantity of this ingredient (add on) inside the parent product.
+      type: number
+      example: 3
+    TransactionStatus:
+      title: Transaction Status
+      type: array
+      items:
+        $ref: '#/components/schemas/TransactionStatusSpecificItem'
+    DefaultQuantity:
+      description: The default quantity of this ingredient (add on) inside the parent product.
+      type: number
+      example: 1
+    TransactionStatusSpecificItem:
+      title: Transaction Status - Specific Item
+      type: object
+      properties:
+        item:
+          description: The request item's ID.
+          type: string
+          example: abc-123
+        status:
+          description: Whether the item has been successfully updated.
+          type: string
+          example: success
+        time:
+          description: Timestamp for most recent status change.
+          type: string
+          example: 2023-03-30T08:20:35.827+0000
+      additionalProperties: true
+    Price:
+      description: The price of the product that is used in the specific branch.
+      type: number
+      example: 3.14
+    ProductFeedAction:
+      description: Type of action requested. Valid values are:<ul>`update` - Insert a new product or rewrite an entire product’s data<br>`partial` - Update specific fields for a single product<br>`delete` - Delete a product</ul>
+      type: string
+      enum:
+      - update
+      - partial
+      - delete
+    ProductFeedUpdate:
+      title: Product Feed Update
+      type: object
+      properties:
+        success:
+          description: The update request's success status.
+          type: boolean
+          example: true
+        data:
+          description: Response body.
+          type: object
+          properties:
+            transaction_id:
+              description: The ID for the update transaction. A transaction includes all individual items for which an update was requested.
+              type: string
+              example: 3754b085584be8561926dabc32b359a0
+    OutagesQsr:
+      description: A list of outage reports per branch.
+      type: array
+      items:
+        type: object
+        properties:
+          branchId:
+            $ref: '#/components/schemas/BranchIdQsr'
+          products:
+            $ref: '#/components/schemas/OutageProducts'
+        required:
+        - branchId
+        - products
+    ErrorType:
+      description: The type of error encountered.
+      type: string
+      example: badRequest
+    OutageProducts:
+      description: A list of out-of-stock product IDs
+      type: array
+      items:
+        type: string
+    ErrorMessage:
+      description: Error description.
+      type: string
+      example: request must contain context page location
+    Error:
+      description: Response object for an invalid request.
+      type: object
+      properties:
+        message:
+          $ref: '#/components/schemas/ErrorMessage'
+        type:
+          $ref: '#/components/schemas/ErrorType'
+    Name:
+      description: A local variation of the product name, if exists in the specific branch.
+      type: string
+    ProductFeedBody:
+      description: Single request body.
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/ProductFeedData'
+    Availability:
+      description: Whether the product is available in the specific branch or not. Unavailable products will not be recommended.
+      type: boolean
+      example: true
+    ChargeThreshold:
+      description: The amount from which the QSR is going to charge for the addition of the add on.
+      type: number
+      example: 1
+    OutagePayloadQsr:
+      title: Outage Request - Restaurants
+      type: object
+      properties:
+        outages:
+          $ref: '#/components/schemas/OutagesQsr'
+      required:
+      - outages
+    BranchIdQsr:
+      description: The ID of the branch the recommendation is for.
+      type: string
+    ProductFeedData:
+      description: Product data.
+      type: object
+      properties:
+        sku:
+          $ref: '#/components/schemas/CartProductIdEcom'
+        group_id:
+          description: Product group ID.
+          type: string
+          example: abc
+        url:
+          description: Product details page URL (must be a valid URL, starting with HTTP/HTTPS).
+          type: string
+          example: http://www.example.com/abc-123
+        name:
+          description: The product display name.
+          type: string
+          example: white sneakers
+        price:
+          $ref: '#/components/schemas/CartItemPrice'
+        in_stock:
+          description: Whether the product is in stock or in outage.
+          type: boolean
+          example: true
+        image_url:
+          description: Product image URL.
+          type: string
+          example: http://www.example.com/abc-123.png
+        categories:
+          description: Categories the product belongs to.
+          type: string
+          example: shoes|sneakers
+        description:
+          description: A product description.
+          type: string
+          example: The white sneakers that everybody wants
+        publish_time:
+          description: 'Date & time the product was published (added to feed or edited), using the following format: `yyyy-MM-dd''T''HH:mm:ss`'
+          type: string
+          example: '2018-02-12T17:05:12'
+        keywords:
+          description: A list of keywords describing the product.
+          type: string
+          example: tag1|tag2
+      additionalProperties: true
+    Sku:
+      description: The SKU (unique identifier) of the product. These SKUs must exist in the global product feed.
+      type: string
+      example: A123
+    ProductFeedPayload:
+      title: Product Feed Request
+      type: object
+      properties:
+        requests:
+          $ref: '#/components/schemas/ProductFeedRequests'
+      required:
+      - requests
+      example:
+        requests:
+        - id: 56EF030B
+          action: UPDATE
+          body:
+            data:
+              sku: 56EF030B
+              group_id: abc
+              url: http://www.example.com/abc-123
+              name: white sneakers
+              price: 40.9
+              in_stock: true
+              image_url: http://www.example.com/abc-123.png
+              categories: shoes|sneakers
+              description: The white sneakers that everybody wants
+              publish_time: '2018-02-12T17:05:12'
+              keywords: tag1|tag2
+        - id: 56EF0889
+          action: DELETE
+    Addons:
+      description: The SKUs of all the products that can be added onto the main product, and the permitted quantities.
+      type: array
+      items:
+        properties:
+          sku:
+            $ref: '#/components/schemas/Sku'
+          default_quantity:
+            $ref: '#/components/schemas/DefaultQuantity'
+          min_quantity:
+            $ref: '#/components/schemas/MinQuantity'
+          max_quantity:
+            $ref: '#/components/schemas/MaxQuantity'
+          charge_threshold:
+            $ref: '#/components/schemas/ChargeThreshold'
+        required:
+        - sku
+    CartProductIdEcom:
+      description: SKU exactly as it appears in the product feed.
+      type: string
+    ProductFeedRequests:
+      description: A list of product feed action requests.
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            $ref: '#/components/schemas/CartProductIdEcom'
+          action:
+            $ref: '#/components/schemas/ProductFeedAction'
+          body:
+            $ref: '#/components/schemas/ProductFeedBody'
+        required:
+        - id
+        - action
+    BranchFeedPayloadQsr:
+      title: Branch Feed Update Request - Restaurants
+      description: Availability status and price for each product in a specific branch.
+      type: object
+      properties:
+        products:
+          description: A list of products to be updated.
+          type: array
+          items:
+            properties:
+              sku:
+                $ref: '#/components/schemas/Sku'
+              availability:
+                $ref: '#/components/schemas/Availability'
+              price:
+                $ref: '#/components/schemas/Price'
+              name:
+                $ref: '#/components/schemas/Name'
+              addons:
+                $ref: '#/components/schemas/Addons'
+            required:
+            - sku
+            - availability
+            - price
+      required:
+      - products
+  responses:
+    NotFoundBranchFeed:
+      description: Branch not found.
+    Invalid:
+      description: Invalid request.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            InvalidExample:
+              value:
+                message: Invalid request.
+    InvalidBranchFeed:
+      description: Unprocessable Content. In the case of application/gzip content-type, the file is corrupt and cannot be unzipped.
+    ResultTransactionStatusSpecificItem:
+      description: Result
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/TransactionStatusSpecificItem'
+          example:
+            $ref: '#/components/examples/TransactionStatusSpecificItemExample01'
+    Success:
+      description: Success.
+    SuccessProductFeed:
+      description: Product feed udpated successfully.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ProductFeedUpdate'
+          examples:
+            ProductFeedResponseExample01:
+              $ref: '#/components/examples/ProductFeedUpdateExample01'
+    ResultTransactionStatus:
+      description: Result
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/TransactionStatus'
+          example:
+            $ref: '#/components/examples/TransactionStatusExample01'
+  parameters:
+    ProductFeedId:
+      name: feedId
+      description: The ID of the feed.
+      in: path
+      required: true
+      schema:
+        type: string
+      example: '85915'
+    DySectionId:
+      name: dy-section-id
+      description: The ID of the section.
+      in: header
+      required: true
+      schema:
+        type: string
+      example: '85915'
+    ProductFeedItemId:
+      name: itemId
+      description: The ID of the item.
+      in: path
+      required: true
+      schema:
+        type: string
+      example: abc-123
+    BranchFeedId:
+      name: id
+      description: The branch ID.
+      in: path
+      required: true
+      schema:
+        type: string
+      example: '4012'
+    ProductFeedTransactionId:
+      name: transactionId
+      description: The ID of the transaction received from an API call.
+      in: path
+      required: true
+      schema:
+        type: string
+      example: MDcyNWM0MTEtYWZlZS00MjdkLWExYmYtMDlhMWIwNGFjMzg4LWZpZC0yMTYxNi10cy0xNTg2NjgxOTE0MDYwLXQtcGFydGlhbA
+  examples:
+    ProductFeedUpdateExample01:
+      value:
+        success: true
+        data:
+          transaction_id: MDcyNWM0MTEtYWZlZS00MjdkLWExYmYtMDlhMWIwNGFjMzg4LWZpZC0yMTYxNi10cy0xNTg2NjgxOTE0MDYwLXQtcGFydGlhbA==
+    TransactionStatusExample01:
+      value:
+      - item: abc-123
+        status: success
+        time: 2023-03-30T08:20:35.827+0000
+      - item: abcde-123
+        status: failed
+        time: 2023-03-30T08:20:23.324+0000
+        message: failed
+      - item: abcd-123
+        status: success
+        time: 2023-03-30T08:20:30.005+0000
+        message: Item missing
+    TransactionStatusSpecificItemExample01:
+      value:
+        item: abc-123
+        status: success
+        time: 2023-03-30T08:20:35.827+0000
+    ProductFeedPayloadExample01:
+      value:
+        requests:
+        - id: abc-123
+          action: UPDATE
+          body:
+            data:
+              sku: abc-123
+              group_id: abc
+              url: http://www.example.com/abc-123
+              name: white sneakers
+              price: 29.99
+              in_stock: true
+              image_url: http://www.example.com/abc-123.png
+              categories: shoes|sneakers
+              description: The white sneakers that everybody wants
+              publish_time: '2018-02-12T17:05:12'
+              keywords: tag1|tag2
+              any_other_field: any other value
+        - id: abcd-123
+          action: delete
+        - id: abcde-123
+          action: partial
+          body:
+            data:
+              price: 39.99
+  requestBodies:
+    ProductFeedBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ProductFeedPayload'
+          example:
+            $ref: '#/components/examples/ProductFeedPayloadExample01'
+    BranchFeedBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/BranchFeedPayloadQsr'
+    OutageBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/OutagePayloadQsr'
+    AddOnsFeedBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/AddOnsFeedPayloadQsr'
+        text/csv:
+          schema:
+            type: string
+            format: csv
+  securitySchemes:
+    ApiKeyAuth:
+      description: Your API key
+      type: apiKey
+      in: header
+      name: dy-api-key
+      x-default: your-api-key
+x-provenance:
+  method: searched
+  source: https://dy.dev/reference
+  harvested: '2026-10-14'
+  tool: harvest-readme-openapi.py
+  note: Assembled verbatim from the OpenAPI definition ReadMe embeds in each operation page of the provider's developer portal; paths and components merged by API title, nothing authored.
+  assembled_from:
+  - https://dy.dev/reference/browse.md
+  - https://dy.dev/reference/choose-variations.md
+  - https://dy.dev/reference/externalevents.md
+  - https://dy.dev/reference/profileanywhere.md
+  - https://dy.dev/reference/reportoutages.md
+  - https://dy.dev/reference/search.md
+  - https://dy.dev/reference/shoppingmuse.md
+  - https://dy.dev/reference/suggest.md
+  - https://dy.dev/reference/track-engagement.md
+  - https://dy.dev/reference/track-pageviews.md
+  - https://dy.dev/reference/trackevents.md
+  - https://dy.dev/reference/tracktransactionstatusspecificitem.md
+  - https://dy.dev/reference/tracktransactionstatuswholetransaction.md
+  - https://dy.dev/reference/update-reconnect-opt-in.md
+  - https://dy.dev/reference/update-reconnect-opt-out.md
+  - https://dy.dev/reference/updateaddonsfeed.md
+  - https://dy.dev/reference/updatebranchfeed.md
+  - https://dy.dev/reference/updateproductfeed.md
+  - https://dy.dev/reference/userdataapi.md
+  merge:
+    pages: 19
+    deduped: 262
+    conflicts_kept_first: 0
