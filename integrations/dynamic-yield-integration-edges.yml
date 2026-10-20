@@ -8,6 +8,7 @@ source:
 checked:
 - https://cloudsecurityalliance.org/star/registry
 - https://composio.dev/toolkits/dynamic-yield
+- https://docs.mparticle.com/integrations/dynamic-yield/audience/
 - https://docs.mparticle.com/integrations/dynamic-yield/event/
 - https://eucoc.cloud/en/public-register/list-of-adherent-services
 - https://hightouch.com/docs/destinations/dynamic-yield
@@ -83,6 +84,26 @@ edges:
       - Track
   detected_by: sweep-cdp.py
   first_seen: '2026-10-14'
+- partner_name: mParticle
+  partner: mparticle
+  partner_match: aggregator
+  marketplace: coverage
+  channel: partner-built
+  direction: partner-built
+  type: coverage
+  relationship: connector-coverage
+  evidence: https://docs.mparticle.com/integrations/dynamic-yield/audience/
+  coverage_role:
+  - destination
+  cdp_signals:
+    destination:
+      catalog_entries:
+      - dynamic-yield
+      integration_types:
+      - audience
+      - event
+  detected_by: sweep-cdp.py
+  first_seen: '2026-10-14'
 - partner_name: Hightouch
   partner: hightouch
   partner_match: aggregator
@@ -136,24 +157,4 @@ edges:
     detected: '2026-10-20'
   detected_by: sweep-compliance-assurance.py
   first_seen: '2026-10-20'
-- partner_name: mParticle
-  partner: mparticle
-  partner_match: aggregator
-  marketplace: coverage
-  channel: partner-built
-  direction: partner-built
-  type: coverage
-  relationship: connector-coverage
-  evidence: https://docs.mparticle.com/integrations/dynamic-yield/event/
-  coverage_role:
-  - destination
-  cdp_signals:
-    destination:
-      catalog_entries:
-      - dynamic-yield
-      integration_types:
-      - audience
-      - event
-  detected_by: sweep-cdp.py
-  first_seen: '2026-10-14'
 templates: []
