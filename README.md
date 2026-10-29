@@ -64,6 +64,124 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Dynamic Yield is a company surfaced as a portfolio company of bessemer-venture-partners and added to the API Evangelist network as a stub for enrichment. Sector: cloud. This profile is a lead awaiting the enrichment pipeline.
+Dynamic Yield (a Mastercard company) is an experience optimization and personalization platform — branded "Experience OS" — used by retail, eCommerce, media, travel, and financial-services brands to individualize content, product recommendations, offers, search, and messaging across web, mobile app, email, and kiosk channels. The platform is MACH Alliance certified (microservices-based, API-first, cloud-native, headless) and exposes server-side Experience APIs (choose/collect for personalization and event tracking), a Product Feed / catalog API, a User Event API, Recommendation APIs, a Search API (query, pagination, filtering, sorting, autosuggest), and the Shopping Muse AI shopping-assistant API, alongside client-side script snippets and native mobile SDKs for iOS (Swift), Android (Kotlin), and React Native. Developer documentation, API reference, and a quarterly technical changelog are published at dy.dev. This profile was surfaced as a Bessemer Venture Partners portfolio company and enriched by the API Evangelist pipeline.
 
-Backed by: bessemer-venture-partners — https://www.dynamicyield.com/
+**Areas:** Company · Cloud · Personalization · Experience Optimization · Recommendations · A/B Testing · Search · E-Commerce · Retail · Machine Learning · MACH · Mastercard
+
+## Dynamic Yield on APIs.io
+
+Everything profiled for Dynamic Yield is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/dynamic-yield/](https://apis.io/providers/dynamic-yield/)** — or go straight to one of the APIs or properties below.
+
+### APIs (6)
+
+- [Dynamic Yield Experience OS API](https://apis.io/apis/dynamic-yield/dynamic-yield-experience-os-api/) — Server-side Experience APIs and related product APIs for personalization, recommendations, event collection, product catalog sync, search, and the Shopping…
+- [Dynamic Yield API only API](https://apis.io/apis/dynamic-yield/dynamic-yield-api-only-api/) — API-only mode endpoints, for users who want to use the Experience APIs without using the full Experience OS features. In API-only mode, you are responsible…
+- [Dynamic Yield Experience APIs API](https://apis.io/apis/dynamic-yield/dynamic-yield-experience-apis-api/) — Serve user experience and track user interactions.
+- [Dynamic Yield Product Data API](https://apis.io/apis/dynamic-yield/dynamic-yield-product-data-api/) — Update and monitor product data.
+- [Dynamic Yield Profile Anywhere API](https://apis.io/apis/dynamic-yield/dynamic-yield-profile-anywhere-api/) — Retrieve user affinity data.
+- [Dynamic Yield User Data API](https://apis.io/apis/dynamic-yield/dynamic-yield-user-data-api-api/) — Update user data.
+
+### Published properties
+
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
+
+#### MCP servers (1)
+
+Model Context Protocol servers that expose the API to agents.
+
+- [dynamic-yield](https://apis.io/servers/dynamic-yield/dynamic-yield/)
+
+#### Agentic access (1)
+
+Which operations an agent can call, which act, and which need a human in the loop.
+
+- [Dynamic Yield Agentic Access](https://apis.io/agentic-access/dynamic-yield/dynamic-yield-agentic-access/)
+
+#### JSON-LD (1)
+
+Linked-data contexts for the provider's vocabulary.
+
+- [Dynamic Yield Context](https://apis.io/jsonld/dynamic-yield/dynamic-yield-context/)
+
+#### Governance rules (1)
+
+Spectral rulesets for the provider's contracts.
+
+- [Dynamic Yield API Rules](https://apis.io/rules/dynamic-yield/dynamic-yield-rules/)
+
+#### Security (2)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Dynamic Yield Authentication](https://apis.io/security/dynamic-yield/dynamic-yield-authentication/)
+- [Dynamic Yield Domain Security](https://apis.io/security/dynamic-yield/dynamic-yield-domain-security/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://www.dynamicyield.com/)
+- [Documentation](https://dy.dev/docs)
+- [Getting started](https://dy.dev/docs/getting-started)
+- [API reference](https://dy.dev/reference)
+- [Support](https://support.dynamicyield.com/hc/en-us)
+- [Changelog](https://dy.dev/changelog)
+- [Blog](https://www.dynamicyield.com/blog/)
+- [Terms of service](https://www.dynamicyield.com/terms-of-use/)
+- [Privacy policy](https://www.dynamicyield.com/privacy-policy/)
+- [GitHub](https://github.com/DynamicYield)
+
+## API Evangelist rating
+
+**Kin Score 41.5** — developing · rubric 0.25.0 · scored 2026-10-23
+
+| Facet | Score |
+|---|---|
+| Discoverability | 73.3 |
+| Contract quality | 57.8 |
+| Contract governance | 35.6 |
+| Operational transparency | 18.4 |
+| Developer ergonomics | 61.9 |
+| Access clarity | 6.6 |
+
+**Agent readiness 32.3** — agent-ready
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | — |
+| MCP Server | verified |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | derived (partial credit) |
+| OpenAPI Examples | partial |
+| Rate Limit Signal | — |
+| Event Surface Described | — |
+| Agent Skills | — |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | yes |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+| Pagination Ratio | — |
+| Operation Distinctiveness | distinct |
+
+**Regulatory alignment 15.5** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/dynamic-yield/](https://apis.io/providers/dynamic-yield/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Dynamic Yield: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/dynamic-yield/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
